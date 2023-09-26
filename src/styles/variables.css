@@ -1,0 +1,31 @@
+@import url("https://fonts.googleapis.com/css2?family=Audiowide&family=Libre+Franklin:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Outfit:wght@100;200;300;400;500;600;700;800;900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+:root {
+  /* Color Pallete */
+  --primary: #c6fe1e;
+  --background-dark: #10100e;
+  --background-light: #151513;
+  --primary-grey: #f5f5f599;
+  --primary-white: #fff;
+  --gradient1: #b6f6cf;
+  --gradient2: #ecf6be;
+  --text-heading: #10100e;
+  --text-paragraph: #696b70;
+  --text-button: #10100e;
+
+  /* Font Styles */
+  --primary-font-family: "Libre Franklin", sans-serif;
+
+  /* Font Sizes */
+  --h1: 4.5rem;
+  --h3: 3.35rem;
+  --h2: 2.65rem;
+  --h3: 2rem;
+  --h4: 1.5rem;
+  --h5: 0.9rem;
+  --paragraph: 0.9rem;
+  --paragraph-small: 0.9rem;
+  --button: 0.9rem;
+  --link: 0.85rem;
+
+}

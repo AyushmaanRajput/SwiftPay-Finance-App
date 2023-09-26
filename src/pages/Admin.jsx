@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { AllTransactions } from "../components/admin/AllTransactions";
 import { Users } from "../components/admin/Users";
 import { Support } from "../components/admin/Support";
+import { AllSubscriptions } from "../components/admin/AllSubscriptions";
 
 const DashboardContainer = styled.div`
   display: flex;
@@ -73,6 +74,12 @@ export const Admin = () => {
           >
             Support
           </Tab>
+          <Tab
+            selected={selectedTab === "allsubscriptions"}
+            onClick={() => handleTabClick("allsubscriptions")}
+          >
+            All Subscriptions
+          </Tab>
         </Tabs>
       </TabContainer>
       <Content>
@@ -80,6 +87,7 @@ export const Admin = () => {
         {selectedTab === "users" && <Users />}
         {selectedTab === "alltransactions" && <AllTransactions />}
         {selectedTab === "support" && <Support />}
+        {selectedTab === "allsubscriptions" && <AllSubscriptions />}
       </Content>
     </DashboardContainer>
   );

@@ -3,6 +3,7 @@ import { Home } from "../pages/Home";
 import { Login } from "../pages/Login";
 import { Dashboard } from "../pages/Dashboard";
 import { PrivateRoute } from "./PrivateRoute";
+import { Admin } from "../pages/Admin";
 
 export const AllRoutes = () => {
   return (
@@ -17,6 +18,7 @@ export const AllRoutes = () => {
         }
       ></Route>
       <Route path="/login" element={<Login />}></Route>
+      <Route path="/admin" element={<Admin />}></Route>
     </Routes>
   );
 };

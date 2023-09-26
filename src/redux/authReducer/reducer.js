@@ -9,6 +9,7 @@ const initState = {
   isError: false,
   isAuth: false,
   token: null,
+  isAdmin:true,
 };
 
 export const reducer = (state = initState, action) => {

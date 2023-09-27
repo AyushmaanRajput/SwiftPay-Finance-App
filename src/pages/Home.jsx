@@ -7,20 +7,19 @@ import { Services } from "./sections/Services";
 import { CTA } from "./sections/CTA";
 import { HomeFooter } from "./sections/HomeFooter";
 import styled from "styled-components";
-// import { useCustomToast } from "../components/utils/useCustomToast";
-
+import { useCustomToast } from "../components/utils/useCustomToast";
 
 export const Home = () => {
+  // const { showToast, ToastContainer } = useCustomToast();
 
-
-//   <Input
-//   label="Email"
-//   type="email"
-//   placeholder="Email"
-//   value={email}
-//   onChange={(e) => setEmail(e.target.value)}
-//   onBlur={(e) => handleBlur(e)}//for validation
-// />
+  //   <Input
+  //   label="Email"
+  //   type="email"
+  //   placeholder="Email"
+  //   value={email}
+  //   onChange={(e) => setEmail(e.target.value)}
+  //   onBlur={(e) => handleBlur(e)}//for validation
+  // />
   return (
     <HOME>
       <HomeNav></HomeNav>

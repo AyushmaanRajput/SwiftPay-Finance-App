@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { AllTransactions } from "../components/admin/AllTransactions";
 import { Users } from "../components/admin/Users";
 import { Support } from "../components/admin/Support";
-import { AllSubscriptions } from "../components/admin/AllSubscriptions";
+import { AllSubscriptions } from "../components/admin/AllSubscriptions/AllSubscriptions";
 
 const DashboardContainer = styled.div`
   display: flex;

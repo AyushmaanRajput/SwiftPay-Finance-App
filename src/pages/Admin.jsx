@@ -83,7 +83,6 @@ export const Admin = () => {
         </Tabs>
       </TabContainer>
       <Content>
-        {/* Render content based on selectedTab */}
         {selectedTab === "users" && <Users />}
         {selectedTab === "alltransactions" && <AllTransactions />}
         {selectedTab === "support" && <Support />}

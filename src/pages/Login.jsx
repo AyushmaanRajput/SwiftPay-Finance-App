@@ -1,12 +1,16 @@
+// Login.js
 import React from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { login } from "../redux/authReducer/action";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Input } from "../components/forms/Input";
+import { useCustomToast } from "../components/utils/useCustomToast";
 
 export const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { showToast, ToastContainer } = useCustomToast();
   const [email, setEmail] = React.useState("eve.holt@reqres.in");
   const [password, setPassword] = React.useState("");
   const location = useLocation();
@@ -17,28 +21,35 @@ export const Login = () => {
       email,
       password,
     };
-    dispatch(login(user));
-    navigate(commingFrom);
+    dispatch(login(user, showToast));
+    navigateTo(commingFrom);
+  }
+
+  function navigateTo(path) {
+    navigate(path);
   }
 
   return (
     <DIV>
       <h2>Log In</h2>
-      <input
-        data-testid="user-email"
+      <Input
+        label="Email"
         type="email"
         placeholder="Email"
+        value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <input
-        data-testid="user-password"
+      <Input
+        label="Password"
         type="password"
         placeholder="Password"
+        value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
       <button data-testid="user-login" onClick={handleSubmit}>
         Log In
       </button>
+      <ToastContainer />
     </DIV>
   );
 };
@@ -52,12 +63,6 @@ const DIV = styled.div`
   gap: 15px;
   border: 1px solid gray;
   align-items: center;
-
-  input {
-    width: 80%;
-    height: 30px;
-    font-size: larger;
-  }
 
   button {
     width: 150px;

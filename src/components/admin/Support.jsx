@@ -19,7 +19,7 @@ export const Support = () => {
     const date = new Date(isoDateString);
     return date.toLocaleString(); 
   };
-
+//console.log(data)
   return (
     <StyledDiv className="support-container">
       {data.map((ticket) => (

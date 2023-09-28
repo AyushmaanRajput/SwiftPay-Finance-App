@@ -3,39 +3,44 @@ import axios from "axios";
 import { useEffect } from "react";
 import styled from "styled-components";
 import { Button } from "../Buttons";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchData } from "../../redux/admin/transactionsReducer/action";
 
 export const AllTransactions = () => {
   const [pages, setPages] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [limit] = useState(10);
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    fetchData(limit, pages);
-  }, [limit, pages]);
-  const fetchData = async (limit, pages) => {
-    try {
-      let res = await axios.get(
-        `https://warlike-current.onrender.com/transactions?_page=${pages}&_limit=${limit}`
-      );
-      const total = res.headers.get("X-Total-Count");
-      setTotalPages(Math.ceil(total / limit));
-      setData(res.data);
-    } catch (error) {
-      console.log(error);
+  const {isLoading,isError,transactions} = useSelector((store)=>{
+    return {
+      transactions : store.transactionsReducer.transactions,
+      isLoading : store.transactionsReducer.isLoading,
+      isError : store.transactionsReducer.isError,
     }
-  };
+  })
+  const dispatch = useDispatch()
+  useEffect(() => {
+    let obj = {
+      limit : limit,
+      pages : pages,
+      funcTotalPage : setTotalPages
+    }
+    dispatch(fetchData(obj))
+  }, [limit, pages]);
+  
   const handleClick = (page) => {
     setPages(page);
   };
 
-  // console.log(data)
+  console.log(transactions)
   return (
     <MAINSECTION>
       <h3 className="heading">AllTransactions</h3>
-      <br />
-      <br />
+      {isLoading ? <h1>Loading...</h1> : ""}
+      {isError ? <h1>Something went wrong...</h1> : ""}
 
-      {data?.map((item) => {
+      <br />
+      <br />
+      {transactions?.map((item) => {
         return (
           <div className="transaction-card" key={item.id}>
             <p>Id: {item.id}</p>

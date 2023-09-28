@@ -12,7 +12,7 @@ const DashboardContainer = styled.div`
 `;
 
 const TabContainer = styled.div`
-  width: 20%;
+  min-width: 15%;
   background-color: var(--background-light);
 `;
 

@@ -8,11 +8,11 @@ export const AllSubscriptions = () => {
   const [subscriptions, setSubscriptions] = useState([]);
   const [newState, setNewState] = useState(false);
 
-  const baseURL = `https://warlike-current.onrender.com/`;
+  const baseURL = `https://warlike-current.onrender.com`;
 
   const getSubscriptionsData = () => {
     axios
-      .get(`${baseURL}subscriptions`)
+      .get(`${baseURL}/subscriptions`)
       .then((res) => {
         // console.log(res.data);
         setSubscriptions(res.data);

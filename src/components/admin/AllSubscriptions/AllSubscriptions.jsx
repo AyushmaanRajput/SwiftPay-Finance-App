@@ -3,12 +3,12 @@ import axios from "axios";
 import { styled } from "styled-components";
 import { Button, ButtonSmall } from "../../Buttons";
 import { SubscriptionsInput } from "./SubscriptionsInput";
+import { AdminSubscriptionsCard } from "./AdminSubscriptionsCard";
+import { baseURL } from "../../../redux/store";
 
 export const AllSubscriptions = () => {
   const [subscriptions, setSubscriptions] = useState([]);
   const [newState, setNewState] = useState(false);
-
-  const baseURL = `http://localhost:8080`;
 
   const getSubscriptionsData = () => {
     axios
@@ -33,31 +33,9 @@ export const AllSubscriptions = () => {
       });
   };
 
-  const deleteSubscription = (id) => {
-    axios
-      .delete(`${baseURL}/subscriptions/${id}`)
-      .then((res) => {
-        console.log(res);
-        getSubscriptionsData();
-        // setSubscriptions
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   useEffect(() => {
     getSubscriptionsData();
   }, []);
-
-  const handleDelete = (id) => {
-    // console.log("Deleted");
-    deleteSubscription(id);
-  };
-
-  const handleEdit = () => {
-    console.log("Edited");
-  };
 
   const handleAddSubscription = () => {
     // console.log("Add new subscription");
@@ -109,7 +87,10 @@ export const AllSubscriptions = () => {
         />
 
         <div className="subscriptionDataBtnDiv">
-          <ButtonSmall onClick={handleBackBtn}>Go Back</ButtonSmall>
+          <ButtonSmall
+            children={"Go Back"}
+            onClick={handleBackBtn}
+          ></ButtonSmall>
           <ButtonSmall
             children={"Add New"}
             onClick={handleAddNewSubscription}
@@ -143,24 +124,11 @@ export const AllSubscriptions = () => {
           subscriptions &&
           subscriptions.map((ele) => {
             return (
-              <div key={ele.id} className="subscriptions-card">
-                <img src={ele.logo} className="subscriptions-card-img" alt="" />
-                <div className="subscriptions-card-details-div">
-                  <h5>{ele.name}</h5>
-                  <h5>{ele.type}</h5>
-                  <p>{ele.description}</p>
-                  <p>$ {ele.amount}</p>
-                </div>
-                <div className="subscriptions-card-buttons-div">
-                  <ButtonSmall children="Edit" onClick={handleEdit} />
-                  <ButtonSmall
-                    children="Delete"
-                    onClick={() => {
-                      handleDelete(ele.id);
-                    }}
-                  />
-                </div>
-              </div>
+              <AdminSubscriptionsCard
+                key={ele.id}
+                {...ele}
+                getSubscriptionsData={getSubscriptionsData}
+              />
             );
           })}
       </DIV>
@@ -214,41 +182,5 @@ const DIV = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
-
-  .subscriptions-card {
-    /* height: 300px; */
-    /* border: 1px solid white; */
-    text-align: left;
-    background-color: var(--background-light);
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
-      rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
-      rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-  }
-  .subscriptions-card:hover {
-    transform: scale(1.03);
-  }
-
-  .subscriptions-card-img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 10px 10px 0 0;
-  }
-
-  .subscriptions-card-details-div {
-    height: 200px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-  }
-
-  .subscriptions-card-buttons-div {
-    padding: 5px;
-    display: flex;
-    width: 100%;
-    justify-content: space-evenly;
-  }
   /* display: grid; */
 `;

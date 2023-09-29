@@ -5,6 +5,8 @@ import { reducer as userTransactionsReducer} from "./userTransactions/reducer"
 import { reducer as usersReducer } from "./user/usersReducer/reducer";
 import thunk from "redux-thunk";
 
+export const baseURL = `https://warlike-current.onrender.com`;
+
 const rootReducer = combineReducers({
   authReducer,
   transactionsReducer,

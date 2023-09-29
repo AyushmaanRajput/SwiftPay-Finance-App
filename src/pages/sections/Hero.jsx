@@ -40,7 +40,7 @@ const HERO = styled.section`
     position: absolute;
     width: min(58rem,100%);
     height: 100%;
-    left:50%:
+    left:50%;
     transform:translate(-50%);
     background-color: var(--background-light);
     border-radius: 53% 47% 51% 49% / 45% 37% 63% 55%;

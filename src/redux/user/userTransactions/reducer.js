@@ -4,7 +4,7 @@ import { GET_ADMIN_TRANSACTION_FAILURE, GET_ADMIN_TRANSACTION_REQUEST, GET_ADMIN
 export const initialState = {
     isLoading:false,
     isError:false,
-    usersTransactions : [],
+    user : {},
     adminTransactions : []
 }
 
@@ -22,8 +22,9 @@ export const reducer = (state = initialState, { type, payload }) => {
     case GET_USERS_TRANSACTION_REQUEST : {
         return{...state,isLoading:true,isError:false}
     }
+    
     case GET_USERS_TRANSACTION_SUCCESS : {
-        return{...state,isLoading:false,isError:false,usersTransactions:payload}
+        return{...state,isLoading:false,isError:false,user:payload}
     }
     case GET_USERS_TRANSACTION_FAILURE : {
         return{...state,isLoading:false,isError:true}

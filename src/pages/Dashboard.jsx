@@ -5,8 +5,8 @@ import { Payments } from "../components/Payments";
 import { Subscriptions } from "../components/Subscriptions";
 import { Transactions } from "../components/Transactions";
 import { ButtonSmall } from "../components/Buttons";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
 import { LOGOUT } from "../redux/authReducer/actionTypes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -19,6 +19,9 @@ import {
   faTv,
 } from "@fortawesome/free-solid-svg-icons";
 import { ContainerLarge } from "../components/Layouts";
+import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { Formuser } from "../components/forms/Formuser";
+import { Notifications } from "../components/Notifications";
 
 const DashboardContainer = styled.div`
   min-height: 100vh;
@@ -80,7 +83,7 @@ const Content = styled.div`
 
 export const Dashboard = () => {
   const [selectedTab, setSelectedTab] = useState("overview");
-
+  const isAuth = useSelector((store) => store.authReducer.isAuth);
   const handleTabClick = (tab) => {
     setSelectedTab(tab);
   };
@@ -92,10 +95,14 @@ export const Dashboard = () => {
     dispatch({ type: LOGOUT });
     navigate("/");
   }
+  const handleButton = () => {
+    if (isAuth) {
+      return navigate("/form");
+    }
+  };
 
   return (
     <DashboardContainer>
-      {/* <ContainerLarge> */}
       <TopBar>
         <div>
           <button>
@@ -171,8 +178,8 @@ export const Dashboard = () => {
         {selectedTab === "payments" && <Payments />}
         {selectedTab === "subscriptions" && <Subscriptions />}
         {selectedTab === "transactions" && <Transactions />}
+        {selectedTab === "notifications" && <Notifications />}
       </Content>
-      {/* </ContainerLarge> */}
     </DashboardContainer>
   );
 };

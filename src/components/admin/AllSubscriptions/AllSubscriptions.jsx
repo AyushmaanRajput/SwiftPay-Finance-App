@@ -109,7 +109,7 @@ export const AllSubscriptions = () => {
         />
 
         <div className="subscriptionDataBtnDiv">
-          <ButtonSmall children={"Go Back"} onClick={handleBackBtn} />
+          <ButtonSmall onClick={handleBackBtn}>Go Back</ButtonSmall>
           <ButtonSmall
             children={"Add New"}
             onClick={handleAddNewSubscription}

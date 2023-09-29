@@ -1,8 +1,10 @@
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 
 export const PrivateRoute = ({ children }) => {
-  const isAuth = useSelector((store) => store.isAuth);
+  const isAuth = useSelector((store) => store.authReducer.isAuth);
+  // const isAdmin = useSelector((store) => store.authReducer.isAdmin);
+  
   const location = useLocation();
 
   if (!isAuth) {

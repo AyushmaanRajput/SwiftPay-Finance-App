@@ -12,13 +12,20 @@ export const AllRoutes = () => {
       <Route
         path="/dashboard"
         element={
-          <PrivateRoute>
+          // <PrivateRoute>
             <Dashboard />
-          </PrivateRoute>
+          // </PrivateRoute>
         }
       ></Route>
       <Route path="/login" element={<Login />}></Route>
-      <Route path="/admin" element={<Admin />}></Route>
+      <Route
+        path="/admin"
+        element={
+          // <PrivateRoute>
+            <Admin />
+          // </PrivateRoute>
+        }
+      ></Route>
     </Routes>
   );
 };

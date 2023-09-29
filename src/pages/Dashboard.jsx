@@ -4,6 +4,12 @@ import { Overview } from "../components/Overview";
 import { Payments } from "../components/Payments";
 import { Subscriptions } from "../components/Subscriptions";
 import { Transactions } from "../components/Transactions";
+import { ButtonSmall } from "../components/Buttons";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { LOGOUT } from "../redux/authReducer/actionTypes";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 const DashboardContainer = styled.div`
   display: flex;
@@ -14,6 +20,14 @@ const DashboardContainer = styled.div`
 const TabContainer = styled.div`
   width: 20%;
   background-color: var(--background-light);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  button {
+    align-self: center;
+    margin-block: 1rem;
+  }
 `;
 
 const Tabs = styled.div`
@@ -47,14 +61,29 @@ const Content = styled.div`
 
 export const Dashboard = () => {
   const [selectedTab, setSelectedTab] = useState("overview");
-
   const handleTabClick = (tab) => {
     setSelectedTab(tab);
   };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  function logOutHandler() {
+    localStorage.removeItem("loggedInUser");
+    dispatch({ type: LOGOUT });
+    navigate("/");
+  }
 
   return (
     <DashboardContainer>
       <TabContainer>
+        <button>
+          <FontAwesomeIcon
+            icon={faHome}
+            className="icon"
+            color="var(--background-dark)"
+            onClick={() => navigate("/")}
+          />
+        </button>
         <Tabs>
           <Tab
             selected={selectedTab === "overview"}
@@ -80,7 +109,14 @@ export const Dashboard = () => {
           >
             Transactions
           </Tab>
+          <Tab
+            selected={selectedTab === "notifications"}
+            onClick={() => handleTabClick("notifications")}
+          >
+            notifications
+          </Tab>
         </Tabs>
+        <ButtonSmall onClick={logOutHandler}>Logout</ButtonSmall>
       </TabContainer>
       <Content>
         {/* Render content based on selectedTab */}

@@ -3,8 +3,13 @@ import styled from "styled-components";
 import { ButtonSmall } from "../../components/Buttons";
 import { Container } from "../../components/Layouts";
 import { Link, useNavigate } from "react-router-dom"; // Import Link from React Router
+import { useDispatch, useSelector } from "react-redux";
+import { LOGOUT } from "../../redux/authReducer/actionTypes";
 
 export const HomeNav = () => {
+  const [user,setUser]=React.useState(JSON.parse(localStorage.getItem('loggedInUser'))|| null);
+  const dispatch = useDispatch();
+  const { isAdmin, isAuth } = useSelector((store) => store.authReducer);
   const navigate = useNavigate();
   function scrollToSelector(selector) {
     const element = document.querySelector(selector);
@@ -16,6 +21,12 @@ export const HomeNav = () => {
   function onClickHandler() {
     navigate("/login");
   }
+  function logOutHandler() {
+    localStorage.removeItem("loggedInUser");
+    setUser(null);
+    dispatch({ type: LOGOUT });
+  }
+  console.log(isAdmin, user);
 
   return (
     <NAV>
@@ -47,8 +58,23 @@ export const HomeNav = () => {
               CTA
             </Link>
           </li>
+          {isAdmin ? (
+            <li>
+              <Link to="/admin">Admin Dashboard</Link>
+            </li>
+          ) : (
+            isAuth && (
+              <li>
+                <Link to="/dashboard">Dashboard</Link>
+              </li>
+            )
+          )}
         </ul>
-        <ButtonSmall onClick={onClickHandler}>Login</ButtonSmall>
+        {user || isAdmin ? (
+          <ButtonSmall onClick={logOutHandler}>Logout</ButtonSmall>
+        ) : (
+          <ButtonSmall onClick={onClickHandler}>Login</ButtonSmall>
+        )}
       </Container>
     </NAV>
   );

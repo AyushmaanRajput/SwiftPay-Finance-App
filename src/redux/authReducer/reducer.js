@@ -2,14 +2,16 @@ import {
   POSTLOGINREQUEST,
   POSTLOGINFAIL,
   POSTLOGINSUCCESS,
+  POSTADMINSUCESS,
+  LOGOUT,
 } from "./actionTypes";
 
 const initState = {
   isLoading: false,
   isError: false,
   isAuth: false,
-  token: null,
-  isAdmin:true,
+  isAdmin: false,
+  loggedInUser: null,
 };
 
 export const reducer = (state = initState, action) => {
@@ -32,7 +34,20 @@ export const reducer = (state = initState, action) => {
         isLoading: false,
         isError: false,
         isAuth: true,
-        token: action.payload,
+        loggedInUser: action.payload,
+      };
+    case POSTADMINSUCESS:
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        isAuth: true,
+        isAdmin: true,
+        loggedInUser: null,
+      };
+    case LOGOUT:
+      return {
+        ...initState,
       };
     default:
       return state;

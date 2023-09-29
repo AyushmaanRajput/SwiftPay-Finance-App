@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
+import CardContent from './CardContent'; // Make sure to adjust the import path
 
 export const Support = () => {
   const [data, setData] = useState([]);
@@ -15,46 +17,100 @@ export const Support = () => {
       .catch((error) => console.error('Error fetching data:', error));
   }, []);
 
-  const formatDateTime = (isoDateString) => {
-    const date = new Date(isoDateString);
-    return date.toLocaleString(); 
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      borderRadius: '1rem',
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        delay: 0.1,
+      },
+    },
+    hover: {
+      scale: 1.01,
+      boxShadow: '0px 0px 10px rgba(255, 255, 255, 0.3)',
+      transition: {
+        duration: 0.2,
+      },
+    },
   };
 
   return (
-    <StyledDiv className="support-container">
-      {data.map((ticket) => (
-        <div className="card" key={ticket.id}>
-          <h2>Support Ticket #{ticket.id}</h2>
-          <p><strong>User:</strong> {ticket.user.name}</p>
-          <p><strong>Email:</strong> {ticket.user.email}</p>
-          <p><strong>Transaction ID:</strong> {ticket.transactionId}</p>
-          <p><strong>Subject:</strong> {ticket.subject}</p>
-          <p><strong>Message:</strong> {ticket.message}</p>
-          <p><strong>Status:</strong> {ticket.status}</p>
-          <p><strong>Priority:</strong> {ticket.priority}</p>
-          <p><strong>Created Date:</strong> {formatDateTime(ticket.createdDate)}</p>
-          <button>Accept</button>
-          <button>Reject</button>
-        </div>
-      ))}
-    </StyledDiv>
+    <StyledSupport>
+      <h1 className="heading">Support Tickets</h1>
+      <SupportCards>
+        {data.map((ticket) => (
+          <motion.div
+            className="support-card"
+            key={ticket.id}
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            whileHover="hover"
+          >
+            <CardContent
+              avatarSrc={avatars[userAvatarIds[ticket.user.id] - 1]}
+              name={ticket.user.name}
+              email={ticket.user.email}
+              transactionId={ticket.transactionId}
+              subject={ticket.subject}
+              message={ticket.message}
+              status={ticket.status}
+              priority={ticket.priority}
+              createdDate={formatDateTime(ticket.createdDate)}
+            />
+          </motion.div>
+        ))}
+      </SupportCards>
+    </StyledSupport>
   );
 };
 
-const StyledDiv = styled.div`
-  color: var(--primary-white);
+const StyledSupport = styled.div`
+   color: var(--primary-white);
   text-align: left;
-  font-style: var(--primary-font-family);
-  div {
-    border: 2px solid white;
-    margin: 10px; 
-    padding: 20px;
-  }
-  button {
-    margin-right: 10px;
-    padding: 3px 5px;
-    text-align: center;
-    background-color: var(--primary);
-    font-size: var(--button);
+  padding-block: 0 5rem;
+
+  h1 {
+    color: var(--primary-white);
+    line-height: 1.1;
+    margin-top: 1rem;
   }
 `;
+
+const SupportCards = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem; 
+  margin-block: 3rem;
+
+`;
+
+const avatars = [
+  '/avatars/Asian Man.png',
+  '/avatars/Black Lady.png',
+  '/avatars/Black Man.png',
+  '/avatars/College Student.png',
+  '/avatars/Indian Man.png',
+  '/avatars/Middle Eastern Lady.png',
+  '/avatars/Old Man.png',
+  '/avatars/Western Man.png',
+  '/avatars/White Lady.png',
+  '/avatars/Young Lady.png',
+];
+
+const userAvatarIds = {
+  1: 8,
+  2: 7,
+  3: 10,
+  4: 3,
+  5: 4,
+};
+
+const formatDateTime = (isoDateString) => {
+  const date = new Date(isoDateString);
+  return date.toLocaleString();
+};

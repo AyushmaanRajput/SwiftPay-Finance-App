@@ -8,18 +8,17 @@ import { CTA } from "./sections/CTA";
 import { HomeFooter } from "./sections/HomeFooter";
 import styled from "styled-components";
 import { useCustomToast } from "../components/utils/useCustomToast";
+import { getUsers } from "../redux/user/usersReducer/action";
+import { useDispatch } from "react-redux";
 
 export const Home = () => {
-  // const { showToast, ToastContainer } = useCustomToast();
+  const { showToast, ToastContainer } = useCustomToast();
+  const dispatch = useDispatch();
 
-  //   <Input
-  //   label="Email"
-  //   type="email"
-  //   placeholder="Email"
-  //   value={email}
-  //   onChange={(e) => setEmail(e.target.value)}
-  //   onBlur={(e) => handleBlur(e)}//for validation
-  // />
+  React.useEffect(() => {
+    dispatch(getUsers(showToast));
+  }, []);
+
   return (
     <HOME>
       <HomeNav></HomeNav>
@@ -29,6 +28,7 @@ export const Home = () => {
       <Services></Services>
       <CTA></CTA>
       <HomeFooter></HomeFooter>
+      <ToastContainer></ToastContainer>
     </HOME>
   );
 };

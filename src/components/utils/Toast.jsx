@@ -56,7 +56,7 @@ export function Toast({ type, message, duration, onClose }) {
 
   const onAnimationEnd = useCallback(() => {
     if (!show) {
-      onClose(); // Call the onClose function after fade-out animation
+      onClose();
     }
   }, [show, onClose]);
 

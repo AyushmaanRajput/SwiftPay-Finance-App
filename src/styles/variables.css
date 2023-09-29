@@ -3,6 +3,7 @@
 :root {
   /* Color Pallete */
   --primary: #c6fe1e;
+  --primary-light:#d4fd5ac1;
   --background-dark: #10100e;
   --background-light: #151513;
   --primary-grey: #f5f5f599;
@@ -27,4 +28,16 @@
   --paragraph-small: 0.9rem;
   --button: 0.9rem;
   --link: 0.85rem;
+
+  /*gradient*/
+  --primary-gradient: linear-gradient(
+    90deg,
+    rgba(182, 246, 207, 1) 0%,
+    rgba(236, 246, 190, 1) 100%
+  );
+  --secondary-gradient: linear-gradient(
+    
+    var(--background-dark),
+    var(--background-light)
+  );
 }

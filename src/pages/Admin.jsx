@@ -4,25 +4,47 @@ import { AllTransactions } from "../components/admin/AllTransactions";
 import { Users } from "../components/admin/Users";
 import { Support } from "../components/admin/Support";
 import { AllSubscriptions } from "../components/admin/AllSubscriptions/AllSubscriptions";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { LOGOUT } from "../redux/authReducer/actionTypes";
+import { ButtonSmall } from "../components/Buttons";
+import { ContainerLarge } from "../components/Layouts";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 const DashboardContainer = styled.div`
-  display: flex;
-  background-color: var(--background-dark);
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-light);
 `;
 
-const TabContainer = styled.div`
-  min-width: 15%;
-  background-color: var(--background-light);
+const TopBar = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-block: 1rem 2rem;
+  > div {
+    display: flex;
+    align-items: center;
+  }
+  > div > button {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-right: 1rem;
+    border-radius: 50%;
+    background-color: var(--primary);
+  }
 `;
 
 const Tabs = styled.div`
   display: flex;
-  flex-direction: column;
+  gap: 1rem;
 `;
 
-const Tab = styled.div`
-  padding: 10px;
+const Tab = styled.button`
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  border: 1px solid var(--primary-grey);
   cursor: pointer;
   background-color: ${(props) =>
     props.selected ? "var(--primary)" : "transparent"};
@@ -40,9 +62,16 @@ const Tab = styled.div`
   }
 `;
 
+const Hr = styled.hr`
+  border: none;
+  border-top: 1px solid var(--primary-grey);
+  margin: 0;
+`;
+
 const Content = styled.div`
   flex-grow: 1;
   padding: 20px;
+  background-color: var(--background-light);
 `;
 
 export const Admin = () => {
@@ -51,43 +80,66 @@ export const Admin = () => {
   const handleTabClick = (tab) => {
     setSelectedTab(tab);
   };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  function logOutHandler() {
+    localStorage.removeItem("loggedInUser");
+    dispatch({ type: LOGOUT });
+    navigate("/");
+  }
 
   return (
     <DashboardContainer>
-      <TabContainer>
-        <Tabs>
-          <Tab
-            selected={selectedTab === "users"}
-            onClick={() => handleTabClick("users")}
-          >
-            Users
-          </Tab>
-          <Tab
-            selected={selectedTab === "alltransactions"}
-            onClick={() => handleTabClick("alltransactions")}
-          >
-            All Transactions
-          </Tab>
-          <Tab
-            selected={selectedTab === "support"}
-            onClick={() => handleTabClick("support")}
-          >
-            Support
-          </Tab>
-          <Tab
-            selected={selectedTab === "allsubscriptions"}
-            onClick={() => handleTabClick("allsubscriptions")}
-          >
-            All Subscriptions
-          </Tab>
-        </Tabs>
-      </TabContainer>
-      <Content>
-        {selectedTab === "users" && <Users />}
-        {selectedTab === "alltransactions" && <AllTransactions />}
-        {selectedTab === "support" && <Support />}
-        {selectedTab === "allsubscriptions" && <AllSubscriptions />}
-      </Content>
+      <ContainerLarge>
+        <TopBar>
+          <div>
+            <button>
+              <FontAwesomeIcon
+                icon={faHome}
+                className="icon"
+                color="var(--background-dark)"
+                onClick={()=>navigate("/")}
+              />
+            </button>
+            <Tabs>
+              <Tab
+                selected={selectedTab === "users"}
+                onClick={() => handleTabClick("users")}
+              >
+                Users
+              </Tab>
+              <Tab
+                selected={selectedTab === "alltransactions"}
+                onClick={() => handleTabClick("alltransactions")}
+              >
+                All Transactions
+              </Tab>
+              <Tab
+                selected={selectedTab === "support"}
+                onClick={() => handleTabClick("support")}
+              >
+                Support
+              </Tab>
+              <Tab
+                selected={selectedTab === "allsubscriptions"}
+                onClick={() => handleTabClick("allsubscriptions")}
+              >
+                All Subscriptions
+              </Tab>
+            </Tabs>
+          </div>
+
+          <ButtonSmall onClick={logOutHandler}>Logout</ButtonSmall>
+        </TopBar>
+        <Hr />
+        <Content>
+          {selectedTab === "users" && <Users />}
+          {selectedTab === "alltransactions" && <AllTransactions />}
+          {selectedTab === "support" && <Support />}
+          {selectedTab === "allsubscriptions" && <AllSubscriptions />}
+        </Content>
+      </ContainerLarge>
     </DashboardContainer>
   );
 };

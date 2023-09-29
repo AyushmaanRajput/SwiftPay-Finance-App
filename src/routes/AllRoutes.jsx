@@ -12,9 +12,7 @@ export const AllRoutes = () => {
       <Route
         path="/dashboard"
         element={
-          // <PrivateRoute>
             <Dashboard />
-          // </PrivateRoute>
         }
       ></Route>
       <Route path="/login" element={<Login />}></Route>

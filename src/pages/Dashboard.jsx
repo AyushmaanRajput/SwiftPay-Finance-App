@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { LOGOUT } from "../redux/authReducer/actionTypes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { Notifications } from "../components/Notifications";
 
 const DashboardContainer = styled.div`
   display: flex;
@@ -113,7 +114,7 @@ export const Dashboard = () => {
             selected={selectedTab === "notifications"}
             onClick={() => handleTabClick("notifications")}
           >
-            notifications
+            Notifications
           </Tab>
         </Tabs>
         <ButtonSmall onClick={logOutHandler}>Logout</ButtonSmall>
@@ -124,6 +125,7 @@ export const Dashboard = () => {
         {selectedTab === "payments" && <Payments />}
         {selectedTab === "subscriptions" && <Subscriptions />}
         {selectedTab === "transactions" && <Transactions />}
+        {selectedTab === "notifications" && <Notifications />}
       </Content>
     </DashboardContainer>
   );

@@ -12,9 +12,9 @@ export const AllRoutes = () => {
       <Route
         path="/dashboard"
         element={
-          <PrivateRoute>
+          // <PrivateRoute>
             <Dashboard />
-          </PrivateRoute>
+          // </PrivateRoute>
         }
       ></Route>
       <Route path="/login" element={<Login />}></Route>

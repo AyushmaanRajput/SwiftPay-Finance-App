@@ -14,14 +14,16 @@ export const adminTransactionsData = (dispatch) => {
     })
   };
 
-  export const userTransactionsData = (dispatch) => {
+  
+export const userTransactionsData = (dispatch) => {
     dispatch({type:GET_USERS_TRANSACTION_REQUEST})
      axios
      .get(`https://warlike-current.onrender.com/users/1`)
      .then((res)=> {
-       dispatch({type:GET_USERS_TRANSACTION_SUCCESS, payload:res.data.transactions})
+       dispatch({type:GET_USERS_TRANSACTION_SUCCESS, payload:res.data})
      })
     .catch((error) => {
      dispatch({type:GET_USERS_TRANSACTION_FAILURE})
    })
  };  
+  

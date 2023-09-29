@@ -6,7 +6,6 @@ import axios from 'axios';
 import { baseURL } from "../redux/store";
 
 export const Subscriptions = () => {
-
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
   const userSubscriptonsids = user.subscriptions.map((ele) => ele.subscription_id);
 
@@ -52,7 +51,6 @@ export const Subscriptions = () => {
 };
 
 const DIV = styled.div `
-
   display: flex;
   justify-content: space-evenly;
 `

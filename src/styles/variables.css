@@ -3,9 +3,10 @@
 :root {
   /* Color Pallete */
   --primary: #c6fe1e;
+  --complementary: #561EFE;
   --primary-light:#d4fd5ac1;
   --background-dark: #10100e;
-  --background-light: #151513;
+  --background-light: #202020;
   --primary-grey: #f5f5f599;
   --primary-white: #fff;
   --gradient1: #b6f6cf;

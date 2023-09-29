@@ -36,7 +36,7 @@ export const Support = () => {
       },
     },
   };
-
+//console.log(data)
   return (
     <StyledSupport>
       <h1 className="heading">Support Tickets</h1>

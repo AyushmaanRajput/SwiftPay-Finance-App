@@ -12,18 +12,18 @@ export const AllRoutes = () => {
       <Route
         path="/dashboard"
         element={
-          // <PrivateRoute>
+          <PrivateRoute>
             <Dashboard />
-          // </PrivateRoute>
+          </PrivateRoute>
         }
       ></Route>
       <Route path="/login" element={<Login />}></Route>
       <Route
         path="/admin"
         element={
-          // <PrivateRoute>
+          <PrivateRoute>
             <Admin />
-          // </PrivateRoute>
+          </PrivateRoute>
         }
       ></Route>
     </Routes>

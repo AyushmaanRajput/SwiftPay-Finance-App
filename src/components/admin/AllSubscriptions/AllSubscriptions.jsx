@@ -8,7 +8,7 @@ export const AllSubscriptions = () => {
   const [subscriptions, setSubscriptions] = useState([]);
   const [newState, setNewState] = useState(false);
 
-  const baseURL = `https://warlike-current.onrender.com`;
+  const baseURL = `http://localhost:8080`;
 
   const getSubscriptionsData = () => {
     axios

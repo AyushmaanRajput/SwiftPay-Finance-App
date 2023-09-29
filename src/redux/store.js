@@ -12,5 +12,5 @@ const rootReducer = combineReducers({
   userTransactionsReducer
 });
 
-
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunk));
+// Checking

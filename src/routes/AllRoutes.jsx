@@ -4,6 +4,7 @@ import { Login } from "../pages/Login";
 import { Dashboard } from "../pages/Dashboard";
 import { PrivateRoute } from "./PrivateRoute";
 import { Admin } from "../pages/Admin";
+import { Formuser } from "../components/forms/Formuser";
 
 export const AllRoutes = () => {
   return (
@@ -26,6 +27,7 @@ export const AllRoutes = () => {
           </PrivateRoute>
         }
       ></Route>
+      <Route path="/form" element={<Formuser />} />
     </Routes>
   );
 };

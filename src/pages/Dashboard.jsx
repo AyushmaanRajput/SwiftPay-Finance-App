@@ -5,11 +5,12 @@ import { Payments } from "../components/Payments";
 import { Subscriptions } from "../components/Subscriptions";
 import { Transactions } from "../components/Transactions";
 import { ButtonSmall } from "../components/Buttons";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
 import { LOGOUT } from "../redux/authReducer/actionTypes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { Formuser } from "../components/forms/Formuser";
 
 const DashboardContainer = styled.div`
   display: flex;
@@ -61,6 +62,8 @@ const Content = styled.div`
 
 export const Dashboard = () => {
   const [selectedTab, setSelectedTab] = useState("overview");
+  const isAuth = useSelector((store) => store.authReducer.isAuth);
+  console.log(isAuth, "alisha");
   const handleTabClick = (tab) => {
     setSelectedTab(tab);
   };
@@ -72,6 +75,11 @@ export const Dashboard = () => {
     dispatch({ type: LOGOUT });
     navigate("/");
   }
+  const handleButton = () => {
+    if (isAuth) {
+      return navigate("/form");
+    }
+  };
 
   return (
     <DashboardContainer>
@@ -117,6 +125,7 @@ export const Dashboard = () => {
           </Tab>
         </Tabs>
         <ButtonSmall onClick={logOutHandler}>Logout</ButtonSmall>
+        <ButtonSmall onClick={handleButton}></ButtonSmall>
       </TabContainer>
       <Content>
         {/* Render content based on selectedTab */}

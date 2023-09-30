@@ -9,12 +9,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { LOGOUT } from "../redux/authReducer/actionTypes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import {
   faChartPie,
   faChartSimple,
   faClockRotateLeft,
   faCreditCard,
   faHome,
+  faBell,
   faSquarePollVertical,
   faTv,
 } from "@fortawesome/free-solid-svg-icons";
@@ -45,6 +47,7 @@ const TopBar = styled.div`
     border-radius: 50%;
     background-color: var(--primary);
   }
+
 `;
 
 const Tabs = styled.div`
@@ -90,9 +93,27 @@ const IconDIV = styled.div`
   }
 `;
 
+const Bell = styled.button`
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-right: 6rem;
+  border-radius: 50%;
+  background-color: var(--primary);
+  font-size: 1rem;
+  position: absolute; 
+  right: 1rem;
+  top: 2rem; 
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
 export const Dashboard = () => {
   const [selectedTab, setSelectedTab] = useState("overview");
   const isAuth = useSelector((store) => store.authReducer.isAuth);
+  const [noti, setNotif] = useState(false);
+
   const handleTabClick = (tab) => {
     setSelectedTab(tab);
   };
@@ -124,6 +145,11 @@ export const Dashboard = () => {
       return navigate("/form");
     }
   };
+
+  const toggleNotifications = () => {
+    console.log("Toggle Notifications Clicked");
+    setNotif(!noti)
+  }
 
   return (
     <DashboardContainer>
@@ -193,6 +219,7 @@ export const Dashboard = () => {
             </Tab>
           </Tabs>
         </div>
+        <div>
         <IconDIV className="user-icons">
           <img
             src={avatars[userID.avatarNum - 1]}
@@ -200,7 +227,16 @@ export const Dashboard = () => {
             className="icon_1"
           />
         </IconDIV>
+        <Bell className="bell">
+            <FontAwesomeIcon
+              icon={faBell}
+              className="icon"
+              color="var(--background-dark)"
+              onClick={toggleNotifications}
+            />
+          </Bell>
         <ButtonSmall onClick={logOutHandler}>Logout</ButtonSmall>
+       </div>
       </TopBar>
       <Hr />
       <Content>
@@ -208,7 +244,7 @@ export const Dashboard = () => {
         {selectedTab === "payments" && <Payments />}
         {selectedTab === "subscriptions" && <Subscriptions />}
         {selectedTab === "transactions" && <Transactions />}
-        {selectedTab === "notifications" && <Notifications />}
+        {noti && <Notifications />}
       </Content>
     </DashboardContainer>
   );

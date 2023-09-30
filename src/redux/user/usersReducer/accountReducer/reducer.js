@@ -9,8 +9,6 @@ export const reducer = (state = initState, { type, payload }) => {
   switch (type) {
     case LOGIN_REQUEST:
       return { ...state, isLoading: true };
-    case GET_DATA:
-      return { ...state, userDetails: payload };
     case LOGIN_SUCESS:
       return {
         ...state,

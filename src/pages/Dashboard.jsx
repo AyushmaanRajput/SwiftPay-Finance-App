@@ -19,7 +19,6 @@ import {
   faTv,
 } from "@fortawesome/free-solid-svg-icons";
 import { ContainerLarge } from "../components/Layouts";
-import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { Formuser } from "../components/forms/Formuser";
 import { Notifications } from "../components/Notifications";
 

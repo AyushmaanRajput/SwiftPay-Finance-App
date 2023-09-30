@@ -2,23 +2,21 @@
 import { useEffect, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { adminTransactionsData, userTransactionsData } from '../redux/user/userTransactions/action'
 import { Button } from './Buttons'
 import { QueryForm } from './forms/QueryForm'
-
+import { adminTransactionsData } from '../redux/admin/SupportReducer/action'
 
 
 export const Transactions = () => {
   const [limit] = useState(6)
   const [currentPage, setCurrentPage] = useState(1);
-  const [queryForm,setQueryForm] = useState(false)
-  let userData = JSON.parse(localStorage.getItem("loggedInUser"))
-  console.log(userData)
+  const [presentData , setPresentData] = useState(false)
+  const [queryForm,setQueryForm] = useState("")
+  let user = JSON.parse(localStorage.getItem("loggedInUser"))
   const dispatch = useDispatch()
-  const {user,adminTransactions} = useSelector((store)=>{
+  const {adminTransactions} = useSelector((store)=>{
     return {
-      user : store.userTransactionsReducer.user,
-      adminTransactions : store.userTransactionsReducer.adminTransactions,
+      adminTransactions : store.supportReducer.adminTransactions,
     }
   },shallowEqual)
 
@@ -26,11 +24,8 @@ export const Transactions = () => {
     if(user.transactions.includes(el.id))
     return el;
   } )
-  
-  console.log(user,filteredTransactions);
   useEffect(()=>{
     dispatch(adminTransactionsData)
-    dispatch(userTransactionsData)
   },[])
 
   const totalPages = Math.ceil(filteredTransactions.length / limit);
@@ -41,13 +36,34 @@ export const Transactions = () => {
    const handlePageClick = (page) => {
     setCurrentPage(page);
   };
+  const timestamp = Date.now(); 
+  const currentDate = new Date(timestamp);
   
-  const handleRaiseQuery = () => {
-    
-    setQueryForm(prev => !prev)
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0'); 
+  const day = String(currentDate.getDate()).padStart(2, '0');
+  const hours = String(currentDate.getHours()).padStart(2, '0');
+  const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+  const seconds = String(currentDate.getSeconds()).padStart(2, '0');
+  
+  const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+
+  const handleRaiseQuery = (id) => {
+    let userPrefilledObj = {
+      user : {
+        id:user.id,
+        name: user.name,
+        email : user.email
+      },
+      createdDate: formattedDate,
+      status : "open",
+      transactionId : id
+    }
+    setQueryForm(userPrefilledObj)
+    setPresentData(prev => !prev)
   }
   return (
-    queryForm ? <QueryForm /> : 
+    presentData ? <QueryForm userTransactionData={queryForm}/> : 
     <TRANSACTIONS>
     <h2>Users Transactions</h2>
     <Button>{"Sort in Asc"}</Button>
@@ -64,7 +80,7 @@ export const Transactions = () => {
             Date: {item.date.split("T")[0]} at {item.date.split("T")[1]}
           </p>
           {
-            queryForm || <Button onClick={handleRaiseQuery}>{"Raise query"}</Button>
+            presentData || <Button onClick={()=>handleRaiseQuery(item.id)}>{"Raise query"}</Button>
           }
         </div>
       })

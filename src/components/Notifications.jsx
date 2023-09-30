@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import styled from "styled-components";
 
@@ -75,7 +75,9 @@ export const Notifications = () => {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [filter, setFilter] = useState("all");
   const [sortedNotifications, setSortedNotifications] = useState([]);
-  const [sortOrder, setSortOrder] = useState("asc");
+  const [sortOrder, setSortOrder] = useState("desc");
+  const mainCardRef = useRef(null);
+
 
   const toggleExpand = (index) => {
     if (expandedIndex === index) {
@@ -99,7 +101,8 @@ export const Notifications = () => {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, []);
+    }, []);
+    // console.log(notifications)
 
   useEffect(() => {
     const sorted = [...notifications].sort((a, b) => {
@@ -120,7 +123,7 @@ export const Notifications = () => {
   });
 
   return (
-    <MainCard>
+    <MainCard ref={mainCardRef}>
       <div style={{ marginTop: "10px" }}>
         <select
           onChange={(e) => setFilter(e.target.value)}

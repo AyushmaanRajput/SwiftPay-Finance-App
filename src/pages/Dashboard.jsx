@@ -37,18 +37,24 @@ const TopBar = styled.div`
   display: flex;
   justify-content: space-between;
   margin-block: 2rem;
-  > div {
+  > div:first-of-type {
     display: flex;
     align-items: center;
   }
-  > div > button {
+  > div:first-of-type > button {
     width: 2.5rem;
     height: 2.5rem;
     margin-right: 1rem;
     border-radius: 50%;
     background-color: var(--primary);
   }
-
+  .user-profile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    /* background-color: red; */
+  }
 `;
 
 const Tabs = styled.div`
@@ -84,31 +90,22 @@ const Content = styled.div`
   padding-block: 2rem;
 `;
 const IconDIV = styled.div`
-  width: 50px;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
-
-  .icon_1 {
-    margin-left: 20rem;
-    width: 50px;
-    border-radius: 50%;
-  }
+  overflow: hidden;
+  cursor: pointer;
 `;
 
 const Bell = styled.button`
-  width: 2.5rem;
-  height: 2.5rem;
-  margin-right: 6rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
   background-color: var(--primary);
   font-size: 1rem;
-  position: absolute; 
-  right: 1rem;
-  top: 2rem; 
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
+  position: relative;
+`;
 
 export const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -158,8 +155,8 @@ export const Dashboard = () => {
 
   const toggleNotifications = () => {
     console.log("Toggle Notifications Clicked");
-    setNotif(!noti)
-  }
+    setNotif(!noti);
+  };
 
   return (
     <DashboardContainer>
@@ -229,24 +226,23 @@ export const Dashboard = () => {
             </Tab>
           </Tabs>
         </div>
-        <div>
-        <IconDIV className="user-icons">
-          <img
-            src={avatars[userID.avatarNum - 1]}
-            onClick={handleButton}
-            className="icon_1"
-          />
-        </IconDIV>
-        <Bell className="bell">
+        <div class="user-profile">
+          <IconDIV className="user-icons">
+            <img
+              src={avatars[userID.avatarNum - 1]}
+              onClick={handleButton}
+              className="icon_1"
+            />
+          </IconDIV>
+          <Bell className="bell" onClick={toggleNotifications}>
             <FontAwesomeIcon
               icon={faBell}
               className="icon"
               color="var(--background-dark)"
-              onClick={toggleNotifications}
             />
           </Bell>
-        <ButtonSmall onClick={logOutHandler}>Logout</ButtonSmall>
-       </div>
+          <ButtonSmall onClick={logOutHandler}>Logout</ButtonSmall>
+        </div>
       </TopBar>
       <Hr />
       <Content>

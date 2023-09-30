@@ -23,6 +23,7 @@ import {
 import { ContainerLarge } from "../components/Layouts";
 import { Formuser } from "../components/forms/Formuser";
 import { Notifications } from "../components/Notifications";
+import { Modal } from "../components/modals/Modal";
 
 const DashboardContainer = styled.div`
   min-height: 100vh;
@@ -110,6 +111,15 @@ const Bell = styled.button`
 `
 
 export const Dashboard = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = (isOpen) => {
+    setIsModalOpen(isOpen);
+  };
+
   const [selectedTab, setSelectedTab] = useState("overview");
   const isAuth = useSelector((store) => store.authReducer.isAuth);
   const [noti, setNotif] = useState(false);

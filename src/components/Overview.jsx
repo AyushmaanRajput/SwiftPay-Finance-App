@@ -39,7 +39,7 @@ export const Overview = () => {
               <FontAwesomeIcon icon={faLandmark} />
               <span>Account Balance</span>
             </div>
-            <div>
+            <div className="card-content">
               <h4>${user.balance}</h4>
               <p>
                 Highest For Last Month:{" "}
@@ -56,7 +56,7 @@ export const Overview = () => {
               <FontAwesomeIcon icon={faCircleDollarToSlot} />
               <span>SwiftCoin</span>
             </div>
-            <div>
+            <div className="card-content">
               <h4>${user.swiftCoin}</h4>
               <p>
                 Per Purchase
@@ -73,7 +73,7 @@ export const Overview = () => {
               <FontAwesomeIcon icon={faCreditCard} />
               <span>Transactions</span>
             </div>
-            <div>
+            <div className="card-content">
               <p>
                 <h4>{user.transactions.length} transactions completed</h4>
               </p>
@@ -182,6 +182,14 @@ const DETAILSCARDS = styled.div`
   .card-heading span {
     text-transform: uppercase;
     letter-spacing: 1px;
+  }
+  .card-content h4{
+    line-height:1.1;
+    font-size:var(--h4);
+    /* color:var(--primary-white); */
+  }
+  .card-content p span{
+    color:var(--primary-light);
   }
 `;
 

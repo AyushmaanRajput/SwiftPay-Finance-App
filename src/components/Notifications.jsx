@@ -8,11 +8,23 @@ const NotificationCard = styled.div`
   border: 1px solid #ccc;
   padding: 10px;
   margin: 10px;
-  box-shadow: 0px 2px 4px rgba(237, 236, 236, 0.1);
+  box-shadow: 0px 2px 4px rgba(13, 12, 12, 0.1);
   color: var(--primary-white);
+  background-color: var(--gradient1);
   cursor: pointer;
-  transition: all 0.2s ease;
+  // transition: all 0.2s ease;
   `;
+
+  const MainCard = styled.div`
+    width: 390px;
+    position: absolute;
+    top: 75px;
+    transition-property: 63px;
+    right: 60px;
+    background-color: var(--background-light);
+    border-radius: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    `;
 
 const NotificationAvatar = styled.div`
   width: 60px;
@@ -42,6 +54,20 @@ const NotificationDetails = styled.div`
   border-top: 1px solid #ccc;
   padding-top: 10px;
 `;
+
+const NotificationListContainer = styled.div`
+  max-height: 500px;
+  overflow-y: auto; 
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent; 
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent; 
+    border-radius: 3px; 
+  }
+  `;
 
 export const Notifications = () => {
   const [notifications, setUserNotifications] = useState([]);
@@ -94,20 +120,18 @@ export const Notifications = () => {
   });
 
   return (
-    <div>
-        <div>
-            <label>
-            Filter:
-            <select onChange={(e) => setFilter(e.target.value)} style={{backgroundColor:`var(--primary)`,marginRight:"35px", border:"none",padding :"5px 7px", borderRadius:"15px"}}>
+    <MainCard>
+        <div style={{marginTop:"10px"}}>
+            <select onChange={(e) => setFilter(e.target.value)} style={{backgroundColor:`var(--gradient1)`,marginLeft:"0px", border:"none",padding :"5px 7px", borderRadius:"15px"}}>
                 <option value="all">All</option>
                 <option value="received">Received</option>
                 <option value="sent">Sent</option>
             </select>
-            </label>
-            <button onClick={toggleSortOrder} style={{backgroundColor:`var(--primary)`,marginLeft:"35px",padding :"5px 7px", borderRadius:"15px"}}>
-            {sortOrder === 'asc' ? 'Latest First' : 'Oldest First'}
+            <button onClick={toggleSortOrder} style={{backgroundColor:`var(--gradient1)`,marginRight:"15px",padding :"5px 7px", borderRadius:"15px"}}>
+            {sortOrder === 'asc' ? 'Latest' : 'Oldest'}
             </button>
       </div>
+      <NotificationListContainer>
       {filteredNotifications.length > 0 &&
         filteredNotifications.map((notification, index) => ( 
           <NotificationCard
@@ -124,38 +148,32 @@ export const Notifications = () => {
               
             </NotificationAvatar>
             <NotificationContent>
-              <h3>
+              <h5  style={{color: `var(--background-light)`}}>
                 {notification.from === 'John Doe'
                   ? notification.to
                   : notification.from}
-              </h3>
-              <NotificationDate>
+              </h5>
+              <NotificationDate> 
                 {new Date(notification.date).toLocaleString()}
               </NotificationDate>
-              {expandedIndex === index && (
-                <NotificationDetails>
+                <NotificationDetails style={{color: `var(--background-light)`}}>
                   <p>{notification.message}</p>
-                  <p>
-                    {notification.amount > 0
-                      ? `Received: $${notification.amount}`
-                      : `Sent: $${Math.abs(notification.amount)}`}
-                  </p>
                 </NotificationDetails>
-              )}
             </NotificationContent>
             <div
               style={{
-                backgroundColor: `var(--gradient1)`,
-                color: 'black',
+                // backgroundColor: `var(--gradient1)`,
+                color: notification.amount > 0 ? "green" : "red",
                 padding: '5px',
                 borderRadius: '5px',
                 marginLeft: 'auto',
               }}
             >
-              {notification.amount > 0 ? 'Received' : 'Sent'}
+              {notification.amount < 0 ? `${notification.amount}` : `+${notification.amount}`}
             </div>
           </NotificationCard>
         ))}
-    </div>
+      </NotificationListContainer>
+    </MainCard>
   );
 };

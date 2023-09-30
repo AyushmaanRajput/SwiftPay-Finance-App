@@ -4,102 +4,39 @@ import { styled } from "styled-components";
 import { Button, ButtonSmall } from "../../Buttons";
 import { SubscriptionsInput } from "./SubscriptionsInput";
 import { AdminSubscriptionsCard } from "./AdminSubscriptionsCard";
-import { baseURL } from "../../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addSubscriptions,
+  getSubscriptions,
+} from "../../../redux/admin/subscriptionsReducer/action";
+import { useCustomToast } from "../../utils/useCustomToast";
+import { AddNewSubscriptionForm } from "./AddNewSubscriptionForm";
 
 export const AllSubscriptions = () => {
-  const [subscriptions, setSubscriptions] = useState([]);
+  const { isLoading, isError, subscriptions } = useSelector(
+    (store) => store.subscriptionsReducer
+  );
+  const { showToast, ToastContainer } = useCustomToast();
+
+  console.log(isLoading, isError, subscriptions);
+
   const [newState, setNewState] = useState(false);
+  const [editState, setEditState] = useState(false);
+
+  const dispatch = useDispatch();
 
   const getSubscriptionsData = () => {
-    axios
-      .get(`${baseURL}/subscriptions`)
-      .then((res) => {
-        // console.log(res.data);
-        setSubscriptions(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    dispatch(getSubscriptions());
   };
 
   const addNewSubscription = (newSubsciptionData) => {
-    axios
-      .post(`${baseURL}/subscriptions`, newSubsciptionData)
-      .then((res) => {
-        getSubscriptionsData();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    dispatch(addSubscriptions(newSubsciptionData, showToast));
+    getSubscriptionsData();
   };
 
   useEffect(() => {
     getSubscriptionsData();
   }, []);
-
-  const handleAddSubscription = () => {
-    // console.log("Add new subscription");
-    setNewState((prev) => !prev);
-  };
-
-  const AddNewSubscriptionForm = () => {
-    const initState = {
-      name: "",
-      logo: "",
-      type: "",
-      description: "",
-      amount: 0,
-      platform: "",
-      billing_cycle: "",
-    };
-    const [subscriptionData, setSubscriptionData] = useState(initState);
-
-    const handleChange = (e) => {
-      const { name, value } = e.target;
-      setSubscriptionData((prev) => {
-        return {
-          ...prev,
-          [name]: value,
-        };
-      });
-    };
-
-    const handleBackBtn = () => {
-      setNewState((prev) => !prev);
-    };
-
-    const handleAddNewSubscription = () => {
-      console.log(subscriptionData);
-
-      addNewSubscription(subscriptionData);
-      setNewState((prev) => !prev);
-    };
-
-    return (
-      <NEWDIV>
-        <div>
-          <H3>Enter New Subscription Data</H3>
-        </div>
-
-        <SubscriptionsInput
-          subscriptionData={subscriptionData}
-          handleChange={handleChange}
-        />
-
-        <div className="subscriptionDataBtnDiv">
-          <ButtonSmall
-            children={"Go Back"}
-            onClick={handleBackBtn}
-          ></ButtonSmall>
-          <ButtonSmall
-            children={"Add New"}
-            onClick={handleAddNewSubscription}
-          />
-        </div>
-        {/* <ButtonSmall children={"Add New"} onClick={handleAddNew} /> */}
-      </NEWDIV>
-    );
-  };
 
   return (
     <div>
@@ -114,11 +51,19 @@ export const AllSubscriptions = () => {
         >
           <Button
             children={"Add Subscription"}
-            onClick={handleAddSubscription}
+            onClick={() => setNewState((prev) => !prev)}
           />
         </div>
       )}
-      {newState && <AddNewSubscriptionForm />}
+      {newState && (
+        <AddNewSubscriptionForm
+          addNewSubscription={addNewSubscription}
+          editState={editState}
+          setEditState={setEditState}
+          setNewState={setNewState}
+        />
+      )}
+      {/* { editState && <EditNewSubscriptionForm />} */}
       <DIV className="all-subscriptions-container">
         {!newState &&
           subscriptions &&
@@ -127,55 +72,18 @@ export const AllSubscriptions = () => {
               <AdminSubscriptionsCard
                 key={ele.id}
                 {...ele}
+                editState={editState}
+                setEditState={setEditState}
+                setNewState={setNewState}
                 getSubscriptionsData={getSubscriptionsData}
               />
             );
           })}
       </DIV>
+      <ToastContainer />
     </div>
   );
 };
-
-const NEWDIV = styled.div`
-  /* width: 200px; */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  label {
-    text-align: left;
-    color: var(--primary-white);
-  }
-
-  input,
-  select {
-    width: 100%;
-    padding: 5px 10px;
-    border-radius: 5px;
-  }
-
-  .newDataDiv {
-    width: 30%;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;
-  }
-
-  .subscriptionDataBtnDiv {
-    /* border: 1px solid wheat; */
-    width: 30%;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    margin-top: 20px;
-  }
-`;
-
-const H3 = styled.h3`
-  color: var(--text-paragraph);
-  margin-bottom: 20px;
-`;
 
 const DIV = styled.div`
   color: var(--text-paragraph);

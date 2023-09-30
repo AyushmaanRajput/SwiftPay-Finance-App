@@ -3,6 +3,7 @@ const initState = {
   isLoading: false,
   isError: false,
   isAuth: false,
+  edit:false,
   userDetails: [],
 };
 export const reducer = (state = initState, { type, payload }) => {

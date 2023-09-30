@@ -18,7 +18,9 @@ const ModalContainer = styled.dialog`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) !important;
-  background-color: var(--primary-white);
+  /* background-color: var(--primary-white); */
+  background-color: ${(props) =>
+    props.backgroundColor || "var(--primary-white)"};
   z-index: 1001;
   padding: 20px;
   border-radius: 8px;
@@ -34,7 +36,7 @@ const CloseButton = styled.button`
   cursor: pointer;
 `;
 
-export function Modal({ isOpen, onClose, children }) {
+export function Modal({ isOpen, onClose, backgroundColor, children }) {
   const openModal = () => {
     onClose(true);
   };
@@ -45,7 +47,7 @@ export function Modal({ isOpen, onClose, children }) {
 
   return (
     <Backdrop isOpen={isOpen}>
-      <ModalContainer open={isOpen}>
+      <ModalContainer open={isOpen} backgroundColor={backgroundColor}>
         <CloseButton onClick={closeModal}>&times;</CloseButton>
         {children}
       </ModalContainer>

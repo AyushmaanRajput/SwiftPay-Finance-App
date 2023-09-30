@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import { AuthChange } from "../../redux/user/usersReducer/accountReducer/action";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faCoins } from "@fortawesome/free-solid-svg-icons";
 
-export const Formuser = () => {
+export const Formuser = ({ edit, setEdit }) => {
   const [emailChange, setEmailChange] = useState("");
   const [passwordChange, setPasswordChange] = useState("");
-  const [num, setNum] = useState(0);
+  const [num, setNum] = useState("");
+  //  console.log(edit)
+
   const userDetails = useSelector((store) => store.accountReducer.userDetails);
 
   const dispatch = useDispatch();
@@ -45,45 +49,83 @@ export const Formuser = () => {
       password: passwordChange,
       mobile: num,
     };
-    // console.log("ok");
+    console.log("ok");
     dispatch(AuthChange(newUserObj, userID.id));
+  };
+  const handleEdit = () => {
+    setEdit(true);
+    // console.log("ok");
+  };
+  const goBack = () => {
+    setEdit(false);
   };
   return (
     <DIV>
-      <div className="main-div">
-        <div className="imageIcon">
-          <img
-            src={avatars[userID.avatarNum - 1]}
-            style={{ width: "200px" }}
-            className="icons"
+      {!edit ? (
+        <>
+          <div className="main-div">
+            <div className="imageIcon">
+              <img
+                src={avatars[userID.avatarNum - 1]}
+                style={{ width: "200px" }}
+                className="icons"
+              />
+              <h4>{userID.name}</h4>
+              <p>Balance: {userID.balance}</p>
+              <p>
+                swiftCoin: {userID.swiftCoin}
+                <FontAwesomeIcon icon={faCoins} />
+              </p>
+              <p>+{userID.mobile}</p>
+            </div>
+            <button className="edit-btn" onClick={handleEdit}>
+              EDIT
+            </button>
+          </div>
+        </>
+      ) : (
+        <>
+          <FontAwesomeIcon
+            icon={faArrowLeft}
+            onClick={goBack}
+            className="back-icon"
           />
-        </div>
-        <button className="edit-btn">EDIT</button>
-      </div>
-
-      <input
-        type="email"
-        placeholder="Email"
-        value={emailChange}
-        onChange={(e) => setEmailChange(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={passwordChange}
-        onChange={(e) => setPasswordChange(e.target.value)}
-      />
-      <input
-        type="number"
-        placeholder="Number"
-        value={num}
-        onChange={(e) =>
-          setNum(!isNaN(e.target.value) ? +e.target.value : e.target.value)
-        }
-      />
-      <button type="submit" onClick={handleSubmit}>
-        Continue
-      </button>
+          <div className="imageIcon">
+            <img
+              src={avatars[userID.avatarNum - 1]}
+              style={{ width: "200px" }}
+              className="icons"
+            />
+          </div>
+          <input
+            type="email"
+            placeholder="Email"
+            value={emailChange}
+            onChange={(e) => setEmailChange(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={passwordChange}
+            onChange={(e) => setPasswordChange(e.target.value)}
+          />
+          <input
+            type="number"
+            placeholder="Number"
+            value={num}
+            onChange={(e) =>
+              setNum(!isNaN(e.target.value) ? +e.target.value : e.target.value)
+            }
+          />
+          <button
+            type="submit"
+            onClick={handleSubmit}
+            className="user-data-change"
+          >
+            Continue
+          </button>
+        </>
+      )}
     </DIV>
   );
 };
@@ -95,9 +137,29 @@ const DIV = styled.div`
   margin: 40px auto;
   gap: 15px;
   align-items: center;
-  border: 2px solid red;
-
+  background-color: var(--gradient1);
   .edit-btn {
     margin-top: 10px;
+    width: 80%;
+    height: 40px;
+  }
+
+  .back-icon {
+    margin-right: 20rem;
+  }
+  .icons {
+    border-radius: 50%;
+  }
+  input {
+    width: 80%;
+    height: 40px;
+  }
+  .imageIcon {
+    gap: 15px;
+  }
+  .user-data-change {
+    margin-top: 10px;
+    width: 80%;
+    height: 40px;
   }
 `;

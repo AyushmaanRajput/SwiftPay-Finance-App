@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { handlePostQueryForm } from "../../redux/user/userQuery/action";
+import { postQuery } from "../../redux/admin/SupportReducer/action";
 
-export const QueryForm = () => {
+export const QueryForm = ({userTransactionData}) => {
   const dispatch = useDispatch();
-  const [userData, setUserData] = useState({ subject: "", message: "", priority: ""});
-  useEffect(() => {
-    dispatch(handlePostQueryForm);
-  }, []);
-
+  const [data,setData] = useState({ subject: "", message: "", priority: ""})
+  const [userData, setUserData] = useState(userTransactionData);
+  
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(userData)
+    // userData.message = 
+    setUserData((prev) => {
+      return {...prev,message : data.message,subject:data.subject,priority:data.priority}
+    })
+    dispatch(postQuery(userData));
+    setData({...data, subject: "", message: "", priority: ""})
   };
+  console.log(userData)
+
 
   return (
     <DIV>
@@ -22,18 +27,20 @@ export const QueryForm = () => {
           type="text"
           name="subject"
           placeholder="Subject"
-          value={userData.subject}
-          onChange={(e) => setUserData({ ...userData, subject: e.target.value })}
+          value={data.subject}
+          onChange={(e) => setData({ ...data, subject: e.target.value })}
+          required
         />
         <input
           type="text"
           name="message"
           placeholder="Message"
-          value={userData.message}
-          onChange={(e) => setUserData({ ...userData, message: e.target.value })}
+          value={data.message}
+          onChange={(e) => setData({ ...data, message: e.target.value })}
+          required
         />
 
-        <select name="priority" value={userData.priority} onChange={(e)=>setUserData({...userData,priority : e.target.value})}>
+        <select name="priority" value={data.priority} required onChange={(e)=>setData({...data,priority : e.target.value})}>
           <option name="">Select Priority</option>
           <option name="low">Low</option>
           <option name="medium">Medium</option>

@@ -19,7 +19,6 @@ import {
   faTv,
 } from "@fortawesome/free-solid-svg-icons";
 import { ContainerLarge } from "../components/Layouts";
-import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { Formuser } from "../components/forms/Formuser";
 import { Notifications } from "../components/Notifications";
 
@@ -27,14 +26,14 @@ const DashboardContainer = styled.div`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding-inline:1rem;
+  padding-inline: 1rem;
   background-color: var(--background-dark);
 `;
 
 const TopBar = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-block:2rem;
+  margin-block: 2rem;
   > div {
     display: flex;
     align-items: center;
@@ -78,7 +77,17 @@ const Hr = styled.hr`
 
 const Content = styled.div`
   flex-grow: 1;
-  padding-block:2rem;
+  padding-block: 2rem;
+`;
+const IconDIV = styled.div`
+  width: 50px;
+  border-radius: 50%;
+
+  .icon_1 {
+    margin-left: 20rem;
+    width: 50px;
+    border-radius: 50%;
+  }
 `;
 
 export const Dashboard = () => {
@@ -89,6 +98,21 @@ export const Dashboard = () => {
   };
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const userData = localStorage.getItem("loggedInUser");
+  const userID = JSON.parse(userData);
+
+  const avatars = [
+    "/avatars/Asian Man.png",
+    "/avatars/Black Lady.png",
+    "/avatars/Black Man.png",
+    "/avatars/College Student.png",
+    "/avatars/Indian Man.png",
+    "/avatars/Middle Eastern Lady.png",
+    "/avatars/Old Man.png",
+    "/avatars/Western Man.png",
+    "/avatars/White Lady.png",
+    "/avatars/Young Lady.png",
+  ];
 
   function logOutHandler() {
     localStorage.removeItem("loggedInUser");
@@ -169,7 +193,13 @@ export const Dashboard = () => {
             </Tab>
           </Tabs>
         </div>
-
+        <IconDIV className="user-icons">
+          <img
+            src={avatars[userID.avatarNum - 1]}
+            onClick={handleButton}
+            className="icon_1"
+          />
+        </IconDIV>
         <ButtonSmall onClick={logOutHandler}>Logout</ButtonSmall>
       </TopBar>
       <Hr />

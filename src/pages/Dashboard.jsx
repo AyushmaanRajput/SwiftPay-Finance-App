@@ -19,22 +19,22 @@ import {
   faTv,
 } from "@fortawesome/free-solid-svg-icons";
 import { ContainerLarge } from "../components/Layouts";
-import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { Formuser } from "../components/forms/Formuser";
 import { Notifications } from "../components/Notifications";
+import { Modal } from "../components/modals/Modal";
 
 const DashboardContainer = styled.div`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding-inline:1rem;
+  padding-inline: 1rem;
   background-color: var(--background-dark);
 `;
 
 const TopBar = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-block:2rem;
+  margin-block: 2rem;
   > div {
     display: flex;
     align-items: center;
@@ -78,10 +78,20 @@ const Hr = styled.hr`
 
 const Content = styled.div`
   flex-grow: 1;
-  padding-block:2rem;
+  padding-block: 2rem;
 `;
 
 export const Dashboard = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // Function to close the modal
+  const closeModal = (isOpen) => {
+    setIsModalOpen(isOpen);
+  };
+
   const [selectedTab, setSelectedTab] = useState("overview");
   const isAuth = useSelector((store) => store.authReducer.isAuth);
   const handleTabClick = (tab) => {
@@ -169,8 +179,7 @@ export const Dashboard = () => {
             </Tab>
           </Tabs>
         </div>
-
-        <ButtonSmall onClick={logOutHandler}>Logout</ButtonSmall>
+          <ButtonSmall onClick={logOutHandler}>Logout</ButtonSmall>
       </TopBar>
       <Hr />
       <Content>

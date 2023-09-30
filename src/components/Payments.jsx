@@ -11,7 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { adminTransactionsData } from "../redux/user/userTransactions/action";
-import { getSubscriptions } from "../redux/user/subscriptionsReducer/action";
+import { getSubscriptions } from "../redux/admin/subscriptionsReducer/action";
 import { formatAndSortData } from "../functions/transactions";
 import { formatAndSortSubscriptions } from "../functions/subscriptions";
 import { ButtonOutline } from "../components/Buttons";
@@ -50,7 +50,7 @@ export const Payments = () => {
   console.log(formattedUserSubs);
 
   const totalTransactions = useSelector(
-    (store) => store.userTransactionsReducer.adminTransactions
+    (store) => store.transactionsReducer.transactions
   );
   let filteredTransactions = totalTransactions.filter((el) =>
     user.transactions.includes(el.id)

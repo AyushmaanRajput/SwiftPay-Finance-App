@@ -8,7 +8,7 @@ import { reducer as userQueryReducer } from "./user/userQuery/reducer";
 import { reducer as supportReducer } from "./admin/SupportReducer/reducer";
 import thunk from "redux-thunk";
 
-export const baseURL = `http://localhost:8080`;
+export const baseURL = `https://warlike-current.onrender.com`;
 
 const rootReducer = combineReducers({
   authReducer,

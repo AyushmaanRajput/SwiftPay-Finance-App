@@ -14,7 +14,7 @@ const rootReducer = combineReducers({
   authReducer,
   transactionsReducer,
   usersReducer,
-  userTransactionsReducer,
+  userTransactionsReducer, 
   subscriptionsReducer,
   accountReducer,
   userQueryReducer

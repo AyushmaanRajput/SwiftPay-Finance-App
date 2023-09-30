@@ -32,3 +32,18 @@ const BUTTON = styled.button`
   font-weight: 600;
   letter-spacing: 0.25px;
 `;
+
+export const ButtonOutline = ({ children, onClick }) => {
+  return <BUTTONOUTLINE onClick={onClick}>{children}</BUTTONOUTLINE>;
+};
+
+const BUTTONOUTLINE = styled.button`
+  background-color: transparent !important;
+  border: 1px solid var(--primary-light);
+  color: var(--primary-light);
+  padding: 0.2rem 0.75rem;
+  border-radius: 50px;
+  font-weight: 500;
+  font-size: var(--link);
+  letter-spacing: 0.2px;
+`;

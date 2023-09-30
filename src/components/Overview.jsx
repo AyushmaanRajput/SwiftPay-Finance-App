@@ -8,7 +8,7 @@ import {
   faLandmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { getSubscriptions } from "../redux/user/subscriptionsReducer/action";
+import { getSubscriptions } from "../redux/admin/subscriptionsReducer/action";
 import { OverviewCharts } from "./overview/OverviewCharts";
 
 export const Overview = () => {

@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import CardContent from './CardContent'; // Make sure to adjust the import path
+import { useDispatch, useSelector } from 'react-redux';
+import { supportData } from '../../redux/admin/SupportReducer/action';
 
 export const Support = () => {
   const [data, setData] = useState([]);
+  const dispatch = useDispatch()
+  const store = useSelector((store)=>store.supportReducer.support)
+  console.log(store)
 
   useEffect(() => {
-    axios
-      .get('https://warlike-current.onrender.com/supports')
-      .then((response) => {
-        console.log(response);
-        setData(response.data);
-      })
-      .catch((error) => console.error('Error fetching data:', error));
+    dispatch(supportData)
   }, []);
 
   const cardVariants = {
@@ -41,7 +39,7 @@ export const Support = () => {
     <StyledSupport>
       <h1 className="heading">Support Tickets</h1>
       <SupportCards>
-        {data.map((ticket) => (
+        {store.map((ticket) => (
           <motion.div
             className="support-card"
             key={ticket.id}

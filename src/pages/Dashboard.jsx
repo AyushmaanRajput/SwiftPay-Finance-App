@@ -24,6 +24,7 @@ import { ContainerLarge } from "../components/Layouts";
 import { Formuser } from "../components/forms/Formuser";
 import { Notifications } from "../components/Notifications";
 import { Modal } from "../components/modals/Modal";
+import { FormModal } from "../components/forms/FormModal";
 
 const DashboardContainer = styled.div`
   min-height: 100vh;
@@ -109,12 +110,10 @@ const Bell = styled.button`
 
 export const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [edit, setEdit] = useState(false);
+
   const openModal = () => {
     setIsModalOpen(true);
-  };
-
-  const closeModal = (isOpen) => {
-    setIsModalOpen(isOpen);
   };
 
   const [selectedTab, setSelectedTab] = useState("overview");
@@ -147,11 +146,6 @@ export const Dashboard = () => {
     dispatch({ type: LOGOUT });
     navigate("/");
   }
-  const handleButton = () => {
-    if (isAuth) {
-      return navigate("/form");
-    }
-  };
 
   const toggleNotifications = () => {
     console.log("Toggle Notifications Clicked");
@@ -230,10 +224,16 @@ export const Dashboard = () => {
           <IconDIV className="user-icons">
             <img
               src={avatars[userID.avatarNum - 1]}
-              onClick={handleButton}
+              onClick={openModal}
               className="icon_1"
             />
           </IconDIV>
+          <FormModal
+            isModalOpen={isModalOpen}
+            closeModal={() => setIsModalOpen(false)}
+            edit={edit}
+            setEdit={setEdit}
+          />
           <Bell className="bell" onClick={toggleNotifications}>
             <FontAwesomeIcon
               icon={faBell}

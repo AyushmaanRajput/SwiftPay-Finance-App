@@ -108,6 +108,14 @@ const userAvatarIds = {
 };
 
 const formatDateTime = (isoDateString) => {
-  const date = new Date(isoDateString);
-  return date.toLocaleString();
+  var options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  };
+  var date = new Date(isoDateString).toLocaleString("en-US", options);
+  return date
 };

@@ -4,7 +4,6 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { Button } from './Buttons'
 import { QueryForm } from './forms/QueryForm'
-// import { adminTransactionsData } from '../redux/admin/SupportReducer/action'
 import { getAllTransactions } from '../redux/admin/transactionsReducer/action'
 
 
@@ -78,19 +77,15 @@ export const Transactions = () => {
 
   
 const formatDate = (input) => {
-  var inputDate = new Date(input);
   var options = {
   year: "numeric",
   month: "long",
   day: "numeric",
-  hour: "2-digit",
-  minute: "2-digit",
+  hour: "numeric",
+  minute: "numeric",
   hour12: true,
 };
-var formattedDate = inputDate.toLocaleString("en-US", options);
-
-var date = formattedDate.replace(/(\d{4})/, '$1');
-
+var date = new Date(input).toLocaleString("en-US", options);
 return date
 }
 
@@ -110,7 +105,7 @@ return date
   }
 
   return (
-    presentData ? <QueryForm userTransactionData={queryForm}/> : 
+    presentData ? <QueryForm userTransactionData={queryForm} isPresentFunc={setPresentData}/> : 
     <TRANSACTIONS>
     <h2>Users Transactions</h2>
     <Button onClick={handleSortInAsc}>{"Latest"}</Button>

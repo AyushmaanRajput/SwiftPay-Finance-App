@@ -43,18 +43,18 @@ const userAvatarIds = {
 export const Payments = () => {
   const dispatch = useDispatch();
   const [user, setUser] = React.useState(
-    JSON.parse(localStorage.getItem("loggedInUser")) || null
+    useSelector((store) => store.authReducer.loggedInUser) || null
   );
 
   const globalSubs = useSelector(
     (store) => store.subscriptionsReducer.subscriptions
   );
   let userSubs = user.subscriptions;
+  // console.log(user,globalSubs)
   let formattedUserSubs = formatAndSortSubscriptions(userSubs, globalSubs);
-  // console.log(formattedUserSubs);
 
   const totalTransactions = useSelector(
-    (store) => store.transactionsReducer.transactions
+    (store) => store.transactionsReducer.allTransactions
   );
   let filteredTransactions = totalTransactions.filter((el) =>
     user.transactions.includes(el.id)

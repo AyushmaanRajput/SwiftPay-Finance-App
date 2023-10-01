@@ -1,61 +1,38 @@
-// Login.js
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { login } from "../redux/authReducer/action";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Input } from "../components/forms/Input";
+import { Login } from "../components/Loginn";
+import SignIn from "../components/Signin";
 import { HomeNav } from "./sections/HomeNav";
 import { HomeFooter } from "./sections/HomeFooter";
 
-import { useCustomToast } from "../components/utils/useCustomToast";
+export const AuthPage = () => {
+  const [isLoginVisible, setIsLoginVisible] = useState(true);
+  const [isSignInVisible, setIsSignInVisible] = useState(false);
 
-export const Login = () => {
-  const dispatch = useDispatch();
-  const users = useSelector((store) => store.usersReducer.users);
-  console.log(users);
-  const navigate = useNavigate();
-  const { showToast, ToastContainer } = useCustomToast();
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const location = useLocation();
-  const commingFrom = location?.state?.pathname || "/dashboard";
+  const showLogin = () => {
+    setIsLoginVisible(true);
+    setIsSignInVisible(false);
+  };
 
-  function handleSubmit() {
-    const user = {
-      email,
-      password,
-    };
-    dispatch(login(user, showToast, users, navigate));
-  }
-
-  function navigateTo(path) {
-    navigate(path);
-  }
+  const showSignIn = () => {
+    setIsLoginVisible(false);
+    setIsSignInVisible(true);
+  };
 
   return (
     <>
-      <HomeNav></HomeNav>
-      <DIV>
-        <h2>Log In</h2>
-        <Input
-          label="Email"
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <Input
-          label="Password"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button data-testid="user-login" onClick={handleSubmit}>
-          Log In
-        </button>
-        <ToastContainer />
+     <HomeNav></HomeNav>   
+      <DIV log={isLoginVisible}>
+        <div>
+          <button onClick={showLogin} disabled={isLoginVisible}>
+            Login
+          </button>
+          <button onClick={showSignIn} disabled={isSignInVisible}>
+            Sign In
+          </button>
+        </div>
+        {isLoginVisible && <Login />}
+        {isSignInVisible && <SignIn />}
       </DIV>
       <HomeFooter></HomeFooter>
     </>
@@ -63,18 +40,24 @@ export const Login = () => {
 };
 
 const DIV = styled.div`
-  width: 400px;
+  width: ${(props) => 
+  props.log ? "390px" : "470px"
+  };
   padding: 20px;
-  margin: 8rem auto;
+  margin: 3rem auto;
   display: flex;
   flex-direction: column;
   gap: 15px;
   border: 1px solid gray;
   align-items: center;
-
+  background-color: var(--primary-grey);
+  
   button {
-    width: 150px;
-    height: 30px;
-    font-size: large;
+    font-size: larger;
+    border-radius: 20px;
+    padding: 5px 20px;
+    margin-right: 20px;
+    background-color: var(--primary);
   }
 `;
+

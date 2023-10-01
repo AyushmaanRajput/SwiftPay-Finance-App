@@ -10,6 +10,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { getSubscriptions } from "../redux/admin/subscriptionsReducer/action";
 import { OverviewCharts } from "./overview/OverviewCharts";
+import { AllPageFooter } from "../pages/sections/AllPageFooter";
 
 export const Overview = () => {
   const dispatch = useDispatch();
@@ -131,6 +132,8 @@ export const Overview = () => {
       </SUBSCRIPTIONSOVERVIEW>
       <OverviewCharts></OverviewCharts>
     </OVERVIEW>
+  
+  
   );
 };
 

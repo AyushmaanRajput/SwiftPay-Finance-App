@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { CardSmall } from "../components/overview/OverviewCards";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,11 +10,14 @@ import {
   faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-// import { adminTransactionsData } from "../redux/user/userTransactions/action";
 import { getSubscriptions } from "../redux/admin/subscriptionsReducer/action";
 import { formatAndSortData } from "../functions/transactions";
 import { formatAndSortSubscriptions } from "../functions/subscriptions";
 import { ButtonOutline } from "../components/Buttons";
+import { Modal } from "./modals/Modal";
+import { SendMoneyForm } from "./forms/SendMoneyForm";
+import { RequestMoneyForm } from "./forms/RequestMoneyForm";
+import { BuySwiftCoinsForm } from "./forms/BuySwiftCoinsForm";
 import { getAllTransactions } from "../redux/admin/transactionsReducer/action";
 
 const avatars = [
@@ -48,7 +51,7 @@ export const Payments = () => {
   );
   let userSubs = user.subscriptions;
   let formattedUserSubs = formatAndSortSubscriptions(userSubs, globalSubs);
-  console.log(formattedUserSubs);
+  // console.log(formattedUserSubs);
 
   const totalTransactions = useSelector(
     (store) => store.transactionsReducer.transactions
@@ -63,19 +66,42 @@ export const Payments = () => {
     dispatch(getAllTransactions());
   }, []);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState(null);
+
+  const openModal = (content) => {
+    setModalContent(content);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <>
       <PAYMENTS>
         <PAYMENTTABS>
-          <div class="payment-tabs">
+          <div
+            className="payment-tabs"
+            onClick={() => openModal(<SendMoneyForm onClose={closeModal} />)}
+          >
             <FontAwesomeIcon icon={faPaperPlane} />
             <span>Send Money</span>
           </div>
-          <div class="payment-tabs">
+          <div
+            className="payment-tabs"
+            onClick={() => openModal(<RequestMoneyForm onClose={closeModal} />)}
+          >
             <FontAwesomeIcon icon={faHandHoldingDollar} />
             <span>Request Money</span>
           </div>
-          <div class="payment-tabs">
+          <div
+            className="payment-tabs"
+            onClick={() =>
+              openModal(<BuySwiftCoinsForm onClose={closeModal} />)
+            }
+          >
             <FontAwesomeIcon icon={faCircleDollarToSlot} />
             <span>Buy SwiftCoin</span>
           </div>
@@ -180,6 +206,11 @@ export const Payments = () => {
           </CardSmall>
         </ARTICLES>
       </PAYMENTS>
+      {modalContent && (
+        <Modal isOpen={isModalOpen} onClose={closeModal}>
+          {modalContent}
+        </Modal>
+      )}
     </>
   );
 };
@@ -340,9 +371,9 @@ const REMAINDERS = styled.div`
       padding-left: 0.5rem;
       h6 {
         margin-bottom: 0.5rem;
-        text-transform:uppercase;
-        font-weight:300;
-        letter-spacing:1px;
+        text-transform: uppercase;
+        font-weight: 300;
+        letter-spacing: 1px;
       }
     }
   }

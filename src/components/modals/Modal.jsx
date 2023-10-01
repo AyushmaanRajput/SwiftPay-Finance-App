@@ -7,7 +7,7 @@ const Backdrop = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(255, 255, 255, 0.25);
   display: ${(props) => (props.isOpen ? "flex" : "none")};
   align-items: center;
   justify-content: center;
@@ -20,20 +20,27 @@ const ModalContainer = styled.dialog`
   transform: translate(-50%, -50%) !important;
   /* background-color: var(--primary-white); */
   background-color: ${(props) =>
-    props.backgroundColor || "var(--primary-white)"};
+    props.backgroundColor || "var(--background-light)"};
   z-index: 1001;
-  padding: 20px;
-  border-radius: 8px;
+  padding: 2rem;
+  min-width:20rem;
+  border-radius: 2rem;
+  border:none;
 `;
 
 const CloseButton = styled.button`
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 0.5rem;
+  right: 1rem;
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: 2rem;
   cursor: pointer;
+  color:var(--primary-grey);
+  transition: color 0.1s ease-in;
+  &:hover{
+    color:var(--primary-white);
+  }
 `;
 
 export function Modal({ isOpen, onClose, backgroundColor, children }) {

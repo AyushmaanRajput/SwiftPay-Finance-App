@@ -8,13 +8,14 @@ export const QueryForm = ({userTransactionData}) => {
   const [data,setData] = useState({ subject: "", message: "", priority: ""})
   const [userData, setUserData] = useState(userTransactionData);
   
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // userData.message = 
+    // userData.message =
     setUserData((prev) => {
       return {...prev,message : data.message,subject:data.subject,priority:data.priority}
     })
-    dispatch(postQuery(userData));
+
+    await dispatch(postQuery(userData));
     setData({...data, subject: "", message: "", priority: ""})
   };
   console.log(userData)

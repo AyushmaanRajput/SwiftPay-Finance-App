@@ -10,11 +10,12 @@ import {
   faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { adminTransactionsData } from "../redux/user/userTransactions/action";
+// import { adminTransactionsData } from "../redux/user/userTransactions/action";
 import { getSubscriptions } from "../redux/admin/subscriptionsReducer/action";
 import { formatAndSortData } from "../functions/transactions";
 import { formatAndSortSubscriptions } from "../functions/subscriptions";
 import { ButtonOutline } from "../components/Buttons";
+import { getAllTransactions } from "../redux/admin/transactionsReducer/action";
 
 const avatars = [
   "/avatars/Asian Man.png",
@@ -59,7 +60,7 @@ export const Payments = () => {
 
   React.useEffect(() => {
     dispatch(getSubscriptions());
-    dispatch(adminTransactionsData());
+    dispatch(getAllTransactions());
   }, []);
 
   return (

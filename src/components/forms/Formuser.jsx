@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { AuthChange } from "../../redux/user/usersReducer/accountReducer/action";
+import { AuthChange } from "../../redux/user/accountReducer/action";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

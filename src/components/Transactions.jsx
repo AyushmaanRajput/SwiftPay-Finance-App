@@ -4,7 +4,8 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { Button } from './Buttons'
 import { QueryForm } from './forms/QueryForm'
-import { adminTransactionsData } from '../redux/admin/SupportReducer/action'
+// import { adminTransactionsData } from '../redux/admin/SupportReducer/action'
+import { getAllTransactions } from '../redux/admin/transactionsReducer/action'
 
 
 export const Transactions = () => {
@@ -12,20 +13,21 @@ export const Transactions = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [presentData , setPresentData] = useState(false)
   const [queryForm,setQueryForm] = useState("")
-  let user = JSON.parse(localStorage.getItem("loggedInUser"))
   const dispatch = useDispatch()
-  const {adminTransactions} = useSelector((store)=>{
+  
+  const {allTransactions, loggedInUser} = useSelector((store)=>{
     return {
-      adminTransactions : store.supportReducer.adminTransactions,
+      allTransactions : store.transactionsReducer.allTransactions,
+      loggedInUser: store.authReducer.loggedInUser
     }
   },shallowEqual)
 
-  const filteredTransactions = adminTransactions.filter((el)=>{
-    if(user.transactions.includes(el.id))
+  const filteredTransactions = allTransactions.filter((el)=>{
+    if(loggedInUser.transactions.includes(el.id))
     return el;
   } )
   useEffect(()=>{
-    dispatch(adminTransactionsData)
+    dispatch(getAllTransactions())
   },[])
 
   const totalPages = Math.ceil(filteredTransactions.length / limit);
@@ -51,9 +53,9 @@ export const Transactions = () => {
   const handleRaiseQuery = (id) => {
     let userPrefilledObj = {
       user : {
-        id:user.id,
-        name: user.name,
-        email : user.email
+        id: loggedInUser.id,
+        name: loggedInUser.name,
+        email : loggedInUser.email
       },
       createdDate: formattedDate,
       status : "open",

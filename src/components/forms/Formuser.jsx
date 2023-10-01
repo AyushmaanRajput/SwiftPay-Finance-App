@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { AuthChange } from "../../redux/user/usersReducer/accountReducer/action";
+import { AuthChange } from "../../redux/user/accountReducer/action";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,7 +9,9 @@ export const Formuser = ({ edit, setEdit }) => {
   const [emailChange, setEmailChange] = useState("");
   const [passwordChange, setPasswordChange] = useState("");
   const [num, setNum] = useState("");
+
   //  console.log(edit)
+
 
   const userDetails = useSelector((store) => store.accountReducer.userDetails);
 

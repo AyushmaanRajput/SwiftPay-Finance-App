@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import CardContent from './CardContent'; // Make sure to adjust the import path
 import { useDispatch, useSelector } from 'react-redux';
-import { supportData } from '../../redux/admin/SupportReducer/action';
+import { supportData } from '../../redux/admin/supportReducer/action';
 
 export const Support = () => {
   const [data, setData] = useState([]);
   const dispatch = useDispatch()
   const store = useSelector((store)=>store.supportReducer.support)
   console.log(store)
-
+  
   useEffect(() => {
     dispatch(supportData)
   }, []);

@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { postQuery } from "../../redux/admin/SupportReducer/action";
+import { postQuery } from "../../redux/admin/supportReducer/action";
 
 export const QueryForm = ({userTransactionData}) => {
   const dispatch = useDispatch();
   const [data,setData] = useState({ subject: "", message: "", priority: ""})
   const [userData, setUserData] = useState(userTransactionData);
   
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // userData.message = 
+    // userData.message =
     setUserData((prev) => {
       return {...prev,message : data.message,subject:data.subject,priority:data.priority}
     })
-    dispatch(postQuery(userData));
+
+    await dispatch(postQuery(userData));
     setData({...data, subject: "", message: "", priority: ""})
   };
   console.log(userData)

@@ -4,7 +4,8 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { Button } from './Buttons'
 import { QueryForm } from './forms/QueryForm'
-import { adminTransactionsData } from '../redux/admin/SupportReducer/action'
+// import { adminTransactionsData } from '../redux/admin/SupportReducer/action'
+import { getAllTransactions } from '../redux/admin/transactionsReducer/action'
 
 
 export const Transactions = () => {
@@ -12,26 +13,53 @@ export const Transactions = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [presentData , setPresentData] = useState(false)
   const [queryForm,setQueryForm] = useState("")
-  let user = JSON.parse(localStorage.getItem("loggedInUser"))
+
+  const [sortOrder, setSortOrder] = useState('');
   const dispatch = useDispatch()
-  const {adminTransactions} = useSelector((store)=>{
+  
+  const {allTransactions, loggedInUser} = useSelector((store)=>{
     return {
-      adminTransactions : store.supportReducer.adminTransactions,
+      allTransactions : store.transactionsReducer.allTransactions,
+      loggedInUser: store.authReducer.loggedInUser
     }
   },shallowEqual)
 
-  const filteredTransactions = adminTransactions.filter((el)=>{
-    if(user.transactions.includes(el.id))
+
+  const filteredTransactions = allTransactions.filter((el)=>{
+    if(loggedInUser.transactions.includes(el.id))
     return el;
-  } )
+  })
+
+  const sortTransactions = (transactions) => {
+    return transactions.slice().sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+
+      if (sortOrder === 'asc') {
+        return dateA - dateB;
+      } else if (sortOrder === 'desc') {
+        return dateB - dateA;
+      } else {
+        return 0;
+      }
+    });
+  };
+  const sortedTransactions = sortTransactions(filteredTransactions);
   useEffect(()=>{
-    dispatch(adminTransactionsData)
+    dispatch(getAllTransactions())
   },[])
 
-  const totalPages = Math.ceil(filteredTransactions.length / limit);
+  const handleSortInAsc = () => {
+    setSortOrder('asc');
+  }
+  const handleSortInDesc = () => {
+    setSortOrder('desc');
+  }
+
+  const totalPages = Math.ceil(sortedTransactions.length / limit);
   const startIndex = (currentPage - 1) * limit;
   const endIndex = startIndex + limit;
-  let currentTransactions = filteredTransactions.slice(startIndex, endIndex);
+  let currentTransactions = sortedTransactions.slice(startIndex, endIndex);
 
    const handlePageClick = (page) => {
     setCurrentPage(page);
@@ -48,12 +76,30 @@ export const Transactions = () => {
   
   const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 
+  
+const formatDate = (input) => {
+  var inputDate = new Date(input);
+  var options = {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: true,
+};
+var formattedDate = inputDate.toLocaleString("en-US", options);
+
+var date = formattedDate.replace(/(\d{4})/, '$1');
+
+return date
+}
+
   const handleRaiseQuery = (id) => {
     let userPrefilledObj = {
       user : {
-        id:user.id,
-        name: user.name,
-        email : user.email
+        id: loggedInUser.id,
+        name: loggedInUser.name,
+        email : loggedInUser.email
       },
       createdDate: formattedDate,
       status : "open",
@@ -62,12 +108,13 @@ export const Transactions = () => {
     setQueryForm(userPrefilledObj)
     setPresentData(prev => !prev)
   }
+
   return (
     presentData ? <QueryForm userTransactionData={queryForm}/> : 
     <TRANSACTIONS>
     <h2>Users Transactions</h2>
-    <Button>{"Sort in Asc"}</Button>
-    <Button>{"Sort in Desc"}</Button>
+    <Button onClick={handleSortInAsc}>{"Latest"}</Button>
+    <Button onClick={handleSortInDesc}>{"Oldest"}</Button>
     {
       currentTransactions?.map((item)=>{
         return <div className='user-transactions-data' key={item.id}>
@@ -77,7 +124,7 @@ export const Transactions = () => {
           <p>To: {item.to}</p>
           <p>Message: {item.message}</p>
           <p>
-            Date: {item.date.split("T")[0]} at {item.date.split("T")[1]}
+            Date: {formatDate(item.date)}
           </p>
           {
             presentData || <Button onClick={()=>handleRaiseQuery(item.id)}>{"Raise query"}</Button>
@@ -101,8 +148,6 @@ export const Transactions = () => {
   </TRANSACTIONS>
   )
 }
-
-
 
 
 const TRANSACTIONS = styled.main`

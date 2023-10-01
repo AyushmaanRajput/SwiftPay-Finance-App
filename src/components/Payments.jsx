@@ -10,7 +10,6 @@ import {
   faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { adminTransactionsData } from "../redux/user/userTransactions/action";
 import { getSubscriptions } from "../redux/admin/subscriptionsReducer/action";
 import { formatAndSortData } from "../functions/transactions";
 import { formatAndSortSubscriptions } from "../functions/subscriptions";
@@ -19,6 +18,7 @@ import { Modal } from "./modals/Modal";
 import { SendMoneyForm } from "./forms/SendMoneyForm";
 import { RequestMoneyForm } from "./forms/RequestMoneyForm";
 import { BuySwiftCoinsForm } from "./forms/BuySwiftCoinsForm";
+import { getAllTransactions } from "../redux/admin/transactionsReducer/action";
 
 const avatars = [
   "/avatars/Asian Man.png",
@@ -63,7 +63,7 @@ export const Payments = () => {
 
   React.useEffect(() => {
     dispatch(getSubscriptions());
-    dispatch(adminTransactionsData());
+    dispatch(getAllTransactions());
   }, []);
 
   const [isModalOpen, setIsModalOpen] = useState(false);

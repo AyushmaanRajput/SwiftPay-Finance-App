@@ -25,6 +25,7 @@ import { Formuser } from "../components/forms/Formuser";
 import { Notifications } from "../components/Notifications";
 import { Modal } from "../components/modals/Modal";
 import { FormModal } from "../components/forms/FormModal";
+import { AllPageFooter } from "./sections/AllPageFooter";
 
 const DashboardContainer = styled.div`
   min-height: 100vh;
@@ -259,6 +260,7 @@ export const Dashboard = () => {
         {selectedTab === "transactions" && <Transactions />}
         {noti && <Notifications />}
       </Content>
+      <AllPageFooter></AllPageFooter>
     </DashboardContainer>
   );
 };

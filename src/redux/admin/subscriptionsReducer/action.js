@@ -52,7 +52,7 @@ export const deleteSubscription = (id, showToast, getSubscriptionsData) => (disp
       // console.log(res);
       showToast("success", "Subscription Deleted");
       dispatch({ type: DELETESUBSUCCESS, payload: res.data });
-      // getSubscriptionsData();
+      getSubscriptionsData();
     })
     .catch((err) => {
       // console.log(err)

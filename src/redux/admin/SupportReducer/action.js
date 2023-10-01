@@ -4,7 +4,7 @@ import { GET_SUPPORT_FAILURE, GET_SUPPORT_REQUEST, GET_SUPPORT_SUCCESS, POST_QUE
 export const postQuery = (queryObj) => (dispatch) => {
     dispatch({type:POST_QUERY_REQUEST})
     axios
-    .post(`https://mock-api-finpay.onrender.com/supports`,queryObj)
+    .post(`http://localhost:8080/support`,queryObj)
     .then((res)=>{
       console.log(res)
       dispatch({type:POST_QUERY_SUCCESS})
@@ -15,7 +15,7 @@ export const postQuery = (queryObj) => (dispatch) => {
 export const supportData = (dispatch) => {
     dispatch({type:GET_SUPPORT_REQUEST})
     axios
-      .get('https://warlike-current.onrender.com/supports')
+      .get('http://localhost:8080/support')
       .then((res) => {
         dispatch({type:GET_SUPPORT_SUCCESS,payload:res.data})
       })

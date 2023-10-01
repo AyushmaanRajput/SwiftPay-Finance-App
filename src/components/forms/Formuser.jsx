@@ -9,7 +9,9 @@ export const Formuser = ({ edit, setEdit }) => {
   const [emailChange, setEmailChange] = useState("");
   const [passwordChange, setPasswordChange] = useState("");
   const [num, setNum] = useState("");
+
   //  console.log(edit)
+
 
   const userDetails = useSelector((store) => store.accountReducer.userDetails);
 

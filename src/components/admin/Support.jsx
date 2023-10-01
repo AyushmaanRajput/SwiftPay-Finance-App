@@ -10,7 +10,7 @@ export const Support = () => {
   const dispatch = useDispatch()
   const store = useSelector((store)=>store.supportReducer.support)
   console.log(store)
-
+  
   useEffect(() => {
     dispatch(supportData)
   }, []);

@@ -3,23 +3,20 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { postQuery } from "../../redux/admin/SupportReducer/action";
 
-export const QueryForm = ({userTransactionData}) => {
+export const QueryForm = ({userTransactionData,isPresentFunc}) => {
   const dispatch = useDispatch();
   const [data,setData] = useState({ subject: "", message: "", priority: ""})
   const [userData, setUserData] = useState(userTransactionData);
   
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     // userData.message =
     setUserData((prev) => {
       return {...prev,message : data.message,subject:data.subject,priority:data.priority}
     })
-
-    await dispatch(postQuery(userData));
-    setData({...data, subject: "", message: "", priority: ""})
+     dispatch(postQuery(userData));
   };
   console.log(userData)
-
 
   return (
     <DIV>
@@ -47,22 +44,47 @@ export const QueryForm = ({userTransactionData}) => {
           <option name="medium">Medium</option>
           <option name="high">High</option>
         </select>
-        <input type="submit" />
+        <div className="button-container">
+        <button type="submit" className="button">Add new</button>
+        <button className="button" onClick={()=>isPresentFunc((prev)=>!prev)}>Go Back</button>
+        </div>
       </form>
     </DIV>
   );
 };
 
 const DIV = styled.div`
-  width: 50%;
+box-sizing: border-box;
+  width: 30%;
   margin: auto;
-  form {
-    background-color: white;
+  form{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  form > select{
+    height: 2rem;
+    border-radius: .3rem;
+    padding-left: 0.5rem;
+    outline : none
   }
   form > input {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 2rem;
+    border-radius: .3rem;
+    padding-left: 0.5rem;
+    outline : none
+  }
+  .button{
+    width: 30%;
+    height: 1.8rem;
+    margin: auto;
+    border-radius: 3rem;
+    background-color: #c6fe1e;
+  }
+  .button-container{
+    display: flex;
   }
 `;

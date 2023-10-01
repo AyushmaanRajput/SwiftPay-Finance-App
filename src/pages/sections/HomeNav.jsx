@@ -28,10 +28,14 @@ export const HomeNav = () => {
   }
   console.log(isAdmin, user);
 
+  const logoPrimary = "/logos/logo-primary.png";
+  const logo2 = "/logos/logo-2.png";
+  const logo3 = "/logos/logo-3.png";
+
   return (
     <NAV>
       <Container className="navbar">
-        <h4>LOGO</h4>
+        <h4><img src={logoPrimary} alt="" /></h4>
         <ul>
           <li>
             <Link to="/" onClick={() => scrollToSelector("#hero")}>
@@ -105,5 +109,8 @@ const NAV = styled.div`
   }
   ul li a:hover {
     color: var(--primary);
+  }
+  img {
+    width: 150px;
   }
 `;

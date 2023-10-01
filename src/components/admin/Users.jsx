@@ -9,6 +9,7 @@ import {
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { baseURL } from "../../redux/store";
 
 export const Users = () => {
   const [user, setUserData] = useState([]);
@@ -32,7 +33,7 @@ export const Users = () => {
 
   useEffect(() => {
     axios
-      .get("https://mock-api-finpay.onrender.com/users")
+      .get(`${baseURL}/users`)
       .then((res) => {
         setUserData(res.data);
         // console.log(res.data);

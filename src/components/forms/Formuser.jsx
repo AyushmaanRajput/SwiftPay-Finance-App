@@ -11,14 +11,17 @@ export const Formuser = ({ edit, setEdit }) => {
   const [num, setNum] = useState("");
 
   //  console.log(edit)
-
-
   const userDetails = useSelector((store) => store.accountReducer.userDetails);
 
   const dispatch = useDispatch();
-  const userData = localStorage.getItem("loggedInUser");
-  const userID = JSON.parse(userData);
-
+  const userID = useSelector((store) => store.authReducer.loggedInUser);
+  // let newObj={
+  //   ...userID,
+  //   email:emailChange,
+  //   password:passwordChange,
+  //   mobile:num
+  // }
+  //dispatch(updateUser(userID.id,newObj))
   const avatars = [
     "/avatars/Asian Man.png",
     "/avatars/Black Lady.png",

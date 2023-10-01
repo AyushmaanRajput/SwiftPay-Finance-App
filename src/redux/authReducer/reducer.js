@@ -3,6 +3,7 @@ import {
   POSTLOGINFAIL,
   POSTLOGINSUCCESS,
   POSTADMINSUCESS,
+  UPDATELOGGEDINUSER,
   LOGOUT,
 } from "./actionTypes";
 
@@ -44,6 +45,15 @@ export const reducer = (state = initState, action) => {
         isAuth: true,
         isAdmin: true,
         loggedInUser: null,
+      };
+    case UPDATELOGGEDINUSER:
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        isAuth: true,
+        isAdmin: false,
+        loggedInUser: action.payload,
       };
     case LOGOUT:
       return {

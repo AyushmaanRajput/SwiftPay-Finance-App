@@ -2,10 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { CardLarge } from "./OverviewCards";
 import { Chart } from "./Chart";
+import { useSelector } from "react-redux";
 
 export const OverviewCharts = () => {
   const [user, setUser] = React.useState(
-    JSON.parse(localStorage.getItem("loggedInUser")) || null
+    useSelector((store) => store.authReducer.loggedInUser) || null
   );
   let incomeExpenses = [];
   if (user) {
@@ -98,7 +99,7 @@ const SelectContainer = styled.div`
     background-color: var(--background-light);
     color: var(--primary-dark);
     cursor: pointer;
-    margin-bottom:2rem;
+    margin-bottom: 2rem;
   }
 
   select option {

@@ -15,7 +15,7 @@ export const fetchData =
     dispatch({ type: GET_TRANSACTION_REQUEST });
     axios
       .get(
-        `https://warlike-current.onrender.com/transactions?_page=${pages}&_limit=${limit}`
+        `${baseURL}/transactions?_page=${pages}&_limit=${limit}`
       )
       .then((res) => {
         dispatch({ type: GET_TRANSACTION_SUCCESS, payload: res.data });

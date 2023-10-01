@@ -125,8 +125,15 @@ export const Dashboard = () => {
   };
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userData = localStorage.getItem("loggedInUser");
-  const userID = JSON.parse(userData);
+  const user = useSelector((store) => store.authReducer.loggedInUser);
+  const userAvatarIndex = user.avatarNum - 1;
+  // console.log(userAvatarIndex);
+
+  const users = useSelector((store) => store.usersReducer.users);
+  if (users.length === 0) {
+    // Display a loading indicator or message until user data is available
+    return <h1>Loading...</h1>;
+  }
 
   const avatars = [
     "/avatars/Asian Man.png",
@@ -142,7 +149,7 @@ export const Dashboard = () => {
   ];
 
   function logOutHandler() {
-    localStorage.removeItem("loggedInUser");
+    localStorage.removeItem("id");
     dispatch({ type: LOGOUT });
     navigate("/");
   }
@@ -223,7 +230,7 @@ export const Dashboard = () => {
         <div class="user-profile">
           <IconDIV className="user-icons">
             <img
-              src={avatars[userID.avatarNum - 1]}
+              src={avatars[userAvatarIndex]}
               onClick={openModal}
               className="icon_1"
             />

@@ -10,7 +10,7 @@ import { useCustomToast } from "../components/utils/useCustomToast";
 export const Login = () => {
   const dispatch = useDispatch();
   const users = useSelector((store) => store.usersReducer.users);
-  console.log(users);
+  // console.log(users);
   const navigate = useNavigate();
   const { showToast, ToastContainer } = useCustomToast();
   const [email, setEmail] = React.useState("");
@@ -18,7 +18,8 @@ export const Login = () => {
   const location = useLocation();
   const commingFrom = location?.state?.pathname || "/dashboard";
 
-  function handleSubmit() {
+  function handleSubmit(e) {
+    e.preventDefault();
     const user = {
       email,
       password,
@@ -32,7 +33,7 @@ export const Login = () => {
 
   return (
     <>
-      <div>
+      <form onSubmit={handleSubmit}>
         <h4>Log In</h4>
         <Input
           label="Email"
@@ -48,12 +49,11 @@ export const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button data-testid="user-login" onClick={handleSubmit}>
+        <button type="submit" data-testid="user-login" onClick={handleSubmit}>
           Log In
         </button>
         <ToastContainer />
-      </div>
+      </form>
     </>
   );
 };
-

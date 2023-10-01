@@ -82,7 +82,7 @@ const FOOTER = styled.footer`
   background-color: var(--background-dark);
   padding-top: 8rem;
   color: var(--primary-grey);
-  
+
   nav {
     display: flex;
     align-items: center;

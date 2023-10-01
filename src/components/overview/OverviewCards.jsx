@@ -25,6 +25,7 @@ const CARDSMALL = styled.div`
       props.accent ? props.accent : "var(--background-dark)"};
     color: ${(props) => (props.bg ? props.bg : "var(--text-paragraph)")};
   }
+ 
 `;
 
 export const CardLarge = ({ bg, color, accent, children }) => {

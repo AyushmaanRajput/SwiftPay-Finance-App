@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { postQuery } from "../../redux/admin/supportReducer/action";
+import { postQuery } from "../../redux/admin/SupportReducer/action";
 
 export const QueryForm = ({userTransactionData}) => {
   const dispatch = useDispatch();

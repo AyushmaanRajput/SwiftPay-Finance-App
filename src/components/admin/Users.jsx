@@ -148,7 +148,14 @@ export const Users = () => {
                           element.name
                             .toLowerCase()
                             .includes(search.toLowerCase())
-                            ? "lightgreen"
+                            ? "var(--primary-light)"
+                            : "",
+                        color:
+                          search &&
+                          element.name
+                            .toLowerCase()
+                            .includes(search.toLowerCase())
+                            ? "var(--background-light)"
                             : "",
                       }}
                     ></tr>
@@ -163,7 +170,14 @@ export const Users = () => {
                           element.name
                             .toLowerCase()
                             .includes(search.toLowerCase())
-                            ? "lightgreen"
+                            ? "var(--primary-light)"
+                            : "",
+                        color:
+                          search &&
+                          element.name
+                            .toLowerCase()
+                            .includes(search.toLowerCase())
+                            ? "var(--background-light)"
                             : "",
                       }}
                     >

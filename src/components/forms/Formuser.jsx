@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faCoins } from "@fortawesome/free-solid-svg-icons";
+import { ButtonSmall, ButtonOutline } from "../Buttons";
 
-export const Formuser = ({ edit, setEdit }) => {
+export const Formuser = ({ edit, setEdit,onClose }) => {
   const [emailChange, setEmailChange] = useState("");
   const [passwordChange, setPasswordChange] = useState("");
   const [num, setNum] = useState("");
@@ -70,22 +71,28 @@ export const Formuser = ({ edit, setEdit }) => {
         <>
           <div className="main-div">
             <div className="imageIcon">
-              <img
-                src={avatars[userID.avatarNum - 1]}
-                style={{ width: "200px" }}
-                className="icons"
-              />
-              <h4>{userID.name}</h4>
-              <p>Balance: {userID.balance}</p>
-              <p>
-                swiftCoin: {userID.swiftCoin}
-                <FontAwesomeIcon icon={faCoins} />
-              </p>
-              <p>+{userID.mobile}</p>
+              <img src={avatars[userID.avatarNum - 1]} className="icons" />
+              <div>
+                <h5>
+                  Name : <span>{userID.name}</span>
+                </h5>
+                <h5>
+                  Email : <span>{userID.email}</span>
+                </h5>
+                <h5>
+                  Mobile : <span>(+91)-{userID.mobile}</span>
+                </h5>
+                <h5>
+                  Gender : <span>{userID.gender}</span>
+                </h5>
+              </div>
             </div>
-            <button className="edit-btn" onClick={handleEdit}>
-              EDIT
-            </button>
+            <div className='buttons'>
+              <ButtonOutline onClick={()=>onClose()}>Go Back</ButtonOutline>
+              <ButtonSmall className="edit-btn" onClick={handleEdit}>
+                Edit Details
+              </ButtonSmall>
+            </div>
           </div>
         </>
       ) : (
@@ -96,11 +103,7 @@ export const Formuser = ({ edit, setEdit }) => {
             className="back-icon"
           />
           <div className="imageIcon">
-            <img
-              src={avatars[userID.avatarNum - 1]}
-              style={{ width: "200px" }}
-              className="icons"
-            />
+            <img src={avatars[userID.avatarNum - 1]} className="icons" />
           </div>
           <input
             type="email"
@@ -135,32 +138,61 @@ export const Formuser = ({ edit, setEdit }) => {
   );
 };
 const DIV = styled.div`
-  width: 400px;
-  padding: 20px;
+  width: 30rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
-  margin: 40px auto;
-  gap: 15px;
+  gap: 1rem;
   align-items: center;
-  background-color: var(--gradient1);
-  .edit-btn {
-    margin-top: 10px;
-    width: 80%;
-    height: 40px;
-  }
+  background-color: var(--background-light);
 
   .back-icon {
-    margin-right: 20rem;
-  }
-  .icons {
-    border-radius: 50%;
+    /* margin-right: 0; */
   }
   input {
     width: 80%;
     height: 40px;
   }
   .imageIcon {
-    gap: 15px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: space-between;
+    color: var(--primary-white);
+    margin-bottom: 2rem;
+    text-align: left;
+    img {
+      width: 25%;
+      border-radius: 50%;
+      border: 2px solid var(--primary-light);
+    }
+
+    > div {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-end;
+      border-left: 1px solid var(--primary-grey);
+      padding: 1rem 0 0.5rem 0.5rem;
+      h5 {
+        margin-bottom: 0.5rem;
+        font-weight: 400;
+        line-height: 1.2;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: var(--link);
+        span {
+          color: var(--primary-light);
+        }
+      }
+    }
+  }
+  .buttons{
+    display: flex;
+    gap:1rem;
+    align-items:center;
+    justify-content:flex-end;
   }
   .user-data-change {
     margin-top: 10px;

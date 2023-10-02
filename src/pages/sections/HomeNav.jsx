@@ -2,12 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import { ButtonSmall } from "../../components/Buttons";
 import { Container } from "../../components/Layouts";
-import { Link, useNavigate } from "react-router-dom"; // Import Link from React Router
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { LOGOUT } from "../../redux/authReducer/actionTypes";
 
 export const HomeNav = () => {
-  const [user,setUser]=React.useState(JSON.parse(localStorage.getItem('loggedInUser'))|| null);
+  const [user, setUser] = React.useState(
+    useSelector((store) => store.authReducer.loggedInUser) || null
+  );
   const dispatch = useDispatch();
   const { isAdmin, isAuth } = useSelector((store) => store.authReducer);
   const navigate = useNavigate();
@@ -35,7 +37,9 @@ export const HomeNav = () => {
   return (
     <NAV>
       <Container className="navbar">
-        <h4><img src={logoPrimary} alt="" /></h4>
+        <h4>
+          <img src={logoPrimary} alt="" />
+        </h4>
         <ul>
           <li>
             <Link to="/" onClick={() => scrollToSelector("#hero")}>

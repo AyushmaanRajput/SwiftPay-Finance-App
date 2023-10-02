@@ -41,7 +41,7 @@ const BUTTONOUTLINE = styled.button`
   background-color: transparent !important;
   border: 1px solid var(--primary-light);
   color: var(--primary-light);
-  padding: 0.2rem 0.75rem;
+  padding: 0.35rem 1rem;
   border-radius: 50px;
   font-weight: 500;
   font-size: var(--link);

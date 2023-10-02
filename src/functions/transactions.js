@@ -32,9 +32,9 @@ export function convertToTransactionsObject(formData, user) {
 
   // Get the current date and time and format it with a "T" between date and time
   const currentDate = new Date()
-    .toISOString()
-    .replace(/ /, "T")
-    .replace(/\..+/, "");
+    .toISOString();
+    // .replace(/ /, "T")
+    // .replace(/\..+/, "");
 
   // Create the transaction object without the "id" field
   const transaction = {

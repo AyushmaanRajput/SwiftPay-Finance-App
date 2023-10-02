@@ -3,9 +3,29 @@ import axios from "axios";
 import styled from "styled-components";
 import { ButtonOutline } from "./Buttons";
 import { useSelector } from "react-redux";
+const avatars = [
+  "/avatars/Asian Man.png",
+  "/avatars/Black Lady.png",
+  "/avatars/Black Man.png",
+  "/avatars/College Student.png",
+  "/avatars/Indian Man.png",
+  "/avatars/Middle Eastern Lady.png",
+  "/avatars/Old Man.png",
+  "/avatars/Western Man.png",
+  "/avatars/White Lady.png",
+  "/avatars/Young Lady.png",
+];
+
+const userAvatarNames = {
+  "John Doe": 8,
+  "Jane Smith": 7,
+  "Alice Johnson": 10,
+  "Bob Brown": 3,
+  "Charlie Brown": 4,
+};
 
 const MainCard = styled.div`
-  width: 24rem;
+  width: 28rem;
   position: absolute;
   top: 10%;
   right: 5%;
@@ -35,11 +55,11 @@ const NotificationListContainer = styled.div`
   max-height: 400px;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: var(--primary-grey);
   &::-webkit-scrollbar {
     width: 6px;
   }
   &::-webkit-scrollbar-thumb {
+    color: var(--primary-grey);
     background-color: transparent;
     border-radius: 3px;
   }
@@ -48,48 +68,57 @@ const NotificationListContainer = styled.div`
 const NotificationCard = styled.div`
   display: flex;
   align-items: center;
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin: 10px;
-  box-shadow: 0px 2px 4px rgba(13, 12, 12, 0.1);
-  color: var(--primary-white);
-  background-color: var(--gradient1);
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--primary-grey);
+  padding: 0.5rem;
+  color: var(--primary-grey);
   cursor: pointer;
-  // transition: all 0.2s ease;
+  transition: all 0.1s ease-in;
+  border-radius: 0.25rem;
+  &:hover {
+    background-color: var(--primary-light);
+    color: var(--background-light);
+  }
 `;
 const NotificationAvatar = styled.div`
-  width: 60px;
-  height: 60px;
-  background-color: var(--primary);
-  color: var(--text-heading);
+  width: 3rem;
+  height: 3rem;
+  overflow:hidden;
+  background-color: var(--primary-white);
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  margin-right: 10px;
-  font-size: larger;
-  font-weight: bold;
+  margin-right: 0.75rem;
 `;
 
 const NotificationContent = styled.div`
   flex: 1;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  font-size: var(--link);
+  .personal {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
 `;
 
 const NotificationDate = styled.p`
-  color: var(--primary-grey);
   font-size: 0.8em;
 `;
 
-const NotificationDetails = styled.div`
-  margin-top: 10px;
-  border-top: 1px solid #ccc;
-  padding-top: 10px;
-`;
+const NotificationDetails = styled.div``;
 
 export const Notifications = () => {
   const [notifications, setUserNotifications] = useState(
     useSelector((store) => store.authReducer.loggedInUser.notifications) || []
   );
+  const user = useSelector((store) => store.authReducer.loggedInUser);
+  const users = useSelector((store) => store.usersReducer.users);
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [filter, setFilter] = useState("all");
   const [sortedNotifications, setSortedNotifications] = useState([]);
@@ -128,9 +157,18 @@ export const Notifications = () => {
     return true;
   });
 
+  for (let i = 0; i < filteredNotifications.length; i++) {
+    if(filteredNotifications[i].to==user.name){
+      filteredNotifications[i].avatarNum=userAvatarNames[filteredNotifications[i].from];
+    }else{
+      filteredNotifications[i].avatarNum=userAvatarNames[filteredNotifications[i].to];
+    }
+  }
+  console.log(filteredNotifications);
+
   return (
     <MainCard ref={mainCardRef}>
-      <div className="notification-filter" style={{ marginTop: "10px" }}>
+      <div className="notification-filter">
         <select onChange={(e) => setFilter(e.target.value)}>
           <option value="all">All</option>
           <option value="received">Received</option>
@@ -149,37 +187,35 @@ export const Notifications = () => {
               key={index}
             >
               <NotificationAvatar>
-                {notification.from === "John Doe"
-                  ? `${notification.to[0]}`
-                  : `${notification.from[0]}`}
+                <img src={avatars[notification.avatarNum-1]}/>
               </NotificationAvatar>
               <NotificationContent>
-                <h5 style={{ color: `var(--background-light)` }}>
-                  {notification.from === "John Doe"
-                    ? notification.to
-                    : notification.from}
-                </h5>
-                <NotificationDate>
-                  {new Date(notification.date).toLocaleString()}
-                </NotificationDate>
-                <NotificationDetails
-                  style={{ color: `var(--background-light)` }}
-                >
+                <div className="personal">
+                  <h5>
+                    {notification.from === "John Doe"
+                      ? notification.to
+                      : notification.from}
+                  </h5>
+                  <NotificationDate>
+                    {new Date(notification.date).toLocaleString()}
+                  </NotificationDate>
+                </div>
+                <NotificationDetails>
                   <p>{notification.message}</p>
                 </NotificationDetails>
               </NotificationContent>
               <div
                 style={{
                   // backgroundColor: `var(--gradient1)`,
-                  color: notification.amount > 0 ? "green" : "red",
-                  padding: "5px",
-                  borderRadius: "5px",
-                  marginLeft: "auto",
+                  color:
+                    notification.amount > 0
+                      ? "green"
+                      : "var(--complementary-light)",
                 }}
               >
                 {notification.amount < 0
-                  ? `${notification.amount}`
-                  : `+${notification.amount}`}
+                  ? `-$${Math.abs(notification.amount)}`
+                  : `+$${notification.amount}`}
               </div>
             </NotificationCard>
           ))}

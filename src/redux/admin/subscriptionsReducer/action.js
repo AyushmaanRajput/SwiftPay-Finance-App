@@ -12,13 +12,16 @@ import {
 } from "./actionTypes";
 import axios from "axios";
 
-export const getSubscriptions = () => (dispatch) => {
+export const getSubscriptions = (getAllSubscriptions) => (dispatch) => {
   dispatch({ type: GETSUBSREQUEST });
   const data = axios
     .get(`${baseURL}/subscriptions`)
     .then((res) => {
       // console.log(res);
       dispatch({ type: GETSUBSSUCESS, payload: res.data });
+      if(getAllSubscriptions) {
+        getAllSubscriptions();
+      }
     })
     .catch((err) => {
       dispatch({ type: GETSUBSFAILURE });

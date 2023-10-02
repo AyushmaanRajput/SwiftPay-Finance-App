@@ -22,4 +22,13 @@ const DIV = styled.div`
   color: var(--text-paragraph);
   display: flex;
   flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 20px;
+  /* flex-wrap: wrap; */
+
+  .subscriptions-card:hover {
+    transform: scale(1.02);
+    transition: 1sec;
+    border: 1px solid var(--primary-grey);
+  }
 `;

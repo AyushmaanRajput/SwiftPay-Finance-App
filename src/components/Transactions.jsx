@@ -13,7 +13,7 @@ export const Transactions = () => {
   const [presentData , setPresentData] = useState(false)
   const [queryForm,setQueryForm] = useState("")
 
-  const [sortOrder, setSortOrder] = useState('');
+  const [sortOrder, setSortOrder] = useState('asc');
   const dispatch = useDispatch()
   
   const {allTransactions, loggedInUser} = useSelector((store)=>{
@@ -35,9 +35,9 @@ export const Transactions = () => {
       const dateB = new Date(b.date);
 
       if (sortOrder === 'asc') {
-        return dateA - dateB;
-      } else if (sortOrder === 'desc') {
         return dateB - dateA;
+      } else if (sortOrder === 'desc') {
+        return dateA - dateB;
       } else {
         return 0;
       }
@@ -98,7 +98,10 @@ return date
       },
       createdDate: formattedDate,
       status : "open",
-      transactionId : id
+      transactionId : id,
+      message : "",
+      subject : "",
+      priority : ""
     }
     setQueryForm(userPrefilledObj)
     setPresentData(prev => !prev)

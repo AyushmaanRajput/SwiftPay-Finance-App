@@ -5,16 +5,12 @@ import { postQuery } from "../../redux/admin/SupportReducer/action";
 
 export const QueryForm = ({userTransactionData,isPresentFunc}) => {
   const dispatch = useDispatch();
-  const [data,setData] = useState({ subject: "", message: "", priority: ""})
   const [userData, setUserData] = useState(userTransactionData);
   
   const handleSubmit = (e) => {
     e.preventDefault()
-    // userData.message =
-    setUserData((prev) => {
-      return {...prev,message : data.message,subject:data.subject,priority:data.priority}
-    })
      dispatch(postQuery(userData));
+     setUserData({...userData,message:"",subject:"",priority:""})
   };
   console.log(userData)
 
@@ -25,20 +21,20 @@ export const QueryForm = ({userTransactionData,isPresentFunc}) => {
           type="text"
           name="subject"
           placeholder="Subject"
-          value={data.subject}
-          onChange={(e) => setData({ ...data, subject: e.target.value })}
+          value={userData.subject}
+          onChange={(e) => setUserData({ ...userData, subject: e.target.value })}
           required
         />
         <input
           type="text"
           name="message"
           placeholder="Message"
-          value={data.message}
-          onChange={(e) => setData({ ...data, message: e.target.value })}
+          value={userData.message}
+          onChange={(e) => setUserData({ ...userData, message: e.target.value })}
           required
         />
 
-        <select name="priority" value={data.priority} required onChange={(e)=>setData({...data,priority : e.target.value})}>
+        <select name="priority" value={userData.priority} required onChange={(e)=>setUserData({...userData,priority : e.target.value})}>
           <option name="">Select Priority</option>
           <option name="low">Low</option>
           <option name="medium">Medium</option>

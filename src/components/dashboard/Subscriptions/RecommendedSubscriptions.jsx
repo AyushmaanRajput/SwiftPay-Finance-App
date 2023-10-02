@@ -1,80 +1,67 @@
-import React from 'react'
-import styled from 'styled-components'
-import { SubscriptionsCard } from './SubscriptionsCard';
-import { ButtonSmall } from '../../Buttons';
-import axios from 'axios';
-import { baseURL } from '../../../redux/store';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { SubscriptionsCard } from "./SubscriptionsCard";
+import { ButtonSmall } from "../../Buttons";
+import { Modal } from "../../modals/Modal";
+import { SubscriptionDetails } from "../../forms/SubscriptionDetails";
 
-export const RecommendedSubscriptions = ({recommendedSubscriptions}) => {
-
+export const RecommendedSubscriptions = ({
+  recommendedSubscriptions,
+  openViewModal,
+  setModalSubscriptionData,
+  openBuyModal,
+  getSubscriptions
+}) => {
   const handleBuySubscription = (ele) => {
-    console.log(ele);
-  }
+    setModalSubscriptionData(ele);
+    openBuyModal();
+  };
+
+  const handleViewDetails = (ele) => {
+    setModalSubscriptionData(ele);
+    openViewModal();
+  };
+
   return (
     <DIV>
-      {recommendedSubscriptions && recommendedSubscriptions.map((ele) => {
-        return (
-          <CARDDIV key={ele.id}>
-            <div className='recommendedSubscriptions-card-img-div'>
-              <img src={ele.logo} className='recommendedSubscriptions-card-img' alt="" />
-            </div>
-            <div className='recommendedSubscriptions-card-details-div'>
-              <p>{ele.name}</p>
-              <p>$ {ele.amount}</p>
-              <div className='recommendedSubscriptions-card-buttons-div'>
-                <ButtonSmall children={"Buy"} onClick={() => {
-                  handleBuySubscription(ele)
-                }}/>
-                <ButtonSmall children={"View Details"} />
-              </div>
-            </div>
-          </CARDDIV>
-        )
-      })}
+      {recommendedSubscriptions &&
+        recommendedSubscriptions.map((ele) => {
+          return (
+            <SubscriptionsCard
+              key={ele.id}
+              {...ele}
+              children={
+                <div className="recommendedSubscriptions-card-buttons-div">
+                  <ButtonSmall
+                    children={"Buy"}
+                    onClick={() => {
+                      handleBuySubscription(ele);
+                    }}
+                  />
+                  <ButtonSmall
+                    children={"View Details"}
+                    onClick={() => {
+                      handleViewDetails(ele);
+                    }}
+                  />
+                </div>
+              }
+            />
+          );
+        })}
     </DIV>
-    
-  )
-}
+  );
+};
 
-const DIV = styled.div `
+const DIV = styled.div`
   display: flex;
-  flex-direction: column;
-  overflow: scroll;
-  height: 100vh;
-  padding: 10px;
-`
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 20px;
 
-const CARDDIV = styled.div `
-
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  margin-bottom: 10px;
-  flex-direction: column;
-  border-radius: 10px;
-  width: 100%;
-  height: 150px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  border: 1px solid #555555;
-
-  .recommendedSubscriptions-card-img-div {
-    padding: 10px;
+  .subscriptions-card:hover {
+    transform: scale(1.02);
+    transition: 1sec;
+    border: 1px solid var(--primary-grey);
   }
-  .recommendedSubscriptions-card-img {
-    border-radius: 5px;
-    width: 150px;
-    height: 100%;
-    object-fit: cover;
-  }
-  .recommendedSubscriptions-card-details-div {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center
-  }
-  .recommendedSubscriptions-card-buttons-div > button {
-    margin-bottom: 5px;
-  }
-  p {
-    color: var(--primary-white);
-  }
-`
+`;

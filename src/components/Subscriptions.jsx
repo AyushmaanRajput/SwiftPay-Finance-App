@@ -4,41 +4,51 @@ import { MySubscriptions } from "./dashboard/Subscriptions/MySubscriptions";
 import { RecommendedSubscriptions } from "./dashboard/Subscriptions/RecommendedSubscriptions";
 import axios from "axios";
 import { baseURL } from "../redux/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { ViewSubscriptionModal } from "./modals/ViewSubscriptionModal";
+import { BuySubscriptionModal } from "./modals/BuySubscriptionModal";
+import { getSubscriptions } from "../redux/admin/subscriptionsReducer/action";
 
 export const Subscriptions = () => {
-  const user = useSelector((store) => store.authReducer.loggedInUser);
-  const userSubscriptonsids = user.subscriptions.map(
-    (ele) => ele.subscription_id
+
+  const dispatch = useDispatch();
+
+  const subscriptions = useSelector((store) => store.subscriptionsReducer.subscriptions);
+  const loggedInUser = useSelector((store) => store.authReducer.loggedInUser);
+  const loggedInUserSubscriptonsIDs = loggedInUser.subscriptions.map(
+    (ele) => ele.subscription_id || ele.id
   );
 
-  const [recommendedSubscriptions, setRecommendedSubscriptions] = useState([]);
-  const [userSubscriptions, setUserSubscriptions] = useState([]);
+  const userSubscriptions = [];
+  const recommendedSubscriptions = [];
 
-  const getSubscriptions = () => {
-    axios
-      .get(`${baseURL}/subscriptions`)
-      .then((res) => {
-        res.data.forEach((ele) => {
-          if (userSubscriptonsids.includes(ele.id)) {
-            setUserSubscriptions((prev) => {
-              return [...prev, ele];
-            });
-          } else {
-            setRecommendedSubscriptions((prev) => {
-              return [...prev, ele];
-            });
-          }
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  subscriptions.forEach((ele) => {
+    if(loggedInUserSubscriptonsIDs.includes(ele.id)) {
+      userSubscriptions.push(ele);        
+    } else {
+      recommendedSubscriptions.push(ele);
+    }
+  })
+
+  const [ isViewModalOpen, setIsViewModalOpen ] = useState(false);
+  const [ isBuyModalOpen, setIsBuyModalOpen ] = useState(false);
+  
+  const [ modalSubscriptionData, setModalSubscriptionData ] = useState({});
+
+  const openViewModal = () => {
+    setIsViewModalOpen(true);
   };
-  useEffect(() => {
-    getSubscriptions();
-  }, []);
 
+  const openBuyModal = () => {
+    setIsBuyModalOpen(true);
+  };
+  
+  useEffect(() => {
+    dispatch(getSubscriptions());
+  }, []);
+  
+  // getAllSubscriptions();
+  
   return (
     <DIV>
       <div id="my-subscriptions-div">
@@ -49,15 +59,33 @@ export const Subscriptions = () => {
         <H4>Recommended Subscriptions</H4>
         <RecommendedSubscriptions
           recommendedSubscriptions={recommendedSubscriptions}
+          openViewModal={openViewModal}
+          setModalSubscriptionData={setModalSubscriptionData}
+          openBuyModal={openBuyModal}
         />
       </div>
+      <ViewSubscriptionModal
+        isModalOpen={isViewModalOpen}
+        closeModal={() => setIsViewModalOpen(false)}
+        viewSubscriptionData={modalSubscriptionData}
+      />
+      <BuySubscriptionModal
+        isModalOpen={isBuyModalOpen}
+        closeModal={() => setIsBuyModalOpen(false)}
+        viewSubscriptionData={modalSubscriptionData}
+        getSubscriptions={getSubscriptions}
+      />
     </DIV>
   );
 };
 
 const DIV = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: column;
+  gap: 50px;
+  /* justify-content: space-evenly; */
+  text-align: left;
+  padding: 10px;
 `;
 
 const H4 = styled.h4`

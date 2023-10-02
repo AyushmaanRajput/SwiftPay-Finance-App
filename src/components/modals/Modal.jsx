@@ -68,14 +68,14 @@ export function Modal({ isOpen, onClose, backgroundColor, children }) {
 //   const [isModalOpen, setIsModalOpen] = useState(false);
 
 //   // Function to open the modal
-//   const openModal = () => {
-//     setIsModalOpen(true);
-//   };
+  // const openModal = () => {
+  //   setIsModalOpen(true);
+  // };
 
-//   // Function to close the modal
-//   const closeModal = (isOpen) => {
-//     setIsModalOpen(isOpen);
-//   };
+  // // Function to close the modal
+  // const closeModal = (isOpen) => {
+  //   setIsModalOpen(isOpen);
+  // };
 // return (
 //   <div>
 //     <button onClick={openModal}>Open Modal</button>

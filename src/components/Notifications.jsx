@@ -164,6 +164,8 @@ export const Notifications = () => {
   }
   console.log(filteredNotifications);
 
+  
+
   return (
     <MainCard ref={mainCardRef}>
       <div className="notification-filter">

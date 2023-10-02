@@ -102,6 +102,8 @@ export const Notifications = () => {
         console.error("Error fetching data:", error);
       });
     }, []);
+
+    // console.log(notifications)
     // console.log(notifications)
 
   useEffect(() => {

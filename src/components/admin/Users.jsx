@@ -35,16 +35,16 @@ export const Users = () => {
   ];
 
   useEffect(() => {
-    // axios
-    //   .get(`${baseURL}/users`)
-    //   .then((res) => {
-    //     setUserData(res.data);
-    //     // console.log(res.data);
-    //     setIsLoading(false);
-    //   })
-    //   .catch((err) => {
-    //     setIsLoading(false);
-    //   });
+    axios
+      .get(`${baseURL}/users`)
+      .then((res) => {
+        setUserData(res.data);
+        // console.log(res.data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setIsLoading(false);
+      });
   }, []);
 
   const handleChange = (e) => {

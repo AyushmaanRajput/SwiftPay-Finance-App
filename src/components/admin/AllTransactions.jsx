@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "../Buttons";
 import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllTransactions } from "../../redux/admin/transactionsReducer/action";
 
 export const AllTransactions = () => {
   const [pages, setPages] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [limit] = useState(9);
-  const [data, setData] = useState([]);
-
+  const dispatch = useDispatch();
+  const transactions = useSelector(
+    (store) => store.transactionsReducer.allTransactions
+  );
+  // console.log(transactions)
   const avatars = [
     "/avatars/Asian Man.png",
     "/avatars/Black Lady.png",
@@ -34,21 +38,8 @@ export const AllTransactions = () => {
   };
 
   useEffect(() => {
-    fetchData(limit, pages);
+    dispatch(getAllTransactions(pages, limit, setTotalPages));
   }, [limit, pages]);
-
-  const fetchData = async (limit, pages) => {
-    try {
-      let res = await axios.get(
-        `https://warlike-current.onrender.com/transactions?_page=${pages}&_limit=${limit}`
-      );
-      const total = res.headers.get("X-Total-Count");
-      setTotalPages(Math.ceil(total / limit));
-      setData(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -114,7 +105,7 @@ export const AllTransactions = () => {
       <h1 className="heading">All Transactions</h1>
 
       <CardGrid>
-        {data?.map((item) => (
+        {transactions?.map((item) => (
           <motion.div
             className="transaction-card"
             key={item.id}

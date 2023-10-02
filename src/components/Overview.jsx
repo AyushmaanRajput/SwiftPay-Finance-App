@@ -10,12 +10,16 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { getSubscriptions } from "../redux/admin/subscriptionsReducer/action";
 import { OverviewCharts } from "./overview/OverviewCharts";
+import AccountStatus from "./overview/AccountStatus";
+import { AllPageFooter } from "../pages/sections/AllPageFooter";
 
 export const Overview = () => {
   const dispatch = useDispatch();
   const [user, setUser] = React.useState(
-    JSON.parse(localStorage.getItem("loggedInUser")) || null
+    useSelector((store) => store.authReducer.loggedInUser) || null
   );
+  const { income, expenses } = user.monthlyIncomeExpenses[0];
+  let flag = income > expenses ? "happy" : "sad";
   let userids = user.subscriptions.map((sub) => sub.subscription_id);
   let subs = useSelector((store) => store.subscriptionsReducer.subscriptions);
   let filteredSubs = subs.filter((sub) => userids.includes(sub.id));
@@ -85,6 +89,17 @@ export const Overview = () => {
           </CardSmall>
         </div>
       </DETAILSCARDS>
+      <ACCOUNTSTATUS>
+        <CardSmall
+          bg="var(--background-light)"
+          color="var(--primary-grey)"
+          accent="var(--primary-light)"
+          className="strech"
+        >
+          <h4>Account Status</h4>
+          <AccountStatus className="hide" flag={flag} />
+        </CardSmall>
+      </ACCOUNTSTATUS>
       <SUBSCRIPTIONSOVERVIEW>
         <CardSmall
           bg="var(--primary-light)"
@@ -111,7 +126,7 @@ export const Overview = () => {
             <h4>Recommended</h4>
             <div>
               {leftSubs.length > 0 &&
-                leftSubs.splice(0, 3).map((sub) => {
+                leftSubs.splice(0, 2).map((sub) => {
                   return (
                     <div className="recommendedsub">
                       <div>
@@ -131,6 +146,8 @@ export const Overview = () => {
       </SUBSCRIPTIONSOVERVIEW>
       <OverviewCharts></OverviewCharts>
     </OVERVIEW>
+  
+  
   );
 };
 
@@ -141,7 +158,7 @@ const OVERVIEW = styled.main`
   grid-template-rows: auto;
   gap: 3rem 2rem;
   grid-template-areas:
-    "detailscards detailscards detailscards subsoverview"
+    "detailscards detailscards detailscards account-status"
     "charts charts charts subsoverview";
 `;
 
@@ -183,18 +200,43 @@ const DETAILSCARDS = styled.div`
     text-transform: uppercase;
     letter-spacing: 1px;
   }
-  .card-content h4{
-    line-height:1.1;
-    font-size:var(--h4);
+  .card-content h4 {
+    line-height: 1.1;
+    font-size: var(--h4);
     /* color:var(--primary-white); */
   }
-  .card-content p span{
-    color:var(--primary-light);
+  .card-content p span {
+    color: var(--primary-light);
+  }
+`;
+
+const ACCOUNTSTATUS = styled.div`
+  grid-area: account-status;
+  align-self: end;
+
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  padding-top: 1rem;
+  h4 {
+    text-align: left;
+    transition: color 0.1s ease-in;
+    color: var(--primary-white);
+    line-height: 1.2;
+    &:hover {
+      color: var(--primary-light);
+    }
+  }
+  .hide {
+    overflow: hidden;
   }
 `;
 
 const SUBSCRIPTIONSOVERVIEW = styled.div`
   grid-area: subsoverview;
+  align-self: end;
   /* * {
     color: var(--background-dark);
   } */

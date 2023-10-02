@@ -2,39 +2,42 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { MySubscriptions } from "./dashboard/Subscriptions/MySubscriptions";
 import { RecommendedSubscriptions } from "./dashboard/Subscriptions/RecommendedSubscriptions";
-import axios from 'axios';
+import axios from "axios";
 import { baseURL } from "../redux/store";
+import { useSelector } from "react-redux";
 
 export const Subscriptions = () => {
-  const user = JSON.parse(localStorage.getItem("loggedInUser"));
-  const userSubscriptonsids = user.subscriptions.map((ele) => ele.subscription_id);
+  const user = useSelector((store) => store.authReducer.loggedInUser);
+  const userSubscriptonsids = user.subscriptions.map(
+    (ele) => ele.subscription_id
+  );
 
   const [recommendedSubscriptions, setRecommendedSubscriptions] = useState([]);
   const [userSubscriptions, setUserSubscriptions] = useState([]);
 
   const getSubscriptions = () => {
-    axios.get(`${baseURL}/subscriptions`)
-    .then((res) => {
-      res.data.forEach((ele) => {
-        if(userSubscriptonsids.includes(ele.id)) {
-          setUserSubscriptions((prev) => {
-            return [...prev, ele]
-          })
-        }
-        else {
-          setRecommendedSubscriptions((prev) => {
-            return [...prev, ele]
-          })
-        }
+    axios
+      .get(`${baseURL}/subscriptions`)
+      .then((res) => {
+        res.data.forEach((ele) => {
+          if (userSubscriptonsids.includes(ele.id)) {
+            setUserSubscriptions((prev) => {
+              return [...prev, ele];
+            });
+          } else {
+            setRecommendedSubscriptions((prev) => {
+              return [...prev, ele];
+            });
+          }
+        });
       })
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-  }
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   useEffect(() => {
     getSubscriptions();
-  },[])
+  }, []);
 
   return (
     <DIV>
@@ -44,17 +47,19 @@ export const Subscriptions = () => {
       </div>
       <div id="recommended-subscriptions-div">
         <H4>Recommended Subscriptions</H4>
-        <RecommendedSubscriptions recommendedSubscriptions={recommendedSubscriptions} />
+        <RecommendedSubscriptions
+          recommendedSubscriptions={recommendedSubscriptions}
+        />
       </div>
     </DIV>
-  )
+  );
 };
 
-const DIV = styled.div `
+const DIV = styled.div`
   display: flex;
   justify-content: space-evenly;
-`
+`;
 
-const H4 = styled.h4 `
+const H4 = styled.h4`
   color: var(--text-paragraph);
-`
+`;

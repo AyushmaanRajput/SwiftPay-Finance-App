@@ -7,7 +7,7 @@ import {
 
 export const login = (user, showToast, users, navigate) => (dispatch) => {
   dispatch({ type: POSTLOGINREQUEST });
-  console.log(user);
+  // console.log(user);
   let flag = false;
   let loggedInUser;
 
@@ -29,15 +29,39 @@ export const login = (user, showToast, users, navigate) => (dispatch) => {
   }
   if (flag) {
     showToast("success", "Successfully logged in");
-    console.log(flag, loggedInUser);
-    localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
+    // console.log(flag, loggedInUser);
+    localStorage.setItem("id", JSON.stringify(loggedInUser.id));
     dispatch({ type: POSTLOGINSUCCESS, payload: loggedInUser });
     navigate("/dashboard");
   } else {
     showToast("error", "Failed logged in");
+    localStorage.removeItem("id");
     dispatch({ type: POSTLOGINFAIL });
     navigate("/login");
   }
-
   return;
 };
+
+export const alreadyLoggedIn =
+  (id, showToast, users, navigate) => (dispatch) => {
+    let flag = false;
+    let loggedInUser;
+    console.log(id, users);
+    for (let i = 0; i < users.length; i++) {
+      if (users[i].id === id) {
+        loggedInUser = users[i];
+        flag = true;
+      }
+    }
+    if (flag) {
+      showToast("success", "Successfully logged in");
+      // console.log(flag, loggedInUser);
+      localStorage.setItem("id", JSON.stringify(loggedInUser.id));
+      dispatch({ type: POSTLOGINSUCCESS, payload: loggedInUser });
+      navigate("/dashboard");
+    } else {
+      showToast("error", "Failed logged in");
+      dispatch({ type: POSTLOGINFAIL });
+      navigate("/");
+    }
+  };

@@ -9,16 +9,24 @@ import { HomeFooter } from "./sections/HomeFooter";
 import styled from "styled-components";
 import { useCustomToast } from "../components/utils/useCustomToast";
 import { getUsers } from "../redux/user/usersReducer/action";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Modal } from "../components/modals/Modal";
 
 export const Home = () => {
   const { showToast, ToastContainer } = useCustomToast();
   const dispatch = useDispatch();
+  const users = useSelector((store) => store.usersReducer.users);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
-    dispatch(getUsers(showToast));
+    dispatch(getUsers(showToast))
+      .then(() => setIsLoading(false))
+      .catch(() => setIsLoading(false));
   }, []);
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <HOME>
@@ -27,8 +35,9 @@ export const Home = () => {
       <Instructions></Instructions>
       <Features></Features>
       <Services></Services>
-      <CTA></CTA>
-      <HomeFooter></HomeFooter>
+      <HomeFooter>
+        <CTA></CTA>
+      </HomeFooter>
       <ToastContainer></ToastContainer>
     </HOME>
   );

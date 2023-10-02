@@ -77,7 +77,7 @@ export const reducer = (state = initState, { type, payload }) => {
         isError: false,
         isLoading: false,
         subscriptions: state.subscriptions.filter(
-          (subscription) => subscription._id!== payload.id
+          (subscription) => subscription.id !== payload.id
         ),
       }
     case EDITSUBREQUEST:

@@ -2,12 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import { ButtonSmall } from "../../components/Buttons";
 import { Container } from "../../components/Layouts";
-import { Link, useNavigate } from "react-router-dom"; // Import Link from React Router
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { LOGOUT } from "../../redux/authReducer/actionTypes";
 
 export const HomeNav = () => {
-  const [user,setUser]=React.useState(JSON.parse(localStorage.getItem('loggedInUser'))|| null);
+  const [user, setUser] = React.useState(
+    useSelector((store) => store.authReducer.loggedInUser) || null
+  );
   const dispatch = useDispatch();
   const { isAdmin, isAuth } = useSelector((store) => store.authReducer);
   const navigate = useNavigate();
@@ -28,10 +30,16 @@ export const HomeNav = () => {
   }
   console.log(isAdmin, user);
 
+  const logoPrimary = "/logos/logo-primary.png";
+  const logo2 = "/logos/logo-2.png";
+  const logo3 = "/logos/logo-3.png";
+
   return (
     <NAV>
       <Container className="navbar">
-        <h4>LOGO</h4>
+        <h4>
+          <img src={logoPrimary} alt="" />
+        </h4>
         <ul>
           <li>
             <Link to="/" onClick={() => scrollToSelector("#hero")}>
@@ -105,5 +113,8 @@ const NAV = styled.div`
   }
   ul li a:hover {
     color: var(--primary);
+  }
+  img {
+    width: 150px;
   }
 `;

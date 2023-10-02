@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { baseURL } from "../../redux/store";
+import { getAllTransactions } from "../../redux/admin/transactionsReducer/action";
+import {
+  convertToTransactionsObject,
+  getSenderAndReceiver,
+} from "../../functions/transactions";
+import { updateUser } from "../../redux/user/usersReducer/action";
 
 const avatars = [
   "/avatars/Asian Man.png",
@@ -21,6 +29,156 @@ const userAvatarIds = {
   3: 10,
   4: 3,
   5: 4,
+};
+
+export const SendMoneyForm = ({ onClose }) => {
+  const dispatch = useDispatch();
+  const user = useSelector((store) => store.authReducer.loggedInUser);
+  const users = useSelector((store) => store.usersReducer.users);
+  const [formData, setFormData] = useState({
+    recipient: "",
+    amount: "",
+    message: "",
+  });
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const selectContact = (contactId) => {
+    setFormData({ ...formData, recipient: contactId });
+    toggleDropdown();
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!formData.amount) {
+      console.log("Amount is required");
+      return;
+    }
+    if (parseFloat(formData.amount) > user.balance) {
+      console.log("Amount exceeds your balance");
+      return;
+    }
+    // console.log("Sending money:", formData);
+    let transObj = convertToTransactionsObject(formData, user);
+    // console.log(transObj);
+    postTransaction(transObj);
+    onClose();
+  };
+
+  function postTransaction(obj) {
+    axios
+      .post(`${baseURL}/transactions`, obj)
+      .then((res) => {
+        console.log(res);
+        dispatch(getAllTransactions());
+        const transObj = res.data;
+        const sender = users.find((user) => user.id === transObj.from_id);
+        const receiver = users.find((user) => user.id === transObj.to_id);
+        let [senderObj, receiverObj] = getSenderAndReceiver(
+          transObj,
+          sender,
+          receiver
+        );
+        // console.log(senderObj, receiverObj);
+        dispatch(updateUser(receiverObj.id,receiverObj)); //for receiver
+        dispatch(updateUser(senderObj.id,senderObj)); //for sender/loggedInUser
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  const handleClose = () => {
+    setFormData({
+      recipient: "",
+      amount: "",
+      message: "",
+    });
+
+    onClose();
+  };
+
+  return (
+    <SendMoneyFormContainer>
+      <h3>Send Money</h3>
+      <Form onSubmit={handleSubmit}>
+        <CustomSelectDropdown>
+          <CustomSelectWrapper onClick={toggleDropdown}>
+            <CustomSelectAvatar
+              src={
+                formData.recipient
+                  ? avatars[
+                      user.contacts.find(
+                        (contact) => contact.id === formData.recipient
+                      ).avatarNum - 1
+                    ]
+                  : ""
+              }
+              alt="Avatar"
+              showAvatar={formData.recipient ? true : false}
+            />
+            {formData.recipient ? (
+              <CustomSelectContactInfo>
+                <CustomSelectName>
+                  {
+                    user.contacts.find(
+                      (contact) => contact.id === formData.recipient
+                    ).name
+                  }
+                </CustomSelectName>
+                <CustomSelectMobile>
+                  {
+                    user.contacts.find(
+                      (contact) => contact.id === formData.recipient
+                    ).mobile
+                  }
+                </CustomSelectMobile>
+              </CustomSelectContactInfo>
+            ) : (
+              <CustomSelectName>Select Contact</CustomSelectName>
+            )}
+          </CustomSelectWrapper>
+          <CustomSelectOptions open={isDropdownOpen}>
+            {user.contacts.map((contact) => (
+              <CustomSelectOption
+                key={contact.id}
+                onClick={() => selectContact(contact.id)}
+              >
+                {contact.name}
+              </CustomSelectOption>
+            ))}
+          </CustomSelectOptions>
+        </CustomSelectDropdown>
+        <Input
+          type="number"
+          name="amount"
+          value={formData.amount}
+          onChange={handleInputChange}
+          placeholder="Amount"
+          required
+        />
+        <TextArea
+          name="message"
+          value={formData.message}
+          onChange={handleInputChange}
+          placeholder="Message (optional)"
+        />
+        <ButtonsWrapper>
+          <CancelButton onClick={handleClose}>Cancel</CancelButton>
+          <SendButton type="submit">Send Money</SendButton>
+        </ButtonsWrapper>
+      </Form>
+    </SendMoneyFormContainer>
+  );
 };
 
 const SendMoneyFormContainer = styled.div`
@@ -169,131 +327,3 @@ const SendButton = styled.button`
   font-size: var(--link);
   letter-spacing: 0.2px;
 `;
-
-export const SendMoneyForm = ({ onClose }) => {
-  const user = useSelector((store) => store.authReducer.loggedInUser);
-  const [formData, setFormData] = useState({
-    recipient: "",
-    amount: "",
-    message: "",
-  });
-
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  const selectContact = (contactId) => {
-    setFormData({ ...formData, recipient: contactId });
-    toggleDropdown();
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!formData.amount) {
-      console.log("Amount is required");
-      return;
-    }
-    if (parseFloat(formData.amount) > user.balance) {
-      console.log("Amount exceeds your balance");
-      return;
-    }
-    console.log("Sending money:", formData);
-    setFormData({
-      recipient: "",
-      amount: "",
-      message: "",
-    });
-    onClose();
-  };
-
-  const handleClose = () => {
-    // Clear form data when modal is closed
-    setFormData({
-      recipient: "",
-      amount: "",
-      message: "",
-    });
-
-    onClose();
-  };
-
-  return (
-    <SendMoneyFormContainer>
-      <h3>Send Money</h3>
-      <Form onSubmit={handleSubmit}>
-        <CustomSelectDropdown>
-          <CustomSelectWrapper onClick={toggleDropdown}>
-            <CustomSelectAvatar
-              src={
-                formData.recipient
-                  ? avatars[
-                      user.contacts.find(
-                        (contact) => contact.id === formData.recipient
-                      ).avatarNum - 1
-                    ]
-                  : ""
-              }
-              alt="Avatar"
-              showAvatar={formData.recipient ? true : false}
-            />
-            {formData.recipient ? (
-              <CustomSelectContactInfo>
-                <CustomSelectName>
-                  {
-                    user.contacts.find(
-                      (contact) => contact.id === formData.recipient
-                    ).name
-                  }
-                </CustomSelectName>
-                <CustomSelectMobile>
-                  {
-                    user.contacts.find(
-                      (contact) => contact.id === formData.recipient
-                    ).mobile
-                  }
-                </CustomSelectMobile>
-              </CustomSelectContactInfo>
-            ) : (
-              <CustomSelectName>Select Contact</CustomSelectName>
-            )}
-          </CustomSelectWrapper>
-          <CustomSelectOptions open={isDropdownOpen}>
-            {user.contacts.map((contact) => (
-              <CustomSelectOption
-                key={contact.id}
-                onClick={() => selectContact(contact.id)}
-              >
-                {contact.name}
-              </CustomSelectOption>
-            ))}
-          </CustomSelectOptions>
-        </CustomSelectDropdown>
-        <Input
-          type="number"
-          name="amount"
-          value={formData.amount}
-          onChange={handleInputChange}
-          placeholder="Amount"
-          required
-        />
-        <TextArea
-          name="message"
-          value={formData.message}
-          onChange={handleInputChange}
-          placeholder="Message (optional)"
-        />
-        <ButtonsWrapper>
-          <CancelButton onClick={handleClose}>Cancel</CancelButton>
-          <SendButton type="submit">Send Money</SendButton>
-        </ButtonsWrapper>
-      </Form>
-    </SendMoneyFormContainer>
-  );
-};

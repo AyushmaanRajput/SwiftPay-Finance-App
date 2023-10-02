@@ -5,11 +5,12 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faCoins } from "@fortawesome/free-solid-svg-icons";
 import { ButtonSmall, ButtonOutline } from "../Buttons";
+import { updateUser } from "../../redux/user/usersReducer/action";
 
 export const Formuser = ({ edit, setEdit,onClose }) => {
   const [emailChange, setEmailChange] = useState("");
   const [passwordChange, setPasswordChange] = useState("");
-  const [num, setNum] = useState("");
+  const [num, setNum] = useState(0);
 
   //  console.log(edit)
   const userDetails = useSelector((store) => store.accountReducer.userDetails);
@@ -44,6 +45,7 @@ export const Formuser = ({ edit, setEdit,onClose }) => {
       if (user) {
         setEmailChange(user.email);
         setPasswordChange(user.password);
+        setNum(user.num);
       }
     }
   }, [userDetails, userID]);
@@ -51,12 +53,13 @@ export const Formuser = ({ edit, setEdit,onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     let newUserObj = {
+      ...userID,
       email: emailChange,
       password: passwordChange,
       mobile: num,
     };
     console.log("ok");
-    dispatch(AuthChange(newUserObj, userID.id));
+    dispatch(updateUser(userID.id, newUserObj));
   };
   const handleEdit = () => {
     setEdit(true);

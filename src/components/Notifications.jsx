@@ -137,8 +137,6 @@ export const Notifications = () => {
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
 
-  // console.log(notifications)
-
   useEffect(() => {
     const sorted = [...notifications].sort((a, b) => {
       const dateA = new Date(a.date);

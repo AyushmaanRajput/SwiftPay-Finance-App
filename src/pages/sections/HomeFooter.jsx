@@ -11,7 +11,7 @@ import {
 import { faCopyright } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom"; // Import Link from React Router
 
-export const HomeFooter = () => {
+export const HomeFooter = ({children}) => {
   function scrollToSelector(selector) {
     const element = document.querySelector(selector);
     if (element) {
@@ -21,6 +21,7 @@ export const HomeFooter = () => {
 
   return (
     <FOOTER>
+      {children}
       <Container>
         <nav>
           <h4>LOGO</h4>
@@ -79,6 +80,8 @@ export const HomeFooter = () => {
 };
 
 const FOOTER = styled.footer`
+margin-top:20rem;
+  position: relative;
   background-color: var(--background-dark);
   padding-top: 8rem;
   color: var(--primary-grey);

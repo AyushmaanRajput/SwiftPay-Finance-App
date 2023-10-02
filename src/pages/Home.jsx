@@ -35,8 +35,9 @@ export const Home = () => {
       <Instructions></Instructions>
       <Features></Features>
       <Services></Services>
-      <CTA></CTA>
-      <HomeFooter></HomeFooter>
+      <HomeFooter>
+        <CTA></CTA>
+      </HomeFooter>
       <ToastContainer></ToastContainer>
     </HOME>
   );

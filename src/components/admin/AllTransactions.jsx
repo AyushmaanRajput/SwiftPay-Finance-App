@@ -5,14 +5,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "../Buttons";
 import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchData } from "../../redux/admin/transactionsReducer/action";
+import { getAllTransactions } from "../../redux/admin/transactionsReducer/action";
 
 export const AllTransactions = () => {
   const [pages, setPages] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [limit] = useState(9);
-  const dispatch = useDispatch()
-  const transactions = useSelector((store)=>store.transactionsReducer.transactions)
+  const dispatch = useDispatch();
+  const transactions = useSelector(
+    (store) => store.transactionsReducer.allTransactions
+  );
   // console.log(transactions)
   const avatars = [
     "/avatars/Asian Man.png",
@@ -36,12 +38,7 @@ export const AllTransactions = () => {
   };
 
   useEffect(() => {
-    let obj = {
-      limit : limit,
-      pages : pages,
-      funcTotalPage : setTotalPages
-    }
-    dispatch(fetchData(obj));
+    dispatch(getAllTransactions(pages, limit, setTotalPages));
   }, [limit, pages]);
 
   const cardVariants = {
@@ -150,7 +147,7 @@ export const AllTransactions = () => {
           </motion.div>
         ))}
       </CardGrid>
- 
+
       {totalPages > 1 && (
         <ButtonContainer>
           {new Array(totalPages).fill(0).map((el, i) => (

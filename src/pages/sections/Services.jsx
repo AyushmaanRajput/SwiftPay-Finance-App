@@ -2,8 +2,10 @@ import React from "react";
 import { Container } from "../../components/Layouts";
 import { Button } from "../../components/Buttons";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 export const Services = () => {
+  const navigate=useNavigate();
   return (
     <SERVICES id="services">
       <Container>
@@ -14,7 +16,7 @@ export const Services = () => {
               Achieve your financial objectives with automated recommendations
               and tailored advice from a Certified Financial Planner™
             </p>
-            <Button>Create A Plan</Button>
+            <Button onClick={()=>navigate('/login')}>Create A Plan</Button>
           </div>
           <div className="subsection-image">
             <img src="/Phone1.png" />
@@ -52,7 +54,7 @@ export const Services = () => {
               For short-term and long-term plans, count on the professiona
               support of your own financial expert.
             </p>
-            <Button>Start The Journey</Button>
+            <Button onClick={()=>navigate('/login')}>Start The Journey</Button>
           </div>
         </div>
       </Container>

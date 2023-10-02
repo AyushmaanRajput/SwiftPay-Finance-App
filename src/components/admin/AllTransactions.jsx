@@ -8,14 +8,37 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllTransactions } from "../../redux/admin/transactionsReducer/action";
 
 export const AllTransactions = () => {
-  const [pages, setPages] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
+  
+  const [currentPage, setCurrentPage] = useState(1);
   const [limit] = useState(9);
+  const [sortOrder,setSortOrder] = useState("asc")
   const dispatch = useDispatch();
   const transactions = useSelector(
     (store) => store.transactionsReducer.allTransactions
   );
-  // console.log(transactions)
+  const sortTransactions = (transactions) => {
+    return transactions.slice().sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+
+      if (sortOrder === 'asc') {
+        return dateB - dateA;
+      } else if (sortOrder === 'desc') {
+        return dateA - dateB;
+      } else {
+        return 0;
+      }
+    });
+  };
+  const sortedTransactions = sortTransactions(transactions);
+
+  const handleSortInAsc = () => {
+    setSortOrder('asc');
+  }
+  const handleSortInDesc = () => {
+    setSortOrder('desc');
+  }
+
   const avatars = [
     "/avatars/Asian Man.png",
     "/avatars/Black Lady.png",
@@ -38,8 +61,13 @@ export const AllTransactions = () => {
   };
 
   useEffect(() => {
-    dispatch(getAllTransactions(pages, limit, setTotalPages));
-  }, [limit, pages]);
+    dispatch(getAllTransactions());
+  }, []);
+
+  const totalPages = Math.ceil(sortedTransactions.length / limit);
+  const startIndex = (currentPage - 1) * limit;
+  const endIndex = startIndex + limit;
+  let currentTransactions = sortedTransactions.slice(startIndex, endIndex);
 
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -79,8 +107,8 @@ export const AllTransactions = () => {
     },
   };
 
-  const handleClick = (page) => {
-    setPages(page);
+  const handleClickPage = (page) => {
+    setCurrentPage(page);
   };
 
   const formatDate = (dateString) => {
@@ -103,9 +131,11 @@ export const AllTransactions = () => {
   return (
     <MAINSECTION>
       <h1 className="heading">All Transactions</h1>
+      <Button onClick={handleSortInAsc}>{"Latest"}</Button>
+    <Button onClick={handleSortInDesc}>{"Oldest"}</Button>
 
       <CardGrid>
-        {transactions?.map((item) => (
+        {currentTransactions?.map((item) => (
           <motion.div
             className="transaction-card"
             key={item.id}
@@ -149,21 +179,26 @@ export const AllTransactions = () => {
       </CardGrid>
 
       {totalPages > 1 && (
-        <ButtonContainer>
-          {new Array(totalPages).fill(0).map((el, i) => (
-            <motion.div
-              key={i}
-              variants={buttonVariants}
-              initial="hidden"
-              animate="visible"
-              exit="hidden"
-              whileHover="hover"
-            >
-              <Button onClick={() => handleClick(i + 1)}>{i + 1}</Button>
-            </motion.div>
-          ))}
-        </ButtonContainer>
-      )}
+<ButtonContainer>
+  {Array.from({ length: totalPages }).map((_, index) => (
+    <motion.div
+    key={index}
+    variants={buttonVariants}
+    initial="hidden"
+    animate="visible"
+    exit="hidden"
+    whileHover="hover"
+  >
+    <Button
+      onClick={() => handleClickPage(index + 1)}
+      className={currentPage === index + 1 ? 'active' : ''}
+    >
+      {index + 1}
+    </Button>
+  </motion.div>
+  ))}
+</ButtonContainer>
+)}
     </MAINSECTION>
   );
 };

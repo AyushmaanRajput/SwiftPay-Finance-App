@@ -43,4 +43,5 @@ export const updateUser = (id, obj) => (dispatch) => {
       dispatch({ type: PATCHUSERSFAILURE });
       console.log(err);
     });
+  
 };

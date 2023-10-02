@@ -19,6 +19,7 @@ import { SendMoneyForm } from "./forms/SendMoneyForm";
 import { RequestMoneyForm } from "./forms/RequestMoneyForm";
 import { BuySwiftCoinsForm } from "./forms/BuySwiftCoinsForm";
 import { getAllTransactions } from "../redux/admin/transactionsReducer/action";
+import { motion } from "framer-motion"; // Import Framer Motion
 
 const avatars = [
   "/avatars/Asian Man.png",
@@ -40,6 +41,7 @@ const userAvatarIds = {
   4: 3,
   5: 4,
 };
+
 export const Payments = () => {
   const dispatch = useDispatch();
   const [user, setUser] = React.useState(
@@ -50,7 +52,7 @@ export const Payments = () => {
     (store) => store.subscriptionsReducer.subscriptions
   );
   let userSubs = user.subscriptions;
-  // console.log(user,globalSubs)
+
   let formattedUserSubs = formatAndSortSubscriptions(userSubs, globalSubs);
 
   const totalTransactions = useSelector(
@@ -78,132 +80,228 @@ export const Payments = () => {
     setIsModalOpen(false);
   };
 
+  const paymentTabsVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.5,
+        delay: 0.1,
+      },
+    },
+    hover: {
+      scale: 1.01,
+      boxShadow: "0px 0px 10px rgba(255, 255, 255, 0.2)",
+      transition: {
+        duration: 0.2,
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      borderRadius: "2rem",
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        delay: 0.1,
+      },
+    },
+    hover: {
+      borderRadius: "2rem",
+      scale: 1.01,
+      // boxShadow: "0px 0px 10px rgba(255, 255, 255, 0.2)",
+      transition: {
+        duration: 0.2,
+      },
+    },
+  }
+
   return (
     <>
       <PAYMENTS>
         <PAYMENTTABS>
-          <div
+          <motion.div
             className="payment-tabs"
             onClick={() => openModal(<SendMoneyForm onClose={closeModal} />)}
+            variants={paymentTabsVariants}
+            initial="hidden"
+            animate="visible"
+            whileHover="hover"
           >
             <FontAwesomeIcon icon={faPaperPlane} />
             <span>Send Money</span>
-          </div>
-          <div
+          </motion.div>
+          <motion.div
             className="payment-tabs"
             onClick={() => openModal(<RequestMoneyForm onClose={closeModal} />)}
+            variants={paymentTabsVariants}
+            initial="hidden"
+            animate="visible"
+            whileHover="hover"
           >
             <FontAwesomeIcon icon={faHandHoldingDollar} />
             <span>Request Money</span>
-          </div>
-          <div
+          </motion.div>
+          <motion.div
             className="payment-tabs"
             onClick={() =>
               openModal(<BuySwiftCoinsForm onClose={closeModal} />)
             }
+            variants={paymentTabsVariants}
+            initial="hidden"
+            animate="visible"
+            whileHover="hover"
           >
             <FontAwesomeIcon icon={faCircleDollarToSlot} />
             <span>Buy SwiftCoin</span>
-          </div>
+          </motion.div>
         </PAYMENTTABS>
         <DETAILSCARDS>
           <div>
-            <CardSmall
-              color="var(--background-light)"
-              bg="var(--primary-grey)"
-              accent="var(--primary-light)"
+            <motion.div
+              variants={cardVariants}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              whileHover="hover"
             >
-              <div className="card-heading">
-                <FontAwesomeIcon icon={faLandmark} />
-                <span>Account Balance</span>
-              </div>
-              <div className="card-content">
-                <h4>${user.balance}</h4>
-                <p>
-                  Highest For Last Month:{" "}
-                  <span>${user.monthlyIncomeExpenses[0].income}</span>
-                </p>
-              </div>
-            </CardSmall>
-            <CardSmall
-              bg="var(--background-light)"
-              color="var(--primary-white)"
-              accent="var(--primary-light)"
+              <CardSmall
+                color="var(--background-light)"
+                bg="var(--primary-grey)"
+                accent="var(--primary-light)"
+              >
+                <div className="card-heading">
+                  <FontAwesomeIcon icon={faLandmark} />
+                  <span>Account Balance</span>
+                </div>
+                <div className="card-content">
+                  <h4>${user.balance}</h4>
+                  <p>
+                    Highest For Last Month:{" "}
+                    <span>${user.monthlyIncomeExpenses[0].income}</span>
+                  </p>
+                </div>
+              </CardSmall>
+            </motion.div>
+            <motion.div
+              variants={cardVariants}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              whileHover="hover"
             >
-              <div className="card-heading">
-                <FontAwesomeIcon icon={faCircleDollarToSlot} />
-                <span>SwiftCoin</span>
-              </div>
-              <div className="card-content">
-                <h4>{user.swiftCoin}</h4>
-                <p>
-                  Per Purchase
-                  <span> 10% off</span>
-                </p>
-              </div>
-            </CardSmall>
+              <CardSmall
+                bg="var(--background-light)"
+                color="var(--primary-white)"
+                accent="var(--primary-light)"
+              >
+                <div className="card-heading">
+                  <FontAwesomeIcon icon={faCircleDollarToSlot} />
+                  <span>SwiftCoin</span>
+                </div>
+                <div className="card-content">
+                  <h4>{user.swiftCoin}</h4>
+                  <p>
+                    Per Purchase
+                    <span> 10% off</span>
+                  </p>
+                </div>
+              </CardSmall>
+            </motion.div>
           </div>
         </DETAILSCARDS>
 
         <TRANSACTIONSSUMMARY>
-          <CardSmall
-            bg="var(--primary-light)"
-            color="var(--background-light)"
-            accent="var(--background-light)"
+          <motion.div
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            whileHover="hover"
           >
-            <h4>Lastest Transactions</h4>
-            <div className="transactions-summary">
-              {filteredTransactions.length > 0 &&
-                filteredTransactions.splice(0, 4).map((el, i) => {
-                  return (
-                    <div key={i} className="subrow">
-                      <img
-                        src={
-                          el.from_id === user.id
-                            ? avatars[userAvatarIds[el.to_id] - 1]
-                            : avatars[userAvatarIds[el.from_id] - 1]
-                        }
-                      />
-                      <div>
-                        <h6>${el.amount}</h6>
-                        <p>{el.date}</p>
-                      </div>
-                    </div>
-                  );
-                })}
-            </div>
-          </CardSmall>
-        </TRANSACTIONSSUMMARY>
-        <hr />
-        <REMAINDERS>
-          <CardSmall>
-            <div>
-              <h4>Upcoming Recharges</h4>
-              <div className="remainders-container">
-                {formattedUserSubs.length > 0 &&
-                  formattedUserSubs.map((el, i) => {
+            <CardSmall
+              bg="var(--primary-light)"
+              color="var(--background-light)"
+              accent="var(--background-light)"
+            >
+              <h4>Lastest Transactions</h4>
+              <div className="transactions-summary">
+                {filteredTransactions.length > 0 &&
+                  filteredTransactions.splice(0, 4).map((el, i) => {
                     return (
-                      <div key={i} className="remainder-card">
-                        <img src={el.logo} />
+                      <div key={i} className="subrow">
+                        <img
+                          src={
+                            el.from_id === user.id
+                              ? avatars[userAvatarIds[el.to_id] - 1]
+                              : avatars[userAvatarIds[el.from_id] - 1]
+                          }
+                        />
                         <div>
-                          <h6>Expires On : {el.subscription_end_date}</h6>
-                          <ButtonOutline>Recharge Now</ButtonOutline>
+                          <h6>${el.amount}</h6>
+                          <p>{el.date}</p>
                         </div>
                       </div>
                     );
                   })}
               </div>
-            </div>
-          </CardSmall>
+            </CardSmall>
+          </motion.div>
+        </TRANSACTIONSSUMMARY>
+        <hr />
+        <REMAINDERS>
+          <motion.div
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            whileHover="hover"
+          >
+            <CardSmall
+              bg="var(--background-light)"
+              color="var(--primary-white)"
+              accent="var(--primary-light)"
+            >
+              <div>
+                <h4>Upcoming Recharges</h4>
+                <div className="remainders-container">
+                  {formattedUserSubs.length > 0 &&
+                    formattedUserSubs.map((el, i) => {
+                      return (
+                        <div key={i} className="remainder-card">
+                          <img src={el.logo} />
+                          <div>
+                            <h6>Expires On : {el.subscription_end_date}</h6>
+                            <ButtonOutline>Recharge Now</ButtonOutline>
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
+            </CardSmall>
+          </motion.div>
         </REMAINDERS>
         <ARTICLES>
-          <CardSmall
-            bg="var(--background-light)"
-            color="var(--primary-white)"
-            accent="var(--primary-light)"
+          <motion.div
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            whileHover="hover"
           >
-            <h4>Articles To Improve Your Portfolio</h4>
-          </CardSmall>
+            <CardSmall
+              bg="var(--background-light)"
+              color="var(--primary-white)"
+              accent="var(--primary-light)"
+            >
+              <h4>Articles To Improve Your Portfolio</h4>
+            </CardSmall>
+          </motion.div>
         </ARTICLES>
       </PAYMENTS>
       {modalContent && (
@@ -257,6 +355,7 @@ const PAYMENTTABS = styled.div`
     }
   }
 `;
+
 const DETAILSCARDS = styled.div`
   grid-area: detailscards;
   display: flex;

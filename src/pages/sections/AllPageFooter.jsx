@@ -12,46 +12,13 @@ import {
 import { faCopyright } from "@fortawesome/free-solid-svg-icons";
 
 export const AllPageFooter = () => {
-  function scrollToSelector(selector) {
-    const element = document.querySelector(selector);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  }
   return (
     <FOOTER>
-      <nav>
-        <h4>LOGO</h4>
-        <ul>
-          <li>
-            <Link to="/" onClick={() => scrollToSelector("#hero")}>
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link to="/" onClick={() => scrollToSelector("#features")}>
-              Features
-            </Link>
-          </li>
-          <li>
-            <Link to="/" onClick={() => scrollToSelector("#instructions")}>
-              Instructions
-            </Link>
-          </li>
-          <li>
-            <Link to="/" onClick={() => scrollToSelector("#services")}>
-              Services
-            </Link>
-          </li>
-          <li>
-            <Link to="/" onClick={() => scrollToSelector("#cta")}>
-              CTA
-            </Link>
-          </li>
-        </ul>
-      </nav>
       <hr />
       <div className="socials">
+        <div className="logo">
+          <img src="/logos/logo-primary.png" />
+        </div>
         <div>
           <a href="#">
             <FontAwesomeIcon icon={faFacebook} />
@@ -80,6 +47,9 @@ const FOOTER = styled.footer`
   padding-top: 3rem;
   color: var(--primary-grey);
   margin-top: 5rem;
+  .logo {
+    width: 8rem;
+  }
 
   nav {
     display: flex;

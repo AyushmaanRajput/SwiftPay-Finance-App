@@ -11,6 +11,7 @@ import { ButtonSmall } from "../components/Buttons";
 import { ContainerLarge } from "../components/Layouts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { AllPageFooter } from "./sections/AllPageFooter";
 
 const DashboardContainer = styled.div`
   min-height: 100vh;
@@ -71,7 +72,6 @@ const Hr = styled.hr`
 const Content = styled.div`
   flex-grow: 1;
   padding: 20px;
-  background-color: var(--background-light);
 `;
 
 export const Admin = () => {
@@ -99,7 +99,7 @@ export const Admin = () => {
                 icon={faHome}
                 className="icon"
                 color="var(--background-dark)"
-                onClick={()=>navigate("/")}
+                onClick={() => navigate("/")}
               />
             </button>
             <Tabs>
@@ -139,6 +139,7 @@ export const Admin = () => {
           {selectedTab === "support" && <Support />}
           {selectedTab === "allsubscriptions" && <AllSubscriptions />}
         </Content>
+        <AllPageFooter></AllPageFooter>
       </ContainerLarge>
     </DashboardContainer>
   );

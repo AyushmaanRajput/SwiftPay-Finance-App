@@ -218,7 +218,7 @@ export const Payments = () => {
 const PAYMENTS = styled.main`
   color: var(--primary-white);
   display: grid;
-  grid-template-columns: repeat(3, 1fr) min-content;
+  grid-template-columns: repeat(3, 1fr) max-content;
   gap: 2rem;
   width: 100%;
   grid-template-areas:

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { CardLarge } from "./OverviewCards";
 import { Chart } from "./Chart";
 import { useSelector } from "react-redux";
+import { motion } from "framer-motion";
 
 export const OverviewCharts = () => {
   const [user, setUser] = React.useState(
@@ -47,32 +48,54 @@ export const OverviewCharts = () => {
     setChartType(event.target.value);
   };
 
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      borderRadius: "2rem",
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        delay: 0.1,
+      },
+    },
+    hover: {
+      scale: 1.01,
+      boxShadow: "0px 0px 10px rgba(255, 255, 255, 0.3)",
+      transition: {
+        duration: 0.2,
+      },
+    },
+  };
+
   return (
     <OverviewChartsContainer>
-      <h3>Income vs Expenses</h3>
-      <CardLarge>
-        <SelectContainer>
-          <select value={chartType} onChange={handleChartTypeChange}>
-            <option value="line">Line Graph</option>
-            <option value="bar">Bar Garph</option>
-          </select>
-        </SelectContainer>
-        <ChartContainer ref={chartContainerRef}>
-          {chartType === "line" ? (
-            <Chart
-              chartWidth={chartWidth}
-              chartData={chartData}
-              chartType="line"
-            />
-          ) : (
-            <Chart
-              chartWidth={chartWidth}
-              chartData={chartData}
-              chartType="bar"
-            />
-          )}
-        </ChartContainer>
-      </CardLarge>
+      <motion.h3 whileHover={{ color: "var(--primary-light)" }}>
+        Income vs Expenses
+      </motion.h3>
+      <motion.div
+        variants={cardVariants}
+        initial="hidden"
+        animate="visible"
+        exit="hidden"
+        whileHover="hover"
+      >
+        <CardLarge>
+          <SelectContainer>
+            <select value={chartType} onChange={handleChartTypeChange}>
+              <option value="line">Line Graph</option>
+              <option value="bar">Bar Graph</option>
+            </select>
+          </SelectContainer>
+          <ChartContainer ref={chartContainerRef}>
+            {chartType === "line" ? (
+              <Chart chartWidth={chartWidth} chartData={chartData} chartType="line" />
+            ) : (
+              <Chart chartWidth={chartWidth} chartData={chartData} chartType="bar" />
+            )}
+          </ChartContainer>
+        </CardLarge>
+      </motion.div>
     </OverviewChartsContainer>
   );
 };

@@ -183,7 +183,6 @@ export const Dashboard = () => {
                 style={{
                   marginLeft: "0.5em",
                   fontSize: "1rem",
-                  color: "var(--background-light)",
                 }}
               ></FontAwesomeIcon>
             </Tab>

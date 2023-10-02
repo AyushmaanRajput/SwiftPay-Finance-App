@@ -5,8 +5,9 @@ import { AllRoutes } from "./routes/AllRoutes";
 import { getUsers } from "./redux/user/usersReducer/action";
 import { useDispatch, useSelector } from "react-redux";
 import { useCustomToast } from "./components/utils/useCustomToast";
-import { useNavigate } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { alreadyLoggedIn } from "./redux/authReducer/action";
+import Loader from './components/Loader';
 
 function App() {
   const { showToast, ToastContainer } = useCustomToast();
@@ -33,7 +34,7 @@ function App() {
   }, []);
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <Loader></Loader>;
   }
 
   return (

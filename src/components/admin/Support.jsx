@@ -7,9 +7,14 @@ import { supportData } from '../../redux/admin/SupportReducer/action';
 
 export const Support = () => {
   const dispatch = useDispatch()
-  const store = useSelector((store)=>store.supportReducer.support);
-  console.log(store);
-  const revStore = store.reverse()
+  const {support, isLoading} = useSelector((store)=>{
+    return {
+      support: store.supportReducer.support,
+      isLoading: store.supportReducer.isLoading
+    }
+  });
+  console.log(support);
+  const revStore = support.reverse();
   
   useEffect(() => {
     dispatch(supportData())
@@ -34,6 +39,10 @@ export const Support = () => {
       },
     },
   };
+
+  if(isLoading) {
+    <h2>Loading...</h2>
+  }
 //console.log(data)
   return (
     <StyledSupport>

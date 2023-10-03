@@ -1,42 +1,41 @@
-
-import { useEffect, useState } from 'react'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components'
-import { Button } from './Buttons'
-import { QueryForm } from './forms/QueryForm'
-import { getAllTransactions } from '../redux/admin/transactionsReducer/action'
+import { useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
+import { ButtonOutline, ButtonSmall } from "./Buttons";
+import { QueryForm } from "./forms/QueryForm";
+import { getAllTransactions } from "../redux/admin/transactionsReducer/action";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 
 
 export const Transactions = () => {
-  const [limit] = useState(6)
+  const [limit] = useState(6);
   const [currentPage, setCurrentPage] = useState(1);
-  const [presentData , setPresentData] = useState(false)
-  const [queryForm,setQueryForm] = useState("")
-  const [sortOrder, setSortOrder] = useState('asc');
-  const dispatch = useDispatch()
-  const {allTransactions, loggedInUser} = useSelector((store)=>{
+  const [presentData, setPresentData] = useState(false);
+  const [queryForm, setQueryForm] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
+  const dispatch = useDispatch();
+  const { allTransactions, loggedInUser } = useSelector((store) => {
     return {
-      allTransactions : store.transactionsReducer.allTransactions,
-      loggedInUser: store.authReducer.loggedInUser
-    }
-  },shallowEqual)
+      allTransactions: store.transactionsReducer.allTransactions,
+      loggedInUser: store.authReducer.loggedInUser,
+    };
+  }, shallowEqual);
 
-  const filteredTransactions = allTransactions.filter((el)=>{
-    if(loggedInUser.transactions.includes(el.id))
-    return el;
-  })
+
+  const filteredTransactions = allTransactions.filter((el) => {
+    if (loggedInUser.transactions.includes(el.id)) return el;
+  });
 
   const sortTransactions = (transactions) => {
     return transactions.slice().sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
 
-      if (sortOrder === 'asc') {
+      if (sortOrder === "asc") {
         return dateB - dateA;
-      } else if (sortOrder === 'desc') {
+      } else if (sortOrder === "desc") {
         return dateA - dateB;
       } else {
         return 0;
@@ -101,176 +100,178 @@ export const Transactions = () => {
     },
   };
 
-  useEffect(()=>{
-    dispatch(getAllTransactions())
-  },[])
+  useEffect(() => {
+    dispatch(getAllTransactions());
+  }, []);
 
   const handleSortInAsc = () => {
-    setSortOrder('asc');
-  }
+    setSortOrder("asc");
+  };
   const handleSortInDesc = () => {
-    setSortOrder('desc');
-  }
+    setSortOrder("desc");
+  };
 
   const totalPages = Math.ceil(sortedTransactions.length / limit);
   const startIndex = (currentPage - 1) * limit;
   const endIndex = startIndex + limit;
   let currentTransactions = sortedTransactions.slice(startIndex, endIndex);
 
-   const handlePageClick = (page) => {
+  const handlePageClick = (page) => {
     setCurrentPage(page);
   };
-  const timestamp = Date.now(); 
+  const timestamp = Date.now();
   const currentDate = new Date(timestamp);
-  
+
   const year = currentDate.getFullYear();
-  const month = String(currentDate.getMonth() + 1).padStart(2, '0'); 
-  const day = String(currentDate.getDate()).padStart(2, '0');
-  const hours = String(currentDate.getHours()).padStart(2, '0');
-  const minutes = String(currentDate.getMinutes()).padStart(2, '0');
-  const seconds = String(currentDate.getSeconds()).padStart(2, '0');
-  
+  const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+  const day = String(currentDate.getDate()).padStart(2, "0");
+  const hours = String(currentDate.getHours()).padStart(2, "0");
+  const minutes = String(currentDate.getMinutes()).padStart(2, "0");
+  const seconds = String(currentDate.getSeconds()).padStart(2, "0");
+
   const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 
-  
-const formatDate = (input) => {
-  var options = {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-  hour: "numeric",
-  minute: "numeric",
-  hour12: true,
-};
-var date = new Date(input).toLocaleString("en-US", options);
-return date
-}
+  const formatDate = (input) => {
+    var options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    };
+    var date = new Date(input).toLocaleString("en-US", options);
+    return date;
+  };
 
   const handleRaiseQuery = (id) => {
     let userPrefilledObj = {
-      user : {
+      user: {
         id: loggedInUser.id,
         name: loggedInUser.name,
-        email : loggedInUser.email
+        email: loggedInUser.email,
       },
       createdDate: formattedDate,
-      status : "open",
-      transactionId : id,
-      message : "",
-      subject : "",
-      priority : ""
-    }
-    setQueryForm(userPrefilledObj)
-    setPresentData(prev => !prev)
-  }
+      status: "open",
+      transactionId: id,
+      message: "",
+      subject: "",
+      priority: "",
+    };
+    setQueryForm(userPrefilledObj);
+    setPresentData((prev) => !prev);
+  };
 
-  return (
-    presentData ? <QueryForm userTransactionData={queryForm} isPresentFunc={setPresentData}/> : 
+  return presentData ? (
+    <QueryForm userTransactionData={queryForm} isPresentFunc={setPresentData} />
+  ) : (
     <TRANSACTIONS>
-    <h2 className='heading'>Users Transactions</h2>
-    <ButtonContainer>
-      <motion.div
-    variants={buttonVariants}
-    initial="hidden"
-    animate="visible"
-    exit="hidden"
-    whileHover="hover">
-    <Button onClick={handleSortInAsc}>{"Latest"}</Button>
-    </motion.div>
-    <motion.div
-    variants={buttonVariants}
-    initial="hidden"
-    animate="visible"
-    exit="hidden"
-    whileHover="hover">
-    <Button onClick={handleSortInDesc}>{"Oldest"}</Button>
-    </motion.div>
-      
-    </ButtonContainer>
-    {
-      currentTransactions?.map((item)=>{
-        return <motion.div
-        className="transaction-card"
-        key={item.id}
-    variants={buttonVariants}
-    initial="hidden"
-    animate="visible"
-    exit="hidden"
-    whileHover="hover"
+      <h2>Users Transactions</h2>
+      <ButtonContainer>
+        <motion.div
+          variants={buttonVariants}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+          whileHover="hover"
         >
-          <CardContent>
-          <div>
-            <div>
-              <img
-              src={avatars[userAvatarIds[item.from_id] - 1]}
-              alt={item.from}/>
-              <span>{item.from}</span>
-            </div>
+          <ButtonOutline onClick={handleSortInAsc}>{"Latest"}</ButtonOutline>
+        </motion.div>
+        <motion.div
+          variants={buttonVariants}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+          whileHover="hover"
+        >
+          <ButtonOutline onClick={handleSortInDesc}>{"Oldest"}</ButtonOutline>
+        </motion.div>
+      </ButtonContainer>
+      {currentTransactions?.map((item) => {
+        return (
+          <motion.div
+            className="transaction-card"
+            key={item.id}
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            whileHover="hover"
+          >
+            <CardContent>
+              <div>
+                <div>
+                  <img
+                    src={avatars[userAvatarIds[item.from_id] - 1]}
+                    alt={item.from}
+                  />
+                  <span>{item.from}</span>
+                </div>
                 <FontAwesomeIcon
                   icon={faAnglesRight}
                   className="icon"
                 ></FontAwesomeIcon>
-              <div>
+                <div>
                   <img
                     src={avatars[userAvatarIds[item.to_id] - 1]}
                     alt={item.to}
                   />
                   <span>{item.to}</span>
-               </div>
-          </div>
-          <h4>$ {Math.abs(+item.amount)}</h4>
-          <p>From: {item.from}</p>
-          <p>To: {item.to}</p>
-          <p>{item.message} on {formatDate(item.date)}</p>
-          {
-            presentData || <ButtonContainer>
-              <motion.div key={item.id}
-    variants={buttonVariants}
-    initial="hidden"
-    animate="visible"
-    exit="hidden"
-    whileHover="hover"><Button onClick={()=>handleRaiseQuery(item.id)}>{"Raise query"}</Button></motion.div>
-            </ButtonContainer>
-          }
-        </CardContent>
-        </motion.div>
-      })
-    }
-    {totalPages > 1 && (
-<ButtonContainer>
-  {Array.from({ length: totalPages }).map((_, index) => (
-    <motion.div 
-    key={index}
-    variants={buttonVariants}
-    initial="hidden"
-    animate="visible"
-    exit="hidden"
-    whileHover="hover"
-    >
-      <Button
-      key={index}
-      onClick={() => handlePageClick(index + 1)}
-      className={currentPage === index + 1 ? 'active' : ''}
-    >
-      {index + 1}
-    </Button>
-    </motion.div>
-  ))}
-</ButtonContainer>
-)}
-  </TRANSACTIONS>
-  )
-}
+                </div>
+              </div>
+              <h4>$ {Math.abs(+item.amount)}</h4>
+              <p>From: {item.from}</p>
+              <p>To: {item.to}</p>
+              <p style={{ marginBottom: "1rem" }}>
+                {item.message} on {formatDate(item.date)}
+              </p>
+              {presentData || (
+                <ButtonContainer>
+                  <motion.div
+                    key={item.id}
+                    variants={buttonVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="hidden"
+                    whileHover="hover"
+                  >
+                    <ButtonSmall onClick={() => handleRaiseQuery(item.id)}>
+                      Raise Ticket
+                    </ButtonSmall>
+                  </motion.div>
+                </ButtonContainer>
+              )}
+            </CardContent>
+          </motion.div>
+        );
+      })}
+      {totalPages > 1 && (
+        <ButtonContainer>
+          {Array.from({ length: totalPages }).map((_, index) => (
+            <ButtonOutline
+              key={index}
+              onClick={() => handlePageClick(index + 1)}
+              className={currentPage === index + 1 ? "active" : ""}
+            >
+              {index + 1}
+            </ButtonOutline>
+          ))}
+        </ButtonContainer>
+      )}
+    </TRANSACTIONS>
+  );
+};
 
 const TRANSACTIONS = styled.main`
-  color:var(--primary-white);
-  .user-transactions-data{
-    color: white;
-    border: 2px solid white;
-    text-align: left;
-    margin-bottom: .8rem;
+  color: var(--primary-white);
+  text-align: left;
+  h2 {
+    margin-bottom: 1rem;
   }
-`
+  .transaction-card {
+    margin-bottom: 1rem;
+  }
+`;
 const CardContent = styled.div`
   background-image: var(--secondary-gradient);
   text-align: start;
@@ -319,7 +320,10 @@ const CardContent = styled.div`
 
 const ButtonContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 1rem;
+  margin-bottom: 2rem;
+  &:nth-of-type(3) {
+    justify-content: center;
+  }
 `;
-

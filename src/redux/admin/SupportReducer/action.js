@@ -9,18 +9,25 @@ import {
 } from "./actionTypes";
 import { baseURL } from "../../store";
 
-export const postQuery = (queryObj) => (dispatch) => {
+export const postQuery = (queryObj, showToast) => (dispatch) => {
   dispatch({ type: POST_QUERY_REQUEST });
   axios
     .post(`${baseURL}/supports`, queryObj)
     .then((res) => {
       console.log(res);
       dispatch({ type: POST_QUERY_SUCCESS });
+      showToast(
+        "success",
+        `Ticket Raised : Transaction Id : ${queryObj.transactionId}`
+      );
     })
-    .catch((error) => dispatch({ type: POST_QUERY_FAILURE }));
+    .catch((error) => {
+      dispatch({ type: POST_QUERY_FAILURE });
+      showToast("error", "Failed To Post Ticket");
+    });
 };
 
-export const supportData =()=> (dispatch) => {
+export const supportData = () => (dispatch) => {
   dispatch({ type: GET_SUPPORT_REQUEST });
   axios
     .get(`${baseURL}/supports`)

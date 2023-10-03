@@ -8,13 +8,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllTransactions } from "../../redux/admin/transactionsReducer/action";
 
 export const AllTransactions = () => {
-  
   const [currentPage, setCurrentPage] = useState(1);
   const [limit] = useState(9);
   const [sortOrder,setSortOrder] = useState("asc")
   const dispatch = useDispatch();
-  const transactions = useSelector(
-    (store) => store.transactionsReducer.allTransactions
+  const {transactions, isLoading} = useSelector(
+    (store) => {
+      return {
+        transactions: store.transactionsReducer.allTransactions,
+        isLoading: store.transactionsReducer.isLoading,
+      }
+    }
   );
   const sortTransactions = (transactions) => {
     return transactions.slice().sort((a, b) => {
@@ -128,6 +132,11 @@ export const AllTransactions = () => {
 
     return formattedDate;
   };
+
+  if(isLoading) {
+    <h2>Loading....</h2>
+  }
+
   return (
     <MAINSECTION>
       <h1 className="heading">All Transactions</h1>

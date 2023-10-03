@@ -9,6 +9,7 @@ import {
   getSenderAndReceiver,
 } from "../../functions/transactions";
 import { updateUser } from "../../redux/user/usersReducer/action";
+import { useToast} from '../custom/ToastProvider';
 
 const avatars = [
   "/avatars/Asian Man.png",
@@ -32,6 +33,7 @@ const userAvatarIds = {
 };
 
 export const SendMoneyForm = ({ onClose }) => {
+  const showToast= useToast();
   const dispatch = useDispatch();
   const user = useSelector((store) => store.authReducer.loggedInUser);
   const users = useSelector((store) => store.usersReducer.users);
@@ -90,7 +92,7 @@ export const SendMoneyForm = ({ onClose }) => {
         );
         // console.log(senderObj, receiverObj);
         dispatch(updateUser(receiverObj.id,receiverObj)); //for receiver
-        dispatch(updateUser(senderObj.id,senderObj)); //for sender/loggedInUser
+        dispatch(updateUser(senderObj.id,senderObj, showToast,'Your Payment Was Successful!')); 
       })
       .catch((err) => {
         console.log(err);

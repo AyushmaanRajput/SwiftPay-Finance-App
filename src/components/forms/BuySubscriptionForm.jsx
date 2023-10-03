@@ -6,8 +6,10 @@ import { updateUser } from "../../redux/user/usersReducer/action";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGift } from "@fortawesome/free-solid-svg-icons";
 import subscriptionEndDate from "../../functions/subscriptionEndDate";
+import { useToast } from "../custom/ToastProvider";
 
 export const BuySubscriptionForm = ({ closeModal, viewSubscriptionData }) => {
+  const showToast = useToast();
   const [billingCycle, setBillingCycle] = useState("Monthly");
   const [paymentMode, setPaymentMode] = useState(true);
 
@@ -49,8 +51,14 @@ export const BuySubscriptionForm = ({ closeModal, viewSubscriptionData }) => {
       ],
     };
 
-    // console.log(newObj);
-    dispatch(updateUser(loggedInUser.id, newObj));
+    dispatch(
+      updateUser(
+        loggedInUser.id,
+        newObj,
+        showToast,
+        "Subscription Purchase Successful!"
+      )
+    );
     closeModal();
   };
 

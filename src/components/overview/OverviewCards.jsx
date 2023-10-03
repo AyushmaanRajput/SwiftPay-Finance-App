@@ -9,6 +9,7 @@ export const CardSmall = ({ bg, color, accent, children }) => {
 };
 
 const CARDSMALL = styled.div`
+  /* height: 100%; */
   min-width: 200px;
   background: ${(props) => (props.bg ? props.bg : "var(--background-light)")};
   color: ${(props) => (props.color ? props.color : "var(--primary-white)")};

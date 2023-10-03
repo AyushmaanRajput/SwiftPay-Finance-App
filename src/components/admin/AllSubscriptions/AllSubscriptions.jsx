@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
-import { Button, ButtonSmall } from "../../Buttons";
+import { ButtonOutline, ButtonSmall } from "../../Buttons";
 import { AdminSubscriptionsCard } from "./AdminSubscriptionsCard";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -53,8 +53,8 @@ export const AllSubscriptions = () => {
             marginBottom: "10px",
           }}
         >
-          <Button
-            children={"Add Subscription"}
+          <ButtonOutline
+            children={"Add New Subscription"}
             onClick={() => setNewState((prev) => !prev)}
           />
         </div>
@@ -92,15 +92,14 @@ const DIV = styled.div`
   color: var(--text-paragraph);
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 1rem;
   /* display: grid; */
-  
+  padding:2rem 0;
   `
 
 const H1 = styled.h1 `
   color: var(--primary-white);
   line-height: 1.1;
-  margin-top: 1rem;
   text-align: left;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 `

@@ -150,6 +150,16 @@ const DIV = styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
+    select {
+      background-color: transparent;
+      border: 1px solid var(--primary-grey);
+      padding: 0.5rem 1rem;
+      color: var(--primary-grey);
+      border-radius: 0.25rem;
+      option {
+        background-color: var(--background-light);
+      }
+    }
   }
   .buy-subscription-div > div {
     width: 100px;

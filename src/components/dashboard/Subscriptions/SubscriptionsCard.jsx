@@ -37,7 +37,7 @@ export const SubscriptionsCard = ({
           <h5>{type}</h5>
           {/* <p>{description}</p> */}
           <p className="subscription-card-price">$ {amount}</p>
-          {!children ? <p>Billed: {billing_cycle}</p> : null}
+          {!children ? <p style={{color:'var(--primary-grey)'}}>Billed: {billing_cycle}</p> : null}
         </div>
         <div className="subscriptions-card-buttons-div">
           {/* <ButtonSmall children={"Cancel"} onClick={handleCancel} /> */}
@@ -66,12 +66,25 @@ const CARDDIV = styled.div`
   }
 
   .subscriptions-card-details-div {
+    /* padding:1rem; */
     /* height: 200px; */
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     padding: 10px;
-    color: var(--primary-grey);
+    color: var(--primary-white);
+    h5{
+      font-size:large;
+      margin-bottom:0.25rem
+    }
+    h5:last-of-type{
+      color:var(--primary-grey);
+      font-size:var(--link);
+      text-transform:uppercase;
+      letter-spacing:1px;
+      font-weight:400;
+      margin-bottom:0.5rem;
+    }
   }
   .subscriptions-card-buttons-div > button {
     margin-bottom: 5px;

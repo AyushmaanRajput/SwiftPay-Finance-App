@@ -38,35 +38,47 @@ export const AuthPage = () => {
             for free.
           </h5>
         )}
-        <div className="login-button-div">
-          <button
-            onClick={showLogin}
-            disabled={isLoginVisible}
-            style={{
-              backgroundColor: isSignUpVisible
-                ? "var(--primary-grey)"
-                : "var(--primary)",
-              color: "black",
-            }}
-          >
-            Login
-          </button>
-          <button
-            onClick={showSignUp}
-            disabled={isSignUpVisible}
-            style={{
-              backgroundColor: isLoginVisible
-                ? "var(--primary-grey)"
-                : "var(--primary)",
-              color: "black",
-            }}
-          >
-            Sign Up
-          </button>
-        </div>
-        <div className="login-content-div">
-          {isLoginVisible && <LoginForm />}
-          {isSignUpVisible && <SignUpForm />}
+        <div>
+          <div className="login-button-div">
+            <button
+              onClick={showLogin}
+              disabled={isLoginVisible}
+              style={{
+                backgroundColor: isSignUpVisible
+                  ? "transparent"
+                  : "var(--primary)",
+                color: isSignUpVisible
+                  ? "var(--primary)"
+                  : "var(--background-light)",
+                border: isSignUpVisible
+                  ? "1px solid var(--primary)"
+                  : "1px solid transparent",
+              }}
+            >
+              Login
+            </button>
+            <button
+              onClick={showSignUp}
+              disabled={isSignUpVisible}
+              style={{
+                backgroundColor: isLoginVisible
+                  ? "transparent"
+                  : "var(--primary)",
+                color: isLoginVisible
+                  ? "var(--primary)"
+                  : "var(--background-light)",
+                border: isLoginVisible
+                  ? "1px solid var(--primary)"
+                  : "1px solid transparent",
+              }}
+            >
+              Sign Up
+            </button>
+          </div>
+          <div className="login-content-div">
+            {isLoginVisible && <LoginForm />}
+            {isSignUpVisible && <SignUpForm />}
+          </div>
         </div>
       </DIV>
       <HomeFooter></HomeFooter>
@@ -82,12 +94,17 @@ const DIV = styled.div`
   flex-direction: column;
   gap: 15px;
   align-items: center;
-  width:35rem;
-  margin-top:6rem;
+  justify-content: center;
+  width: 35rem;
+  margin-top: 6rem;
   /* background-image: var(--secondary-gradient); */
-  background-color:var(--background-light);
-  border-radius:2rem;
-  
+  background-color: var(--background-light);
+  border-radius: 2rem;
+  > div:first-of-type {
+    margin-inline: auto;
+    /* border:1px solid red; */
+    padding-top: 2rem;
+  }
   button {
     font-size: 15px;
     border-radius: 20px;
@@ -96,18 +113,37 @@ const DIV = styled.div`
   }
   .login-button-div {
     /* border: 1px solid gray; */
-    width:100%;
+    width: 100%;
     display: flex;
-    margin-top: 1rem;
-    justify-content: space-evenly;
+    margin-bottom: 2rem;
+    gap: 1rem;
+    justify-content: flex-start;
   }
   .login-content-div {
     /* border: 1px solid gray; */
-    width: 80%;
+    /* width: 100%; */
     display: flex;
     flex-direction: column;
-    align-items: center;
+    /* align-items: center; */
     justify-content: center;
     margin-bottom: 2rem;
+    label {
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--primary-grey);
+      font-weight: 400;
+      /* font-size:var(--button); */
+    }
+    input {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--primary-grey);
+    background-color: transparent;
+    color: var(--primary-white);
+    border-radius: 0.25rem;
+    &:focus {
+      outline-color: var(--primary-light);
+    }
+  }
   }
 `;

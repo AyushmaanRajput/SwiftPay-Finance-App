@@ -93,9 +93,27 @@ const DIV = styled.div`
   .subscriptions-card-details-div {
     /* height: 200px; */
     display: flex;
-    gap: 10px;
+    /* gap: 10px; */
     flex-direction: column;
     justify-content: space-evenly;
+    padding: 10px;
+
+    h5{
+      font-size:large;
+      margin-bottom:0.25rem;
+    }
+    h5:last-of-type{
+      color:var(--primary-grey);
+      font-size:var(--link);
+      text-transform:uppercase;
+      letter-spacing:1px;
+      font-weight:400;
+      margin-bottom:0.5rem;
+    }
+    p{
+      line-height:1.3;
+      margin-bottom:0.5rem;
+    }
   }
 
   .subscriptions-card-buttons-div {

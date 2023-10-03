@@ -11,7 +11,7 @@ import { ButtonSmall } from "../components/Buttons";
 import { ContainerLarge } from "../components/Layouts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
-import { AllPageFooter } from "./sections/AllPageFooter";
+import { AdminFooter } from "./sections/AdminFooter";
 import { useToast } from "../components/custom/ToastProvider";
 
 const DashboardContainer = styled.div`
@@ -142,7 +142,7 @@ export const Admin = () => {
           {selectedTab === "support" && <Support />}
           {selectedTab === "allsubscriptions" && <AllSubscriptions />}
         </Content>
-        <AllPageFooter></AllPageFooter>
+        <AdminFooter></AdminFooter>
       </ContainerLarge>
     </DashboardContainer>
   );

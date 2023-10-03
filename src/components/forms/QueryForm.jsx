@@ -11,6 +11,7 @@ export const QueryForm = ({userTransactionData,isPresentFunc}) => {
     e.preventDefault()
      dispatch(postQuery(userData));
      setUserData({...userData,message:"",subject:"",priority:""})
+     isPresentFunc((prev)=>!prev)
   };
   console.log(userData)
 
@@ -41,7 +42,7 @@ export const QueryForm = ({userTransactionData,isPresentFunc}) => {
           <option name="high">High</option>
         </select>
         <div className="button-container">
-        <button type="submit" className="button">Add new</button>
+        <button type="submit" className="button">Add Query</button>
         <button className="button" onClick={()=>isPresentFunc((prev)=>!prev)}>Go Back</button>
         </div>
       </form>

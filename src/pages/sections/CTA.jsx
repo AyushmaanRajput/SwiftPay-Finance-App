@@ -5,7 +5,7 @@ import { Container } from "../../components/Layouts";
 
 export const CTA = () => {
   return (
-    <CALLTOACTION>
+    <CALLTOACTION id='cta'>
       <Container>
         <div className="cta">
           <div className="cta-content">
@@ -17,7 +17,7 @@ export const CTA = () => {
             <Button bg="dark">Download App</Button>
           </div>
           <div className="cta-image">
-            <img src="/Phone3.png" alt="Call To Action Image" />
+            <img src="/CTA2.png" alt="Call To Action Image" />
           </div>
         </div>
       </Container>
@@ -62,7 +62,7 @@ transform: translateX(-50%);
   .cta .cta-image img{
     position:absolute;
     object-fit:cover;
-    width:15rem;
+    width:25rem;
     /* margin-bottom:5.5rem; */
     bottom:0;
     right:10%;

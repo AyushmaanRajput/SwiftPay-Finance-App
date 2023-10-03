@@ -9,6 +9,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { LOGOUT } from "../redux/authReducer/actionTypes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useToast } from "../components/custom/ToastProvider";
+import Loader from "../components/Loader";
+import { Container, ContainerLarge } from "../components/Layouts";
 
 import {
   faChartPie,
@@ -20,10 +23,8 @@ import {
   faSquarePollVertical,
   faTv,
 } from "@fortawesome/free-solid-svg-icons";
-import { ContainerLarge } from "../components/Layouts";
-import { Formuser } from "../components/forms/Formuser";
+
 import { Notifications } from "../components/Notifications";
-import { Modal } from "../components/modals/Modal";
 import { FormModal } from "../components/forms/FormModal";
 import { AllPageFooter } from "./sections/AllPageFooter";
 
@@ -110,6 +111,7 @@ const Bell = styled.button`
 `;
 
 export const Dashboard = () => {
+  const showToast = useToast();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [edit, setEdit] = useState(false);
 
@@ -133,7 +135,7 @@ export const Dashboard = () => {
   const users = useSelector((store) => store.usersReducer.users);
   if (users.length === 0) {
     // Display a loading indicator or message until user data is available
-    return <h1>Loading...</h1>;
+    return <Loader></Loader>;
   }
 
   const avatars = [
@@ -152,6 +154,7 @@ export const Dashboard = () => {
   function logOutHandler() {
     localStorage.removeItem("id");
     dispatch({ type: LOGOUT });
+    showToast("success", "Successfully logged out!");
     navigate("/");
   }
 
@@ -162,6 +165,7 @@ export const Dashboard = () => {
 
   return (
     <DashboardContainer>
+      {/* <ContainerLarge> */}
       <TopBar>
         <div>
           <button>
@@ -247,6 +251,7 @@ export const Dashboard = () => {
               className="icon"
               color="var(--background-dark)"
             />
+            {noti && <Notifications />}
           </Bell>
           <ButtonSmall onClick={logOutHandler}>Logout</ButtonSmall>
         </div>
@@ -257,9 +262,9 @@ export const Dashboard = () => {
         {selectedTab === "payments" && <Payments />}
         {selectedTab === "subscriptions" && <Subscriptions />}
         {selectedTab === "transactions" && <Transactions />}
-        {noti && <Notifications />}
       </Content>
       <AllPageFooter></AllPageFooter>
+      {/* </ContainerLarge> */}
     </DashboardContainer>
   );
 };

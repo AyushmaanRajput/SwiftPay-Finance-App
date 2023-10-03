@@ -12,6 +12,7 @@ import { ContainerLarge } from "../components/Layouts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { AllPageFooter } from "./sections/AllPageFooter";
+import { useToast } from "../components/custom/ToastProvider";
 
 const DashboardContainer = styled.div`
   min-height: 100vh;
@@ -75,6 +76,7 @@ const Content = styled.div`
 `;
 
 export const Admin = () => {
+  const showToast = useToast();
   const [selectedTab, setSelectedTab] = useState("users");
 
   const handleTabClick = (tab) => {
@@ -86,6 +88,7 @@ export const Admin = () => {
   function logOutHandler() {
     localStorage.removeItem("loggedInUser");
     dispatch({ type: LOGOUT });
+    showToast("success", "Admin Logged Out Successfully");
     navigate("/");
   }
 

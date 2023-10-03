@@ -1,20 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import './styles/variables.css';
-import './styles/reset.css';
-import 'font-awesome/css/font-awesome.min.css';
+import "./styles/variables.css";
+import "./styles/reset.css";
+import "font-awesome/css/font-awesome.min.css";
 import reportWebVitals from "./reportWebVitals";
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-
+import ToastProvider from "./components/custom/ToastProvider";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <Provider store={store}>
-      <App />
+      <ToastProvider>
+        <App />
+      </ToastProvider>
     </Provider>
   </BrowserRouter>
 );

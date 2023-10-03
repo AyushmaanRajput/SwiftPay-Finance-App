@@ -27,8 +27,9 @@ const userAvatarNames = {
 const MainCard = styled.div`
   width: 28rem;
   position: absolute;
-  top: 10%;
-  right: 5%;
+  z-index:10000;
+  top: 150%;
+  right: 0%;
   padding: 1rem;
   transition-property: 63px;
   background-color: var(--background-light);

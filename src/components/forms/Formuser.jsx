@@ -6,8 +6,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faCoins } from "@fortawesome/free-solid-svg-icons";
 import { ButtonSmall, ButtonOutline } from "../Buttons";
 import { updateUser } from "../../redux/user/usersReducer/action";
+import { useToast } from "../custom/ToastProvider";
 
 export const Formuser = ({ edit, setEdit, onClose }) => {
+  const showToast = useToast();
   const [emailChange, setEmailChange] = useState("");
   const [passwordChange, setPasswordChange] = useState("");
   const [num, setNum] = useState(0);
@@ -60,7 +62,14 @@ export const Formuser = ({ edit, setEdit, onClose }) => {
     };
     console.log("ok");
 
-    dispatch(updateUser(userID.id, newUserObj));
+    dispatch(
+      updateUser(
+        userID.id,
+        newUserObj,
+        showToast,
+        `${userID.name}'s Profile Updated`
+      )
+    );
     goBack();
   };
   const handleEdit = () => {

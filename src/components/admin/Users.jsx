@@ -13,6 +13,7 @@ import styled from "styled-components";
 import { baseURL } from "../../redux/store";
 import Loader from "../Loader";
 
+
 export const Users = () => {
   const [user, setUserData] = useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -39,7 +40,7 @@ export const Users = () => {
       .get(`${baseURL}/users`)
       .then((res) => {
         setUserData(res.data);
-        // console.log(res.data);
+        console.log(res.data);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -58,7 +59,7 @@ export const Users = () => {
       return;
     }
     axios
-      .get(`https://mock-api-finpay.onrender.com/users?name=${search}`)
+      .get(`${baseURL}/users?name=${search}`)
       .then((res) => {
         setSearchResult(res.data);
         console.log(res.data);
@@ -100,7 +101,7 @@ export const Users = () => {
           </div>
         </CardSmall>
         <CardSmall
-          bg="var(--background-light)"
+          bg="var(--background-dark)"
           color="var(--primary-white)"
           accent="var(--primary-light)"
         >
@@ -115,7 +116,7 @@ export const Users = () => {
           </div>
         </CardSmall>
         <CardSmall
-          bg="var(--background-light)"
+          bg="var(--background-dark)"
           color="var(--primary-white)"
           accent="var(--primary-light)"
         >

@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useToast } from "../custom/ToastProvider";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUser } from "../../redux/user/usersReducer/action";
 
 const BuySwiftCoinsFormContainer = styled.div`
   padding: 0 1rem;
@@ -38,9 +41,9 @@ const Input = styled.input`
 const TotalAmount = styled.div`
   color: var(--primary-white);
   text-align: left;
-  span{
+  span {
     font-weight: bold;
-    color:var(--primary-light);
+    color: var(--primary-light);
   }
 `;
 
@@ -76,9 +79,12 @@ const CancelButton = styled.button`
 `;
 
 export const BuySwiftCoinsForm = ({ onClose }) => {
+  const showToast = useToast();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     swiftCoins: "",
   });
+  const user = useSelector((store) => store.authReducer.loggedInUser);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -95,7 +101,21 @@ export const BuySwiftCoinsForm = ({ onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Perform any necessary actions when buying Swift Coins
-    console.log("Buying Swift Coins:", formData);
+    // console.log("Buying Swift Coins:", formData);
+    // let newUser = {
+    //   ...user,
+    //   balance: user.balance - parseFloat(formData.swiftCoins) * 2,
+    //   swiftCoin: user.swiftCoin + parseFloat(formData.swiftCoins),
+    // };
+    // // console.log(newUser);
+    // dispatch(
+    //   updateUser(
+    //     newUser.id,
+    //     newUser,
+    //     showToast,
+    //     `Swift Coins Bought : ${formData.swiftCoins}`
+    //   )
+    // );
     onClose();
   };
 

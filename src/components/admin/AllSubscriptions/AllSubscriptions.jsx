@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { styled } from "styled-components";
 import { Button, ButtonSmall } from "../../Buttons";
-import { SubscriptionsInput } from "./SubscriptionsInput";
 import { AdminSubscriptionsCard } from "./AdminSubscriptionsCard";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addSubscriptions,
   getSubscriptions,
 } from "../../../redux/admin/subscriptionsReducer/action";
-import { useCustomToast } from "../../utils/useCustomToast";
+import { useToast} from '../../custom/ToastProvider';
 import { AddNewSubscriptionForm } from "./AddNewSubscriptionForm";
 
 export const AllSubscriptions = () => {
   const { isLoading, isError, subscriptions } = useSelector(
     (store) => store.subscriptionsReducer
   );
-  const { showToast, ToastContainer } = useCustomToast();
+  const showToast=useToast();
 
   console.log(isLoading, isError, subscriptions);
 
@@ -84,7 +82,6 @@ export const AllSubscriptions = () => {
             );
           })}
       </DIV>
-      <ToastContainer />
     </div>
   );
 };

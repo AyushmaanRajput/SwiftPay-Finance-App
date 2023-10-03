@@ -10,7 +10,6 @@ import { BuySubscriptionModal } from "./modals/BuySubscriptionModal";
 import { getSubscriptions } from "../redux/admin/subscriptionsReducer/action";
 
 export const Subscriptions = () => {
-
   const dispatch = useDispatch();
 
   const subscriptions = useSelector((store) => store.subscriptionsReducer.subscriptions);

@@ -46,7 +46,7 @@ export const Support = () => {
 //console.log(data)
   return (
     <StyledSupport>
-      <h1 className="heading">Support Tickets</h1>
+      <h1 className="h1">Support Tickets</h1>
       <SupportCards>
         {revStore.map((ticket) => (
           <motion.div

@@ -103,6 +103,7 @@ export const Overview = () => {
                 <span>SwiftCoin</span>
               </div>
               <div className="card-content">
+
                 <h4>
                   ${user.swiftCoin}
                 </h4>

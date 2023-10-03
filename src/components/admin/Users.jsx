@@ -13,7 +13,6 @@ import styled from "styled-components";
 import { baseURL } from "../../redux/store";
 import Loader from "../Loader";
 
-
 export const Users = () => {
   const [user, setUserData] = useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -40,7 +39,6 @@ export const Users = () => {
       .get(`${baseURL}/users`)
       .then((res) => {
         setUserData(res.data);
-        console.log(res.data);
         setIsLoading(false);
       })
       .catch((err) => {

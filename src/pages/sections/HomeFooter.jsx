@@ -82,7 +82,7 @@ export const HomeFooter = ({ children }) => {
 };
 
 const FOOTER = styled.footer`
-  margin-top: 20rem;
+  /* margin-top: 20rem; */
   position: relative;
   background-color: var(--background-dark);
   padding-top: 8rem;

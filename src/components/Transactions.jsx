@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 
+
 export const Transactions = () => {
   const [limit] = useState(6);
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,6 +22,7 @@ export const Transactions = () => {
       loggedInUser: store.authReducer.loggedInUser,
     };
   }, shallowEqual);
+
 
   const filteredTransactions = allTransactions.filter((el) => {
     if (loggedInUser.transactions.includes(el.id)) return el;

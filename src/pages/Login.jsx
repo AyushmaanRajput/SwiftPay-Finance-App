@@ -1,38 +1,63 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Login } from "../components/Loginn";
-import SignIn from "../components/Signin";
+import { LoginForm } from "../components/forms/LoginForm";
+import { SignUpForm } from "../components/forms/SignUpForm";
 import { HomeNav } from "./sections/HomeNav";
 import { HomeFooter } from "./sections/HomeFooter";
 
 export const AuthPage = () => {
   const [isLoginVisible, setIsLoginVisible] = useState(true);
-  const [isSignInVisible, setIsSignInVisible] = useState(false);
+  const [isSignUpVisible, setIsSignUpVisible] = useState(false);
 
   const showLogin = () => {
     setIsLoginVisible(true);
-    setIsSignInVisible(false);
+    setIsSignUpVisible(false);
   };
 
-  const showSignIn = () => {
+  const showSignUp = () => {
     setIsLoginVisible(false);
-    setIsSignInVisible(true);
+    setIsSignUpVisible(true);
   };
 
   return (
     <>
-     <HomeNav></HomeNav>   
+      <HomeNav></HomeNav>
       <DIV log={isLoginVisible}>
-        <div>
-          <button onClick={showLogin} disabled={isLoginVisible}>
+        {isSignUpVisible && <h5 style={{ color: "var(--primary-grey)", marginBottom: "10px", width: "100%" }}>
+          Create a new account today, and get{" "}
+          <span style={{ color: "var(--primary-light)" }}>500 SwiftCoins</span>{" "}
+          for free.
+        </h5>}
+        <div className="login-button-div">
+          <button
+            onClick={showLogin}
+            disabled={isLoginVisible}
+            style={{
+              backgroundColor: isSignUpVisible
+                ? "var(--primary-grey)"
+                : "var(--primary)",
+              color: "black"
+            }}
+          >
             Login
           </button>
-          <button onClick={showSignIn} disabled={isSignInVisible}>
-            Sign In
+          <button
+            onClick={showSignUp}
+            disabled={isSignUpVisible}
+            style={{
+              backgroundColor: isLoginVisible
+                ? "var(--primary-grey)"
+                : "var(--primary)",
+              color: "black",
+            }}
+          >
+            Sign Up
           </button>
         </div>
-        {isLoginVisible && <Login />}
-        {isSignInVisible && <SignIn />}
+        <div className="login-content-div">
+          {isLoginVisible && <LoginForm />}
+          {isSignUpVisible && <SignUpForm />}
+        </div>
       </DIV>
       <HomeFooter></HomeFooter>
     </>
@@ -40,24 +65,35 @@ export const AuthPage = () => {
 };
 
 const DIV = styled.div`
-  width: ${(props) => 
-  props.log ? "390px" : "470px"
-  };
+  min-height: 100vh;
   padding: 20px;
-  margin: 3rem auto;
+  margin: auto;
   display: flex;
   flex-direction: column;
   gap: 15px;
-  border: 1px solid gray;
   align-items: center;
-  background-color: var(--primary-grey);
-  
+  background-image: var(--secondary-gradient);
+
   button {
-    font-size: larger;
+    font-size: 15px;
     border-radius: 20px;
-    padding: 5px 20px;
-    margin-right: 20px;
+    padding: 5px 15px;
     background-color: var(--primary);
   }
+  .login-button-div {
+    /* border: 1px solid gray; */
+    width: 20%;
+    display: flex;
+    margin-top: 1rem;
+    justify-content: space-evenly;
+  }
+  .login-content-div {
+    /* border: 1px solid gray; */
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+  }
 `;
-

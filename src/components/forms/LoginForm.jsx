@@ -5,14 +5,14 @@ import styled from "styled-components";
 import { login } from "../../redux/authReducer/action";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Input } from "./Input";
-import { useCustomToast } from "../utils/useCustomToast";
+import { useToast } from "../custom/ToastProvider";
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
   const users = useSelector((store) => store.usersReducer.users);
   // console.log(users);
   const navigate = useNavigate();
-  const { showToast, ToastContainer } = useCustomToast();
+  const showToast=useToast();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const location = useLocation();
@@ -53,7 +53,6 @@ export const LoginForm = () => {
             Log In
           </button>
         </div>
-        <ToastContainer />
       </FORM>
     </>
   );
@@ -62,10 +61,11 @@ export const LoginForm = () => {
 const FORM = styled.form `
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  width: 60%;
+  align-items:center;
+  gap: 1rem;
+  width: 100%;
 
   button {
-    width: 35%;
+    width: 100%;
   }
 `

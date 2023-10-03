@@ -20,7 +20,7 @@ const Label = styled.label`
 `;
 
 const StyledInput = styled.input`
-  width: min(100%, 20rem);
+  width: 25rem;
   padding: 0.5rem 1rem;
   border: 2px solid ${(props) => (props.error ? "red" : "#ccc")};
   border-color: ${(props) =>

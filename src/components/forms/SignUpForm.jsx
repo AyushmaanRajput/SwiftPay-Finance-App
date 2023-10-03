@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Avatars} from "../Avatars";
+import { Avatars } from "../Avatars";
 
 const initialState = {
   name: "",
@@ -35,7 +35,6 @@ export const SignUpForm = () => {
     <>
       <Container>
         <form onSubmit={handleSubmit}>
-
           <div className="signup-avatar-div">
             <img src={avatarNum} className="signup-avatar-img" />
           </div>
@@ -131,7 +130,8 @@ export const SignUpForm = () => {
 };
 
 const Container = styled.div`
-  width: 60%;
+  align-self: stretch;
+  width: 100%;
   /* padding: 20px; */
   border-radius: 5px;
 
@@ -148,10 +148,16 @@ const Container = styled.div`
     border: 2px solid var(--primary-light);
     cursor: pointer;
   }
+
+  form {
+    width: 100%;
+    /* background: red; */
+  }
 `;
 
 const FormGroup = styled.div`
   margin-bottom: 15px;
+  width: 100%;
 
   label {
     display: block;
@@ -181,11 +187,7 @@ const FormGroup = styled.div`
     border-radius: 5px;
     margin-left: 0%;
   }
-
-
 `;
-
-
 
 const RadioButtonGroup = styled.div`
   display: flex;
@@ -198,7 +200,7 @@ const RadioButtonGroup = styled.div`
 `;
 
 const SubmitButton = styled.button`
-  width: 35%;
+  width: 30%;
   padding: 10px;
   color: #080808;
   border: none;

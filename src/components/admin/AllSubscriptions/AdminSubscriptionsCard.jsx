@@ -61,7 +61,6 @@ export const AdminSubscriptionsCard = ({
             />
           </div>
         </div>
-        <ToastContainer />
       </DIV>
     </motion.div>
   );

@@ -10,7 +10,6 @@ import thunk from "redux-thunk";
 
 export const baseURL = `https://warlike-current.onrender.com`;
 
-// export const baseURL = `http://localhost:8080`;
 
 
 const rootReducer = combineReducers({

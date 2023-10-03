@@ -28,8 +28,8 @@ const MainCard = styled.div`
   width: 28rem;
   position: absolute;
   z-index:10000;
-  top: 150%;
-  right: 0%;
+  top: 10%;
+  right: 6%;
   padding: 1rem;
   transition-property: 63px;
   background-color: var(--background-light);

@@ -251,7 +251,6 @@ export const Dashboard = () => {
               className="icon"
               color="var(--background-dark)"
             />
-            {noti && <Notifications />}
           </Bell>
           <ButtonSmall onClick={logOutHandler}>Logout</ButtonSmall>
         </div>
@@ -262,6 +261,7 @@ export const Dashboard = () => {
         {selectedTab === "payments" && <Payments />}
         {selectedTab === "subscriptions" && <Subscriptions />}
         {selectedTab === "transactions" && <Transactions />}
+        {noti && <Notifications />}
       </Content>
       <AllPageFooter></AllPageFooter>
       {/* </ContainerLarge> */}

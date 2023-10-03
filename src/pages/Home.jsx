@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { HomeNav } from "./sections/HomeNav";
 import { Hero } from "./sections/Hero";
 import { Instructions } from "./sections/Instructions";
@@ -7,13 +7,12 @@ import { Services } from "./sections/Services";
 import { CTA } from "./sections/CTA";
 import { HomeFooter } from "./sections/HomeFooter";
 import styled from "styled-components";
-import { useCustomToast } from "../components/utils/useCustomToast";
 import { getUsers } from "../redux/user/usersReducer/action";
 import { useDispatch, useSelector } from "react-redux";
-import { Modal } from "../components/modals/Modal";
-
+import {useToast} from '../components/custom/ToastProvider';
+import Loader from '../components/Loader';
 export const Home = () => {
-  const { showToast, ToastContainer } = useCustomToast();
+  const showToast= useToast();
   const dispatch = useDispatch();
   const users = useSelector((store) => store.usersReducer.users);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -25,7 +24,7 @@ export const Home = () => {
   }, []);
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <Loader></Loader>;
   }
 
   return (
@@ -38,7 +37,6 @@ export const Home = () => {
       <HomeFooter>
         <CTA></CTA>
       </HomeFooter>
-      <ToastContainer></ToastContainer>
     </HOME>
   );
 };

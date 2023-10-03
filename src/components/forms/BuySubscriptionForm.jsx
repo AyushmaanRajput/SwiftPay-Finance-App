@@ -3,12 +3,14 @@ import { ButtonSmall } from "../Buttons";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../redux/user/usersReducer/action";
+import { useToast } from "../custom/ToastProvider";
 
 export const BuySubscriptionForm = ({
   closeModal,
   viewSubscriptionData,
   getSubscriptions,
 }) => {
+  const showToast = useToast();
   const [billingCycle, setBillingCycle] = useState("Monthly");
 
   const loggedInUser = useSelector((store) => store.authReducer.loggedInUser);
@@ -31,12 +33,16 @@ export const BuySubscriptionForm = ({
       ],
     };
 
-    dispatch(updateUser(loggedInUser.id, newObj));
-    
-    closeModal();
+    dispatch(
+      updateUser(
+        loggedInUser.id,
+        newObj,
+        showToast,
+        "Subscription Purchase Successful!"
+      )
+    );
 
-    // console.log(newObj);
-    // getSubscriptions();
+    closeModal();
   };
 
   return (

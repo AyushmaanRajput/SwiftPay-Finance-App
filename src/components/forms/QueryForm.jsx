@@ -2,47 +2,69 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { postQuery } from "../../redux/admin/SupportReducer/action";
+import { useToast } from "../custom/ToastProvider";
+import { ButtonOutline, ButtonSmall } from "../Buttons";
 
-export const QueryForm = ({userTransactionData,isPresentFunc}) => {
+export const QueryForm = ({ userTransactionData, isPresentFunc }) => {
+  const showToast = useToast();
   const dispatch = useDispatch();
   const [userData, setUserData] = useState(userTransactionData);
-  
+  console.log(userTransactionData);
+
   const handleSubmit = (e) => {
-    e.preventDefault()
-     dispatch(postQuery(userData));
-     setUserData({...userData,message:"",subject:"",priority:""})
+    e.preventDefault();
+    dispatch(postQuery(userData, showToast));
+    setUserData({ ...userData, message: "", subject: "", priority: "" });
+    isPresentFunc((prev) => !prev);
   };
-  console.log(userData)
+  console.log(userData);
 
   return (
     <DIV>
+      <h3>Raise Ticket</h3>
+      <p>
+        Transaction ID : <span>{userTransactionData.transactionId}</span>
+      </p>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="subject"
-          placeholder="Subject"
-          value={userData.subject}
-          onChange={(e) => setUserData({ ...userData, subject: e.target.value })}
+        <select
+          name="priority"
+          value={userData.priority}
           required
-        />
-        <input
-          type="text"
-          name="message"
-          placeholder="Message"
-          value={userData.message}
-          onChange={(e) => setUserData({ ...userData, message: e.target.value })}
-          required
-        />
-
-        <select name="priority" value={userData.priority} required onChange={(e)=>setUserData({...userData,priority : e.target.value})}>
+          onChange={(e) =>
+            setUserData({ ...userData, priority: e.target.value })
+          }
+        >
           <option name="">Select Priority</option>
           <option name="low">Low</option>
           <option name="medium">Medium</option>
           <option name="high">High</option>
         </select>
+        <input
+          type="text"
+          name="subject"
+          placeholder="Write a subject"
+          value={userData.subject}
+          onChange={(e) =>
+            setUserData({ ...userData, subject: e.target.value })
+          }
+          required
+        />
+        <textarea
+          type="text"
+          name="message"
+          placeholder="Mention details in message"
+          value={userData.message}
+          onChange={(e) =>
+            setUserData({ ...userData, message: e.target.value })
+          }
+          required
+        />
+
         <div className="button-container">
-        <button type="submit" className="button">Add new</button>
-        <button className="button" onClick={()=>isPresentFunc((prev)=>!prev)}>Go Back</button>
+          <ButtonOutline onClick={() => isPresentFunc((prev) => !prev)}>
+            Go Back
+          </ButtonOutline>
+          <ButtonSmall type="submit">Add new</ButtonSmall>
         </div>
       </form>
     </DIV>
@@ -50,37 +72,59 @@ export const QueryForm = ({userTransactionData,isPresentFunc}) => {
 };
 
 const DIV = styled.div`
-box-sizing: border-box;
-  width: 30%;
+  padding: 2rem;
+  box-sizing: border-box;
+  width: 35rem;
   margin: auto;
-  form{
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  text-align: left;
+  color: var(--primary-white);
+  h3 {
+    text-align: left;
   }
-  form > select{
-    height: 2rem;
-    border-radius: .3rem;
-    padding-left: 0.5rem;
-    outline : none
+  p {
+    margin-bottom: 2rem;
+    span {
+      color: var(--primary-light);
+    }
   }
-  form > input {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 2rem;
-    border-radius: .3rem;
-    padding-left: 0.5rem;
-    outline : none
+  form > select {
+    background-color: transparent;
+    border: 1px solid var(--primary-grey);
+    padding: 0.5rem 1rem;
+    color: var(--primary-grey);
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+    option {
+      background-color: var(--background-light);
+    }
   }
-  .button{
+  form > input,
+  form > textarea {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--primary-grey);
+    background-color: transparent;
+    margin-bottom: 1rem;
+    color: var(--primary-white);
+    border-radius: 0.25rem;
+    &:focus {
+      outline-color: var(--primary-light);
+    }
+  }
+  form > textarea {
+    margin-bottom: 3rem;
+  }
+  .button {
     width: 30%;
     height: 1.8rem;
     margin: auto;
     border-radius: 3rem;
     background-color: #c6fe1e;
   }
-  .button-container{
+  .button-container {
     display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: flex-end;
   }
 `;

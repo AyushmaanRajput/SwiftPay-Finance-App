@@ -4,13 +4,12 @@ import React, { useEffect } from "react";
 import { AllRoutes } from "./routes/AllRoutes";
 import { getUsers } from "./redux/user/usersReducer/action";
 import { useDispatch, useSelector } from "react-redux";
-import { useCustomToast } from "./components/utils/useCustomToast";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { alreadyLoggedIn } from "./redux/authReducer/action";
-import Loader from './components/Loader';
-
+import Loader from "./components/Loader";
+import { useToast } from "./components/custom/ToastProvider";
 function App() {
-  const { showToast, ToastContainer } = useCustomToast();
+  const showToast = useToast();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const users = useSelector((store) => store.usersReducer.users);
@@ -43,6 +42,5 @@ function App() {
     </div>
   );
 }
-
 
 export default App;

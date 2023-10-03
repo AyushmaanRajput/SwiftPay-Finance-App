@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllTransactions } from "../../redux/admin/transactionsReducer/action";
 
 export const AllTransactions = () => {
-  
   const [currentPage, setCurrentPage] = useState(1);
   const [limit] = useState(9);
   const [sortOrder,setSortOrder] = useState("asc")

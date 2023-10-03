@@ -11,18 +11,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSubscriptions } from "../redux/admin/subscriptionsReducer/action";
 import { OverviewCharts } from "./overview/OverviewCharts";
 import AccountStatus from "./overview/AccountStatus";
+import Coin from "./overview/Coin";
 import { AllPageFooter } from "../pages/sections/AllPageFooter";
 import { motion } from "framer-motion";
 import Loader from "./Loader";
 
 export const Overview = () => {
   const dispatch = useDispatch();
-  const [user, setUser] = React.useState(
-    useSelector((store) => store.authReducer.loggedInUser) || null
-  );
-  const { isLoading, isError } = useSelector(
-    (store) => store.authReducer.loggedInUser
-  );
+  const { isLoading } = useSelector((store) => store.authReducer);
+  const user = useSelector((store) => store.authReducer.loggedInUser) || null;
+  console.log(user);
   const { income, expenses } = user.monthlyIncomeExpenses[0];
   let flag = income > expenses ? "happy" : "sad";
   let userids = user.subscriptions.map((sub) => sub.subscription_id);
@@ -105,7 +103,9 @@ export const Overview = () => {
                 <span>SwiftCoin</span>
               </div>
               <div className="card-content">
-                <h4>${user.swiftCoin}</h4>
+                <h4>
+                  ${user.swiftCoin}
+                </h4>
                 <p>
                   Per Purchase
                   <span> 10% off</span>
@@ -274,6 +274,10 @@ const DETAILSCARDS = styled.div`
     line-height: 1.1;
     font-size: var(--h4);
     /* color:var(--primary-white); */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0;
   }
   .card-content p span {
     color: var(--primary-light);

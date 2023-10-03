@@ -13,7 +13,7 @@ export const Hero = () => {
           with every dollar.
         </p>
         <div className="blob"></div>
-        <img src="/Phone3.png" alt="Hero Image" />
+        <img src="/HeroImage.png" alt="Hero Image" />
       </Container>
     </HERO>
   );

@@ -5,7 +5,7 @@ import { baseURL } from "../../../redux/store";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { deleteSubscription } from "../../../redux/admin/subscriptionsReducer/action";
-import { useCustomToast } from "../../utils/useCustomToast";
+import { useToast } from "../../custom/ToastProvider";
 
 export const AdminSubscriptionsCard = ({
   id,
@@ -20,7 +20,7 @@ export const AdminSubscriptionsCard = ({
 }) => {
 
   const dispatch = useDispatch();
-  const { showToast, ToastContainer } = useCustomToast();
+  const showToast=useToast();
 
   const handleDelete = (id) => {
     dispatch(deleteSubscription(id, showToast, getSubscriptionsData));
@@ -51,7 +51,6 @@ export const AdminSubscriptionsCard = ({
           }}
         />
       </div>
-      <ToastContainer />
     </DIV>
   );
 };

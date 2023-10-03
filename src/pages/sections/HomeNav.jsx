@@ -5,8 +5,10 @@ import { Container } from "../../components/Layouts";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { LOGOUT } from "../../redux/authReducer/actionTypes";
+import { useToast} from '../../components/custom/ToastProvider';
 
 export const HomeNav = () => {
+  const showToast= useToast();
   const [user, setUser] = React.useState(
     useSelector((store) => store.authReducer.loggedInUser) || null
   );
@@ -27,6 +29,7 @@ export const HomeNav = () => {
     localStorage.removeItem("loggedInUser");
     setUser(null);
     dispatch({ type: LOGOUT });
+    showToast("success",'Logged Out Successfully');
   }
   console.log(isAdmin, user);
 

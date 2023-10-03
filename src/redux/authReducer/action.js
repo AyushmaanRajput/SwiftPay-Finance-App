@@ -13,10 +13,12 @@ export const login = (user, showToast, users, navigate) => (dispatch) => {
 
   if (user.email === "admin@admin.com" && user.password == "admin@admin") {
     dispatch({ type: POSTADMINSUCESS });
+    showToast("success", "Admin Login Successful");
     navigate("/admin");
     return;
   } else if (user.email === "admin@admin.com") {
     dispatch({ type: POSTLOGINFAIL });
+    showToast("error", "Admin Login Failed");
     navigate("/login");
     return;
   }
@@ -28,15 +30,15 @@ export const login = (user, showToast, users, navigate) => (dispatch) => {
     }
   }
   if (flag) {
-    showToast("success", "Successfully logged in");
     // console.log(flag, loggedInUser);
     localStorage.setItem("id", JSON.stringify(loggedInUser.id));
     dispatch({ type: POSTLOGINSUCCESS, payload: loggedInUser });
+    showToast("success", "Successfully logged in");
     navigate("/dashboard");
   } else {
-    showToast("error", "Failed logged in");
     localStorage.removeItem("id");
     dispatch({ type: POSTLOGINFAIL });
+    showToast("error", "Failed logged in");
     navigate("/login");
   }
   return;
@@ -54,14 +56,14 @@ export const alreadyLoggedIn =
       }
     }
     if (flag) {
-      showToast("success", "Successfully logged in");
       // console.log(flag, loggedInUser);
       localStorage.setItem("id", JSON.stringify(loggedInUser.id));
       dispatch({ type: POSTLOGINSUCCESS, payload: loggedInUser });
+      showToast("success", "Successfully logged in");
       navigate("/dashboard");
     } else {
-      showToast("error", "Failed logged in");
       dispatch({ type: POSTLOGINFAIL });
+      showToast("error", "Failed logged in");
       navigate("/");
     }
   };

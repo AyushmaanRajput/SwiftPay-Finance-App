@@ -38,6 +38,10 @@ export const AllSubscriptions = () => {
     getSubscriptionsData();
   }, []);
 
+  if(isLoading) {
+    <h2>Loading...</h2>
+  }
+
   return (
     <div>
       {!newState && (

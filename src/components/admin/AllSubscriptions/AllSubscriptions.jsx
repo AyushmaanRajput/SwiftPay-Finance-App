@@ -40,6 +40,8 @@ export const AllSubscriptions = () => {
 
   return (
     <div>
+
+      <H1>All Subscriptions</H1>
       {!newState && (
         <div
           style={{
@@ -91,4 +93,13 @@ const DIV = styled.div`
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   /* display: grid; */
-`;
+  
+  `
+
+const H1 = styled.h1 `
+  color: var(--primary-white);
+  line-height: 1.1;
+  margin-top: 1rem;
+  text-align: left;
+  margin-bottom: 2rem;
+`

@@ -10,7 +10,7 @@ const InputContainer = styled.div`
 
 const Label = styled.label`
   font-weight: bold;
-  color: ${(props) => (props.error ? "red" : "#333")};
+  color: ${(props) => (props.error ? "red" : "var(--primary-light)")};
   transition: all 0.2s ease;
   transform: ${(props) =>
     props.focused || props.value ? "translateY(-5px)" : "none"};

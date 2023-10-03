@@ -18,22 +18,21 @@ export const Subscriptions = () => {
   const loggedInUserSubscriptonsIDs = loggedInUser.subscriptions.map(
     (ele) => ele.subscription_id || ele.id
   );
-
+  
+  const [ isViewModalOpen, setIsViewModalOpen ] = useState(false);
+  const [ isBuyModalOpen, setIsBuyModalOpen ] = useState(false);
+  const [ modalSubscriptionData, setModalSubscriptionData ] = useState({});
+  
   const userSubscriptions = [];
   const recommendedSubscriptions = [];
 
   subscriptions.forEach((ele) => {
     if(loggedInUserSubscriptonsIDs.includes(ele.id)) {
-      userSubscriptions.push(ele);        
+      userSubscriptions.push(ele);  
     } else {
       recommendedSubscriptions.push(ele);
     }
   })
-
-  const [ isViewModalOpen, setIsViewModalOpen ] = useState(false);
-  const [ isBuyModalOpen, setIsBuyModalOpen ] = useState(false);
-  
-  const [ modalSubscriptionData, setModalSubscriptionData ] = useState({});
 
   const openViewModal = () => {
     setIsViewModalOpen(true);
@@ -74,6 +73,7 @@ export const Subscriptions = () => {
         closeModal={() => setIsBuyModalOpen(false)}
         viewSubscriptionData={modalSubscriptionData}
         getSubscriptions={getSubscriptions}
+        setModalSubscriptionData={setModalSubscriptionData}
       />
     </DIV>
   );

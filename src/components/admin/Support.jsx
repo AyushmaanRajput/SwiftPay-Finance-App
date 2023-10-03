@@ -8,7 +8,8 @@ import { supportData } from '../../redux/admin/SupportReducer/action';
 export const Support = () => {
   const dispatch = useDispatch()
   const store = useSelector((store)=>store.supportReducer.support);
-  console.log(store)
+  console.log(store);
+  const revStore = store.reverse()
   
   useEffect(() => {
     dispatch(supportData())
@@ -36,9 +37,9 @@ export const Support = () => {
 //console.log(data)
   return (
     <StyledSupport>
-      <h1 className="heading">Support Tickets</h1>
+      <h1 className="h1">Support Tickets</h1>
       <SupportCards>
-        {store.map((ticket) => (
+        {revStore.map((ticket) => (
           <motion.div
             className="support-card"
             key={ticket.id}

@@ -12,11 +12,16 @@ import { getSubscriptions } from "../redux/admin/subscriptionsReducer/action";
 import { OverviewCharts } from "./overview/OverviewCharts";
 import AccountStatus from "./overview/AccountStatus";
 import { AllPageFooter } from "../pages/sections/AllPageFooter";
+import { motion } from "framer-motion";
+import Loader from "./Loader";
 
 export const Overview = () => {
   const dispatch = useDispatch();
   const [user, setUser] = React.useState(
     useSelector((store) => store.authReducer.loggedInUser) || null
+  );
+  const { isLoading, isError } = useSelector(
+    (store) => store.authReducer.loggedInUser
   );
   const { income, expenses } = user.monthlyIncomeExpenses[0];
   let flag = income > expenses ? "happy" : "sad";
@@ -29,125 +34,190 @@ export const Overview = () => {
     dispatch(getSubscriptions());
   }, []);
 
-  return (
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      borderRadius: "2rem",
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        delay: 0.1,
+      },
+    },
+    hover: {
+      scale: 1.01,
+      boxShadow: "0px 0px 10px rgba(255, 255, 255, 0.3)",
+      transition: {
+        duration: 0.2,
+      },
+    },
+  };
+
+  return isLoading ? (
+    <Loader></Loader>
+  ) : (
     <OVERVIEW>
       <DETAILSCARDS>
         <h3>Stats</h3>
         <div>
-          <CardSmall
-            color="var(--background-light)"
-            bg="var(--primary-grey)"
-            accent="var(--primary-light)"
+          <motion.div
+            className="transaction-card"
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            whileHover="hover"
           >
-            <div className="card-heading">
-              <FontAwesomeIcon icon={faLandmark} />
-              <span>Account Balance</span>
-            </div>
-            <div className="card-content">
-              <h4>${user.balance}</h4>
-              <p>
-                Highest For Last Month:{" "}
-                <span>${user.monthlyIncomeExpenses[0].income}</span>
-              </p>
-            </div>
-          </CardSmall>
-          <CardSmall
-            bg="var(--background-light)"
-            color="var(--primary-white)"
-            accent="var(--primary-light)"
+            <CardSmall
+              color="var(--background-light)"
+              bg="var(--primary-grey)"
+              accent="var(--primary-light)"
+            >
+              <div className="card-heading">
+                <FontAwesomeIcon icon={faLandmark} />
+                <span>Account Balance</span>
+              </div>
+              <div className="card-content">
+                <h4>${user.balance}</h4>
+                <p>
+                  Highest For Last Month:{" "}
+                  <span>${user.monthlyIncomeExpenses[0].income}</span>
+                </p>
+              </div>
+            </CardSmall>
+          </motion.div>
+          <motion.div
+            className="transaction-card"
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            whileHover="hover"
           >
-            <div className="card-heading">
-              <FontAwesomeIcon icon={faCircleDollarToSlot} />
-              <span>SwiftCoin</span>
-            </div>
-            <div className="card-content">
-              <h4>${user.swiftCoin}</h4>
-              <p>
-                Per Purchase
-                <span> 10% off</span>
-              </p>
-            </div>
-          </CardSmall>
-          <CardSmall
-            bg="var(--background-light)"
-            color="var(--primary-white)"
-            accent="var(--primary-light)"
+            <CardSmall
+              bg="var(--background-light)"
+              color="var(--primary-white)"
+              accent="var(--primary-light)"
+            >
+              <div className="card-heading">
+                <FontAwesomeIcon icon={faCircleDollarToSlot} />
+                <span>SwiftCoin</span>
+              </div>
+              <div className="card-content">
+                <h4>${user.swiftCoin}</h4>
+                <p>
+                  Per Purchase
+                  <span> 10% off</span>
+                </p>
+              </div>
+            </CardSmall>
+          </motion.div>
+          <motion.div
+            className="transaction-card"
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            whileHover="hover"
           >
-            <div className="card-heading">
-              <FontAwesomeIcon icon={faCreditCard} />
-              <span>Transactions</span>
-            </div>
-            <div className="card-content">
-              <p>
-                <h4>{user.transactions.length} transactions completed</h4>
-              </p>
-              <p>
-                Saved Over
-                <span> $400</span> on transactions
-              </p>
-            </div>
-          </CardSmall>
+            <CardSmall
+              bg="var(--background-light)"
+              color="var(--primary-white)"
+              accent="var(--primary-light)"
+            >
+              <div className="card-heading">
+                <FontAwesomeIcon icon={faCreditCard} />
+                <span>Transactions</span>
+              </div>
+              <div className="card-content">
+                <p>
+                  <h4>{user.transactions.length} transactions completed</h4>
+                </p>
+                <p>
+                  Saved Over
+                  <span> $400</span> on transactions
+                </p>
+              </div>
+            </CardSmall>
+          </motion.div>
         </div>
       </DETAILSCARDS>
       <ACCOUNTSTATUS>
-        <CardSmall
-          bg="var(--background-light)"
-          color="var(--primary-grey)"
-          accent="var(--primary-light)"
-          className="strech"
+        <motion.div
+          className="transaction-card"
+          variants={cardVariants}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+          whileHover="hover"
         >
-          <h4>Account Status</h4>
-          <AccountStatus className="hide" flag={flag} />
-        </CardSmall>
+          <CardSmall
+            bg="var(--background-light)"
+            color="var(--primary-grey)"
+            accent="var(--primary-light)"
+            className="strech"
+          >
+            <h4>Account Status</h4>
+            <AccountStatus className="hide" flag={flag} />
+          </CardSmall>
+        </motion.div>
       </ACCOUNTSTATUS>
       <SUBSCRIPTIONSOVERVIEW>
-        <CardSmall
-          bg="var(--primary-light)"
-          color="var(--background-light)"
-          accent="var(--background-light)"
+        <motion.div
+          className="transaction-card"
+          variants={cardVariants}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+          whileHover="hover"
         >
-          <h4>Purchases</h4>
-          <div>
-            {filteredSubs.length > 0 &&
-              filteredSubs.map((sub) => {
-                return (
-                  <div className="subrow">
-                    <img src={sub.logo} />
-                    <div>
-                      <h6>{sub.name}</h6>
-                      <p>{sub.platform}</p>
-                    </div>
-                  </div>
-                );
-              })}
-          </div>
-          <hr />
-          <div>
-            <h4>Recommended</h4>
+          <CardSmall
+            bg="var(--primary-light)"
+            color="var(--background-light)"
+            accent="var(--background-light)"
+          >
+            <h4>Purchases</h4>
             <div>
-              {leftSubs.length > 0 &&
-                leftSubs.splice(0, 2).map((sub) => {
+              {filteredSubs.length > 0 &&
+                filteredSubs.map((sub) => {
                   return (
-                    <div className="recommendedsub">
+                    <div className="subrow">
+                      <img src={sub.logo} alt={sub.name} />
                       <div>
-                        <img src={sub.logo} />
-                        <div>
-                          <h5>{sub.name}</h5>
-                          <h5>${sub.amount}</h5>
-                        </div>
+                        <h6>{sub.name}</h6>
+                        <p>{sub.platform}</p>
                       </div>
-                      <p>{sub.description}</p>
                     </div>
                   );
                 })}
             </div>
-          </div>
-        </CardSmall>
+            <hr />
+            <div>
+              <h4>Recommended</h4>
+              <div>
+                {leftSubs.length > 0 &&
+                  leftSubs.splice(0, 2).map((sub) => {
+                    return (
+                      <div className="recommendedsub">
+                        <div>
+                          <img src={sub.logo} alt={sub.name} />
+                          <div>
+                            <h5>{sub.name}</h5>
+                            <h5>${sub.amount}</h5>
+                          </div>
+                        </div>
+                        <p>{sub.description}</p>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+          </CardSmall>
+        </motion.div>
       </SUBSCRIPTIONSOVERVIEW>
       <OverviewCharts></OverviewCharts>
     </OVERVIEW>
-  
-  
   );
 };
 

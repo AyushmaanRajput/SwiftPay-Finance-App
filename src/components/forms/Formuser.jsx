@@ -7,7 +7,7 @@ import { faArrowLeft, faCoins } from "@fortawesome/free-solid-svg-icons";
 import { ButtonSmall, ButtonOutline } from "../Buttons";
 import { updateUser } from "../../redux/user/usersReducer/action";
 
-export const Formuser = ({ edit, setEdit,onClose }) => {
+export const Formuser = ({ edit, setEdit, onClose }) => {
   const [emailChange, setEmailChange] = useState("");
   const [passwordChange, setPasswordChange] = useState("");
   const [num, setNum] = useState(0);
@@ -40,12 +40,12 @@ export const Formuser = ({ edit, setEdit,onClose }) => {
   useEffect(() => {
     if (userID && userID.id) {
       // Access user details based on userID.id
-      const user = userDetails.find((el) => el.id === userID.id);
-
+      // const user = userDetails.find((el) => el.id === userID.id);
+      const user = userID;
       if (user) {
         setEmailChange(user.email);
         setPasswordChange(user.password);
-        setNum(user.num);
+        setNum(user.mobile);
       }
     }
   }, [userDetails, userID]);
@@ -59,11 +59,12 @@ export const Formuser = ({ edit, setEdit,onClose }) => {
       mobile: num,
     };
     console.log("ok");
+
     dispatch(updateUser(userID.id, newUserObj));
+    goBack();
   };
   const handleEdit = () => {
     setEdit(true);
-    // console.log("ok");
   };
   const goBack = () => {
     setEdit(false);
@@ -90,8 +91,8 @@ export const Formuser = ({ edit, setEdit,onClose }) => {
                 </h5>
               </div>
             </div>
-            <div className='buttons'>
-              <ButtonOutline onClick={()=>onClose()}>Go Back</ButtonOutline>
+            <div className="buttons">
+              <ButtonOutline onClick={() => onClose()}>Go Back</ButtonOutline>
               <ButtonSmall className="edit-btn" onClick={handleEdit}>
                 Edit Details
               </ButtonSmall>
@@ -100,61 +101,75 @@ export const Formuser = ({ edit, setEdit,onClose }) => {
         </>
       ) : (
         <>
-          <FontAwesomeIcon
-            icon={faArrowLeft}
-            onClick={goBack}
-            className="back-icon"
-          />
-          <div className="imageIcon">
+          <div className="edit-form">
+            <FontAwesomeIcon
+              icon={faArrowLeft}
+              onClick={goBack}
+              className="back-icon"
+            />
             <img src={avatars[userID.avatarNum - 1]} className="icons" />
+            <input
+              type="email"
+              placeholder="Email"
+              value={emailChange}
+              onChange={(e) => setEmailChange(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={passwordChange}
+              onChange={(e) => setPasswordChange(e.target.value)}
+            />
+            <input
+              type="number"
+              placeholder="Number"
+              value={num}
+              onChange={(e) =>
+                setNum(
+                  !isNaN(e.target.value) ? +e.target.value : e.target.value
+                )
+              }
+            />
+            <div className="buttons">
+              <ButtonOutline onClick={() => onClose()}>Cancel</ButtonOutline>
+              <ButtonSmall type="submit" onClick={handleSubmit}>
+                Update Profile
+              </ButtonSmall>
+            </div>
           </div>
-          <input
-            type="email"
-            placeholder="Email"
-            value={emailChange}
-            onChange={(e) => setEmailChange(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={passwordChange}
-            onChange={(e) => setPasswordChange(e.target.value)}
-          />
-          <input
-            type="number"
-            placeholder="Number"
-            value={num}
-            onChange={(e) =>
-              setNum(!isNaN(e.target.value) ? +e.target.value : e.target.value)
-            }
-          />
-          <button
-            type="submit"
-            onClick={handleSubmit}
-            className="user-data-change"
-          >
-            Continue
-          </button>
         </>
       )}
     </DIV>
   );
 };
 const DIV = styled.div`
-  width: 30rem;
   padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
   align-items: center;
   background-color: var(--background-light);
+  .main-div {
+    width: 30rem;
+  }
 
   .back-icon {
     /* margin-right: 0; */
   }
   input {
-    width: 80%;
-    height: 40px;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--primary-grey);
+    background-color: transparent;
+    margin-bottom: 1rem;
+    color: var(--primary-white);
+    border-radius: 0.25rem;
+    &:focus {
+      outline-color: var(--primary-light);
+    }
+    &:last-of-type {
+      margin-bottom: 3rem;
+    }
   }
   .imageIcon {
     display: flex;
@@ -191,15 +206,38 @@ const DIV = styled.div`
       }
     }
   }
-  .buttons{
+  .buttons {
     display: flex;
-    gap:1rem;
-    align-items:center;
-    justify-content:flex-end;
+    gap: 1rem;
+    align-items: center;
+    justify-content: flex-end;
   }
   .user-data-change {
     margin-top: 10px;
     width: 80%;
     height: 40px;
+  }
+  .edit-form {
+    width: 25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .edit-form .icons {
+    align-self: center;
+    width: 8rem;
+    height: 8rem;
+    border-radius: 50%;
+    margin-bottom: 2rem;
+    border: 2px solid var(--primary-light);
+  }
+  .back-icon {
+    color: var(--primary-grey);
+    align-self: flex-start;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  .edit-form .buttons {
+    align-self: flex-end;
   }
 `;

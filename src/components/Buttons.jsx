@@ -1,11 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
-export const ButtonSmall = ({ children, onClick }) => {
-  return <BUTTONSMALL onClick={onClick}>{children}</BUTTONSMALL>;
-};
-
-const BUTTONSMALL = styled.button`
+const ButtonSmallStyled = styled(motion.button)`
   background-color: var(--primary);
   padding: 0.35rem 1rem;
   color: var(--text-button);
@@ -14,15 +11,58 @@ const BUTTONSMALL = styled.button`
   letter-spacing: 0.25px;
 `;
 
-export const Button = ({ children, onClick, bg }) => {
+const buttonAnimation = {
+  initial: {
+    opacity: 0,
+    scale: 0.8,
+  },
+  animate: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.2,
+    },
+  },
+  whileHover: {
+    scale: 1.05,
+  },
+  whileTap: {
+    scale: 0.9,
+  },
+};
+
+export const ButtonSmall = ({ children, onClick }) => {
   return (
-    <BUTTON onClick={onClick} bg={bg}>
+    <ButtonSmallStyled
+      onClick={onClick}
+      initial="initial"
+      animate="animate"
+      whileHover="whileHover"
+      whileTap="whileTap" // Make sure you include this line
+      variants={buttonAnimation}
+    >
       {children}
-    </BUTTON>
+    </ButtonSmallStyled>
   );
 };
 
-const BUTTON = styled.button`
+export const Button = ({ children, onClick, bg }) => {
+  return (
+    <ButtonStyled
+      onClick={onClick}
+      bg={bg}
+      initial="initial"
+      animate="animate"
+      whileHover="whileHover"
+      whileTap="whileTap"
+      variants={buttonAnimation}
+    >
+      {children}
+    </ButtonStyled>
+  );
+};
+
+const ButtonStyled = styled(motion.button)`
   padding: 0.75rem 2rem;
   color: ${(props) =>
     props.bg ? "var(--primary-white)" : "var(--text-button)"};
@@ -34,10 +74,46 @@ const BUTTON = styled.button`
 `;
 
 export const ButtonOutline = ({ children, onClick }) => {
-  return <BUTTONOUTLINE onClick={onClick}>{children}</BUTTONOUTLINE>;
+  return (
+    <ButtonOutlineStyled
+      onClick={onClick}
+      initial="initial"
+      animate="animate"
+      whileHover="whileHover"
+      whileTap="whileTap"
+      variants={outlineButtonAnimation}
+    >
+      {children}
+    </ButtonOutlineStyled>
+  );
 };
 
-const BUTTONOUTLINE = styled.button`
+const outlineButtonAnimation = {
+  initial: {},
+  animate: {
+    transition: {
+      duration: 0.2,
+      ease: "easeOut",
+    },
+  },
+  whileHover: {
+    backgroundColor: "var(--primary-light)",
+    color: "var(--primary)",
+    transition: {
+      duration: 0.2,
+      ease: "easeOut",
+    },
+  },
+  whileTap: {
+    scale: 0.95,
+    transition: {
+      duration: 0.2,
+      ease: "easeOut",
+    },
+  },
+};
+
+const ButtonOutlineStyled = styled(motion.button)`
   background-color: transparent !important;
   border: 1px solid var(--primary-light);
   color: var(--primary-light);

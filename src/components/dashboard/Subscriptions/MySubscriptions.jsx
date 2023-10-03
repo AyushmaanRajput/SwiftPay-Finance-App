@@ -4,6 +4,7 @@ import { SubscriptionsCard } from './SubscriptionsCard';
 import { baseURL } from '../../../redux/store';
 import styled from 'styled-components';
 
+
 export const MySubscriptions = ({userSubscriptions}) => {
 
   return (

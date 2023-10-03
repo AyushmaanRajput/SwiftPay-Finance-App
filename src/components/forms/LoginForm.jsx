@@ -60,12 +60,11 @@ export const LoginForm = () => {
 
 const FORM = styled.form `
   display: flex;
-  flex-direction: column;
-  align-items:center;
+  flex-direction:column;
   gap: 1rem;
-  width: 100%;
+  width: 25rem;
 
   button {
-    width: 100%;
+    width: 30%;
   }
 `

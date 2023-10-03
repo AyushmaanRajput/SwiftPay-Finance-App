@@ -42,6 +42,7 @@ export const SignUpForm = () => {
           <FormGroup>
             <label htmlFor="name">Name:</label>
             <input
+              // placeholder="Name"
               type="text"
               id="name"
               name="name"
@@ -130,8 +131,8 @@ export const SignUpForm = () => {
 };
 
 const Container = styled.div`
-  align-self: stretch;
-  width: 100%;
+  /* border:1px solid red; */
+  width: 25rem;
   /* padding: 20px; */
   border-radius: 5px;
 
@@ -200,6 +201,7 @@ const RadioButtonGroup = styled.div`
 `;
 
 const SubmitButton = styled.button`
+  margin-top: 2rem;
   width: 30%;
   padding: 10px;
   color: #080808;

@@ -19,7 +19,8 @@ import { SendMoneyForm } from "./forms/SendMoneyForm";
 import { RequestMoneyForm } from "./forms/RequestMoneyForm";
 import { BuySwiftCoinsForm } from "./forms/BuySwiftCoinsForm";
 import { getAllTransactions } from "../redux/admin/transactionsReducer/action";
-import { motion } from "framer-motion"; // Import Framer Motion
+import { motion } from "framer-motion";
+import { Articles } from "./Articles";
 
 const avatars = [
   "/avatars/Asian Man.png",
@@ -118,7 +119,7 @@ export const Payments = () => {
         duration: 0.2,
       },
     },
-  }
+  };
 
   return (
     <>
@@ -287,21 +288,10 @@ export const Payments = () => {
           </motion.div>
         </REMAINDERS>
         <ARTICLES>
-          <motion.div
-            variants={cardVariants}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-            whileHover="hover"
-          >
-            <CardSmall
-              bg="var(--background-light)"
-              color="var(--primary-white)"
-              accent="var(--primary-light)"
-            >
-              <h4>Articles To Improve Your Portfolio</h4>
-            </CardSmall>
-          </motion.div>
+          <CardSmall>
+            <h3>Articles To Improve Your Financial Portfolio</h3>
+            <Articles></Articles>
+          </CardSmall>
         </ARTICLES>
       </PAYMENTS>
       {modalContent && (

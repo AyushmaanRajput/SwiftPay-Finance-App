@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { SubscriptionsCard } from "./SubscriptionsCard";
-import { ButtonSmall } from "../../Buttons";
+import { ButtonSmall,ButtonOutline } from "../../Buttons";
 import { Modal } from "../../modals/Modal";
 import { SubscriptionDetails } from "../../forms/SubscriptionDetails";
 
@@ -32,16 +32,17 @@ export const RecommendedSubscriptions = ({
               {...ele}
               children={
                 <div className="recommendedSubscriptions-card-buttons-div">
+                  
+                  <ButtonOutline
+                    children={"View Details"}
+                    onClick={() => {
+                      handleViewDetails(ele);
+                    }}
+                  />
                   <ButtonSmall
                     children={"Buy"}
                     onClick={() => {
                       handleBuySubscription(ele);
-                    }}
-                  />
-                  <ButtonSmall
-                    children={"View Details"}
-                    onClick={() => {
-                      handleViewDetails(ele);
                     }}
                   />
                 </div>

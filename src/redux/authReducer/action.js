@@ -63,7 +63,7 @@ export const alreadyLoggedIn =
       navigate("/dashboard");
     } else {
       dispatch({ type: POSTLOGINFAIL });
-      showToast("error", "Failed logged in");
+      // showToast("error", "Failed logged in");
       navigate("/");
     }
   };

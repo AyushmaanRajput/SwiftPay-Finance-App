@@ -2,32 +2,31 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button } from "../Buttons";
+import { Button, ButtonOutline } from "../Buttons";
 import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllTransactions } from "../../redux/admin/transactionsReducer/action";
+import Loader from "../Loader";
 
 export const AllTransactions = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [limit] = useState(9);
-  const [sortOrder,setSortOrder] = useState("asc")
+  const [sortOrder, setSortOrder] = useState("asc");
   const dispatch = useDispatch();
-  const {transactions, isLoading} = useSelector(
-    (store) => {
-      return {
-        transactions: store.transactionsReducer.allTransactions,
-        isLoading: store.transactionsReducer.isLoading,
-      }
-    }
-  );
+  const { transactions, isLoading } = useSelector((store) => {
+    return {
+      transactions: store.transactionsReducer.allTransactions,
+      isLoading: store.transactionsReducer.isLoading,
+    };
+  });
   const sortTransactions = (transactions) => {
     return transactions.slice().sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
 
-      if (sortOrder === 'asc') {
+      if (sortOrder === "asc") {
         return dateB - dateA;
-      } else if (sortOrder === 'desc') {
+      } else if (sortOrder === "desc") {
         return dateA - dateB;
       } else {
         return 0;
@@ -37,11 +36,11 @@ export const AllTransactions = () => {
   const sortedTransactions = sortTransactions(transactions);
 
   const handleSortInAsc = () => {
-    setSortOrder('asc');
-  }
+    setSortOrder("asc");
+  };
   const handleSortInDesc = () => {
-    setSortOrder('desc');
-  }
+    setSortOrder("desc");
+  };
 
   const avatars = [
     "/avatars/Asian Man.png",
@@ -133,15 +132,15 @@ export const AllTransactions = () => {
     return formattedDate;
   };
 
-  if(isLoading) {
-    <h2>Loading....</h2>
+  if (isLoading) {
+    return <Loader></Loader>;
   }
 
   return (
     <MAINSECTION>
       <h1 className="heading">All Transactions</h1>
-      <Button onClick={handleSortInAsc}>{"Latest"}</Button>
-    <Button onClick={handleSortInDesc}>{"Oldest"}</Button>
+      <ButtonOutline onClick={handleSortInAsc}>{"Latest"}</ButtonOutline>
+      <ButtonOutline onClick={handleSortInDesc}>{"Oldest"}</ButtonOutline>
 
       <CardGrid>
         {currentTransactions?.map((item) => (
@@ -188,26 +187,26 @@ export const AllTransactions = () => {
       </CardGrid>
 
       {totalPages > 1 && (
-<ButtonContainer>
-  {Array.from({ length: totalPages }).map((_, index) => (
-    <motion.div
-    key={index}
-    variants={buttonVariants}
-    initial="hidden"
-    animate="visible"
-    exit="hidden"
-    whileHover="hover"
-  >
-    <Button
-      onClick={() => handleClickPage(index + 1)}
-      className={currentPage === index + 1 ? 'active' : ''}
-    >
-      {index + 1}
-    </Button>
-  </motion.div>
-  ))}
-</ButtonContainer>
-)}
+        <ButtonContainer>
+          {Array.from({ length: totalPages }).map((_, index) => (
+            <motion.div
+              key={index}
+              variants={buttonVariants}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              whileHover="hover"
+            >
+              <ButtonOutline
+                onClick={() => handleClickPage(index + 1)}
+                className={currentPage === index + 1 ? "active" : ""}
+              >
+                {index + 1}
+              </ButtonOutline>
+            </motion.div>
+          ))}
+        </ButtonContainer>
+      )}
     </MAINSECTION>
   );
 };
@@ -220,7 +219,10 @@ const MAINSECTION = styled.main`
   h1 {
     color: var(--primary-white);
     line-height: 1.1;
-    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  > button:first-of-type {
+    margin-right: 1rem;
   }
 `;
 
@@ -278,6 +280,7 @@ const CardContent = styled.div`
 
 const ButtonContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 1rem;
+  margin-bottom: 2rem;
 `;

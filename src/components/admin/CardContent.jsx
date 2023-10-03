@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { ButtonSmall } from "../Buttons";
+import { ButtonSmall,ButtonOutline } from "../Buttons";
 
 const CardContent = ({
   avatarSrc,
@@ -30,9 +30,9 @@ const CardContent = ({
         </div>
       </div>
       <div className="ticket-details">
-        <h2>
-          Ticket ID <span>#{transactionId}</span>
-        </h2>
+        <h3>
+          Transaction ID <span>#{transactionId}</span>
+        </h3>
         <p>
           <strong>Subject:</strong> {subject}
         </p>
@@ -49,8 +49,8 @@ const CardContent = ({
           <strong>Created Date:</strong> {createdDate}
         </p>
         <div className="buttons">
-          <ButtonSmall>Reject</ButtonSmall>
-          <ButtonSmall>Accept</ButtonSmall>
+          <ButtonOutline>Reject</ButtonOutline>
+          <ButtonSmall>Resolve</ButtonSmall>
         </div>
       </div>
     </StyledCardContent>
@@ -96,11 +96,11 @@ const StyledCardContent = styled.div`
     flex-direction: column;
     justify-content: space-between;
 
-    h2 {
+    h3 {
       color: var(--primary-white);
       margin-bottom: 1rem;
     }
-    h2 span {
+    h3 span {
       color: var(--primary-light);
     }
     p {

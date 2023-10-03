@@ -12,8 +12,13 @@ export const AllTransactions = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [limit] = useState(9);
   const dispatch = useDispatch();
-  const transactions = useSelector(
-    (store) => store.transactionsReducer.allTransactions
+  const {transactions, isLoading} = useSelector(
+    (store) => {
+      return {
+        transactions: store.transactionsReducer.allTransactions,
+        isLoading: store.transactionsReducer.isLoading,
+      }
+    }
   );
   // console.log(transactions)
   const avatars = [
@@ -100,6 +105,11 @@ export const AllTransactions = () => {
 
     return formattedDate;
   };
+
+  if(isLoading) {
+    <h2>Loading....</h2>
+  }
+
   return (
     <MAINSECTION>
       <h1 className="heading">All Transactions</h1>

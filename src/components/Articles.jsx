@@ -69,6 +69,13 @@ const ARTICLES = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
+  @media screen and (max-width:1050px){
+    gap:1rem;
+  }
+  @media screen and (max-width:650px){
+    grid-template-columns:1fr;
+  }
+
 `;
 
 const ARTICLECARD = styled.div`

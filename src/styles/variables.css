@@ -43,3 +43,24 @@
     var(--background-light)
   );
 }
+
+
+@media screen and (max-width:1050px){
+
+}
+
+@media screen and (max-width:650px) {
+  :root{
+    /* Font Sizes */
+  --h1: 3.25rem;
+  --h3: 2.75rem;
+  --h2: 2.2rem;
+  --h3: 1.65rem;
+  --h4: 1.25rem;
+  --h5: 0.85rem;
+  --paragraph: 0.8rem;
+  --paragraph-small: 0.75rem;
+  --button: 0.8rem;
+  --link: 0.75rem;
+  }
+}

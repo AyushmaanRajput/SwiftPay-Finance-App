@@ -19,17 +19,16 @@ export const MySubscriptions = ({userSubscriptions}) => {
 }
 
 const DIV = styled.div`
-
   color: var(--text-paragraph);
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 1rem;
   margin-top: 20px;
   /* flex-wrap: wrap; */
+  transition: all 0.2s ease-in;
 
   .subscriptions-card:hover {
-    transform: scale(1.02);
-    transition: 1sec;
+    transform: scale(1.001);
     border: 1px solid var(--primary-grey);
   }
 `;

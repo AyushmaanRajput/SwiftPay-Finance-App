@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   LineChart,
   Line,
@@ -12,7 +12,7 @@ import {
   Bar,
 } from "recharts";
 
-export const Chart = ({ chartWidth, chartData, chartType }) => {
+export const Chart = ({ chartData, chartType }) => {
   const customTooltipStyle = {
     backgroundColor: "var(--background-light)",
     borderRadius: "1rem",
@@ -21,8 +21,28 @@ export const Chart = ({ chartWidth, chartData, chartType }) => {
     padding: "0.5rem",
   };
 
+  const [chartHeight, setChartHeight] = useState(500);
+
+  useEffect(() => {
+    const handleResize = () => {
+      // Update the chartHeight based on the window width
+      setChartHeight(window.innerWidth < 750 ? 300 : 500);
+    };
+
+    // Attach the resize event listener
+    window.addEventListener("resize", handleResize);
+
+    // Initialize chartHeight based on the initial window width
+    setChartHeight(window.innerWidth < 750 ? 300 : 500);
+
+    // Clean up the event listener on unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
-    <ResponsiveContainer width={chartWidth} height={500}>
+    <ResponsiveContainer width="100%" height={chartHeight}>
       {chartType === "line" ? (
         <LineChart data={chartData}>
           <CartesianGrid stroke="var(--primary-grey)" />

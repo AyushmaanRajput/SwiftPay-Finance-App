@@ -5,7 +5,7 @@ import { Container } from "../../components/Layouts";
 
 export const CTA = () => {
   return (
-    <CALLTOACTION id='cta'>
+    <CALLTOACTION id="cta">
       <Container>
         <div className="cta">
           <div className="cta-content">
@@ -26,46 +26,86 @@ export const CTA = () => {
 };
 
 const CALLTOACTION = styled.section`
-position: absolute;
-width: 100%;
-left:50%;
-bottom:70%;
-transform: translateX(-50%);
+  position: absolute;
+  width: 100%;
+  left: 50%;
+  bottom: 70%;
+  transform: translateX(-50%);
 
   .cta {
     position: relative;
-    top:100%;
+    top: 100%;
     background-color: var(--primary);
-    padding:  4rem;
+    padding: 4rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-height:25rem;
+    max-height: 25rem;
   }
 
   .cta .cta-content {
-    max-width:20rem;
-    text-align:left;
-    margin-left:2rem;
+    max-width: 20rem;
+    text-align: left;
+    margin-left: 2rem;
   }
-  .cta .cta-content h2{
-    margin-bottom:0.5rem;
-    color:var(--text-heading);
+  .cta .cta-content h2 {
+    margin-bottom: 0.5rem;
+    color: var(--text-heading);
   }
-  .cta .cta-content p{
-    margin-bottom:2rem;
-    color:var(--text-paragraph);
+  .cta .cta-content p {
+    margin-bottom: 2rem;
+    color: var(--text-paragraph);
   }
-  .cta .cta-image{
-    overflow-x:hidden;
+  .cta .cta-image {
+    overflow-x: hidden;
   }
-  .cta .cta-image img{
-    position:absolute;
-    object-fit:cover;
-    width:25rem;
+  .cta .cta-image img {
+    position: absolute;
+    object-fit: cover;
+    width: 25rem;
     /* margin-bottom:5.5rem; */
-    bottom:0;
-    right:10%;
+    bottom: 0;
+    right: 10%;
     /* width:70%; */
+  }
+  @media screen and (max-width: 940px) {
+    .cta .cta-content {
+      max-width: 18rem;
+      margin-left: 0rem;
+    }
+    .cta .cta-content p {
+      margin-bottom: 1rem;
+      color: var(--text-paragraph);
+      font-size: var(--link);
+    }
+    .cta .cta-image img {
+      width: 20rem;
+      /* margin-bottom:5.5rem; */
+      right: 6%;
+      /* width:70%; */
+    }
+  }
+  @media screen and (max-width: 700px) {
+    .cta {
+      padding: 1rem;
+    }
+    .cta .cta-content {
+      max-width: 13rem;
+      margin: 0rem;
+    }
+    .cta .cta-content h2{
+      font-size:var(--h3);
+    }
+    .cta .cta-content p {
+      margin-bottom: 1rem;
+      color: var(--text-paragraph);
+      font-size: var(--link);
+    }
+    .cta .cta-image img {
+      width: 13rem;
+      /* margin-bottom:5.5rem; */
+      right: 3%;
+      /* width:70%; */
+    }
   }
 `;

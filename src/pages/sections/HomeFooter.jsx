@@ -141,4 +141,7 @@ const FOOTER = styled.footer`
   .copyright-icon {
     margin-right: 0.5rem;
   }
+  @media screen and (max-width: 650px) {
+    margin-top:8rem;
+  }
 `;

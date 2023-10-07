@@ -12,26 +12,28 @@ import { getSubscriptions } from "../redux/admin/subscriptionsReducer/action";
 export const Subscriptions = () => {
   const dispatch = useDispatch();
 
-  const subscriptions = useSelector((store) => store.subscriptionsReducer.subscriptions);
+  const subscriptions = useSelector(
+    (store) => store.subscriptionsReducer.subscriptions
+  );
   const loggedInUser = useSelector((store) => store.authReducer.loggedInUser);
   const loggedInUserSubscriptonsIDs = loggedInUser.subscriptions.map(
     (ele) => ele.subscription_id || ele.id
   );
-  
-  const [ isViewModalOpen, setIsViewModalOpen ] = useState(false);
-  const [ isBuyModalOpen, setIsBuyModalOpen ] = useState(false);
-  const [ modalSubscriptionData, setModalSubscriptionData ] = useState({});
-  
+
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [isBuyModalOpen, setIsBuyModalOpen] = useState(false);
+  const [modalSubscriptionData, setModalSubscriptionData] = useState({});
+
   const userSubscriptions = [];
   const recommendedSubscriptions = [];
 
   subscriptions.forEach((ele) => {
-    if(loggedInUserSubscriptonsIDs.includes(ele.id)) {
-      userSubscriptions.push(ele);  
+    if (loggedInUserSubscriptonsIDs.includes(ele.id)) {
+      userSubscriptions.push(ele);
     } else {
       recommendedSubscriptions.push(ele);
     }
-  })
+  });
 
   const openViewModal = () => {
     setIsViewModalOpen(true);
@@ -40,13 +42,13 @@ export const Subscriptions = () => {
   const openBuyModal = () => {
     setIsBuyModalOpen(true);
   };
-  
+
   useEffect(() => {
     dispatch(getSubscriptions());
   }, []);
-  
+
   // getAllSubscriptions();
-  
+
   return (
     <DIV>
       <div id="my-subscriptions-div">
@@ -87,6 +89,7 @@ const DIV = styled.div`
   padding: 10px;
 `;
 
-const H4 = styled.h4`
-  color: var(--text-paragraph);
+const H4 = styled.h3`
+  color: var(--primary-white);
+  margin-bottom: 1rem;
 `;

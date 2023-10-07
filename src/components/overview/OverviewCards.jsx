@@ -26,7 +26,11 @@ const CARDSMALL = styled.div`
       props.accent ? props.accent : "var(--background-dark)"};
     color: ${(props) => (props.bg ? props.bg : "var(--text-paragraph)")};
   }
- 
+ @media screen and (max-width: 650px) {
+  min-width: 120px;
+  padding: 0.75em 1.5em;
+  border-radius: 1.25em;
+ }
 `;
 
 export const CardLarge = ({ bg, color, accent, children }) => {
@@ -52,4 +56,9 @@ const CARDLARGE = styled.div`
   &:hover {
     filter: brightness(101%);
   }
+  @media screen and (max-width: 650px) {
+  min-width: 200px;
+  padding: 0.75em 1.5em;
+  border-radius: 1.25em;
+ }
 `;

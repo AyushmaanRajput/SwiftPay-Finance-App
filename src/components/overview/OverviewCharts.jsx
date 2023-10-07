@@ -89,9 +89,17 @@ export const OverviewCharts = () => {
           </SelectContainer>
           <ChartContainer ref={chartContainerRef}>
             {chartType === "line" ? (
-              <Chart chartWidth={chartWidth} chartData={chartData} chartType="line" />
+              <Chart
+                chartWidth={chartWidth}
+                chartData={chartData}
+                chartType="line"
+              />
             ) : (
-              <Chart chartWidth={chartWidth} chartData={chartData} chartType="bar" />
+              <Chart
+                chartWidth={chartWidth}
+                chartData={chartData}
+                chartType="bar"
+              />
             )}
           </ChartContainer>
         </CardLarge>
@@ -129,6 +137,21 @@ const SelectContainer = styled.div`
     background-color: var(--background-light);
     color: var(--primary-dark);
     padding: 1rem;
+  }
+  @media screen and (max-width: 650px) {
+    select {
+    width:8rem;
+    padding:0.5rem;
+    font-size: 0.75rem;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+  }
+
+  select option {
+    background-color: var(--background-light);
+    color: var(--primary-dark);
+    padding: 1.5rem;
+  }
   }
 `;
 

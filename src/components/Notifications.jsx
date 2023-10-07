@@ -27,7 +27,7 @@ const userAvatarNames = {
 const MainCard = styled.div`
   width: 28rem;
   position: absolute;
-  z-index:10000;
+  z-index: 10000;
   top: 10%;
   right: 6%;
   padding: 1rem;
@@ -47,6 +47,25 @@ const MainCard = styled.div`
       border-radius: 0.25rem;
       option {
         background-color: var(--background-light);
+      }
+    }
+  }
+  @media screen and (max-width: 650px) {
+    width: 20rem;
+    top: 20%;
+    right: 0%;
+    left: 10%;
+    padding: 0.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    .notification-filter {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      select {
+        padding: 0.25rem 0.5rem;
+        color: var(--primary-grey);
+        border-radius: 0.25rem;
       }
     }
   }
@@ -84,7 +103,7 @@ const NotificationCard = styled.div`
 const NotificationAvatar = styled.div`
   width: 3rem;
   height: 3rem;
-  overflow:hidden;
+  overflow: hidden;
   background-color: var(--primary-white);
   display: flex;
   justify-content: center;
@@ -157,15 +176,15 @@ export const Notifications = () => {
   });
 
   for (let i = 0; i < filteredNotifications.length; i++) {
-    if(filteredNotifications[i].to==user.name){
-      filteredNotifications[i].avatarNum=userAvatarNames[filteredNotifications[i].from];
-    }else{
-      filteredNotifications[i].avatarNum=userAvatarNames[filteredNotifications[i].to];
+    if (filteredNotifications[i].to == user.name) {
+      filteredNotifications[i].avatarNum =
+        userAvatarNames[filteredNotifications[i].from];
+    } else {
+      filteredNotifications[i].avatarNum =
+        userAvatarNames[filteredNotifications[i].to];
     }
   }
   console.log(filteredNotifications);
-
-  
 
   return (
     <MainCard ref={mainCardRef}>
@@ -188,7 +207,7 @@ export const Notifications = () => {
               key={index}
             >
               <NotificationAvatar>
-                <img src={avatars[notification.avatarNum-1]}/>
+                <img src={avatars[notification.avatarNum - 1]} />
               </NotificationAvatar>
               <NotificationContent>
                 <div className="personal">

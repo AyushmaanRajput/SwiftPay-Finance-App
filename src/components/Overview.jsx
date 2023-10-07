@@ -79,7 +79,7 @@ export const Overview = () => {
               <div className="card-content">
                 <h4>${user.balance}</h4>
                 <p>
-                  Highest For Last Month:{" "}
+                  Highes Last Month:{" "}
                   <span>${user.monthlyIncomeExpenses[0].income}</span>
                 </p>
               </div>
@@ -103,10 +103,7 @@ export const Overview = () => {
                 <span>SwiftCoin</span>
               </div>
               <div className="card-content">
-
-                <h4>
-                  ${user.swiftCoin}
-                </h4>
+                <h4>${user.swiftCoin}</h4>
                 <p>
                   Per Purchase
                   <span> 10% off</span>
@@ -177,6 +174,7 @@ export const Overview = () => {
             bg="var(--primary-light)"
             color="var(--background-light)"
             accent="var(--background-light)"
+            className="subssection"
           >
             <h4>Purchases</h4>
             <div>
@@ -231,6 +229,24 @@ const OVERVIEW = styled.main`
   grid-template-areas:
     "detailscards detailscards detailscards account-status"
     "charts charts charts subsoverview";
+  @media screen and (max-width: 1300px) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3rem 1rem;
+  }
+  @media screen and (max-width: 1000px) {
+    gap: 1rem;
+    grid-template-areas:
+      "detailscards detailscards detailscards account-status"
+      "charts charts charts charts"
+      "subsoverview subsoverview subsoverview subsoverview";
+  }
+  @media screen and (max-width:900px){
+    grid-template-areas:
+    "account-status account-status account-status account-status"
+    "detailscards detailscards detailscards detailscards"
+    "charts charts charts charts"
+      "subsoverview subsoverview subsoverview subsoverview";
+  }
 `;
 
 const DETAILSCARDS = styled.div`
@@ -250,6 +266,14 @@ const DETAILSCARDS = styled.div`
     gap: 1rem;
     > * {
       flex-grow: 1;
+      height: 100%;
+      &:nth-of-type(3) {
+        grid-column: span 2;
+      }
+    }
+    @media screen and (max-width: 1300px) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
     }
   }
   .card-heading {
@@ -283,12 +307,20 @@ const DETAILSCARDS = styled.div`
   .card-content p span {
     color: var(--primary-light);
   }
+  @media screen and (max-width: 860px) {
+    .card-heading > *:first-child {
+    font-size: 1rem;
+    margin-right: 0.5rem;
+    border: 3px solid var(--primary);
+    padding: 0.75rem;
+    border-top-color: transparent;
+  }
+  }
 `;
 
 const ACCOUNTSTATUS = styled.div`
   grid-area: account-status;
   align-self: end;
-
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -306,6 +338,12 @@ const ACCOUNTSTATUS = styled.div`
   }
   .hide {
     overflow: hidden;
+  }
+  @media screen and (max-width: 1300px) {
+    h4 {
+      font-size: 1.2rem;
+      margin: 0;
+    }
   }
 `;
 
@@ -380,5 +418,12 @@ const SUBSCRIPTIONSOVERVIEW = styled.div`
   }
   .recommendedsub > p {
     font-size: 0.75rem;
+  }
+  @media screen and (max-width: 1000px) {
+    width: 100%;
+    /* justify-content: */
+    .subssection {
+      display: flex;
+    }
   }
 `;

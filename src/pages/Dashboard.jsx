@@ -6,22 +6,19 @@ import { Subscriptions } from "../components/Subscriptions";
 import { Transactions } from "../components/Transactions";
 import { ButtonSmall } from "../components/Buttons";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { LOGOUT } from "../redux/authReducer/actionTypes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useToast } from "../components/custom/ToastProvider";
 import Loader from "../components/Loader";
-import { Container, ContainerLarge } from "../components/Layouts";
 
 import {
-  faChartPie,
   faChartSimple,
-  faClockRotateLeft,
   faCreditCard,
   faHome,
   faBell,
-  faSquarePollVertical,
   faTv,
+  faClockRotateLeft,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { Notifications } from "../components/Notifications";
@@ -41,28 +38,65 @@ const TopBar = styled.div`
   justify-content: space-between;
   margin-block: 2rem;
   > div:first-of-type {
-    display: flex;
-    align-items: center;
-  }
-  > div:first-of-type > button {
-    width: 2.5rem;
-    height: 2.5rem;
-    margin-right: 1rem;
-    border-radius: 50%;
-    background-color: var(--primary);
-  }
-  .user-profile {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+      display: flex;
+      align-items: center;
+    }
+    > div:first-of-type > button {
+      width: 3rem;
+      height: 3rem;
+      margin-right: 0.5rem;
+      border-radius: 50%;
+      background-color: var(--primary);
+    }
+    .user-profile {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+  @media screen and (max-width: 850px) {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: center;
     gap: 1rem;
-    /* background-color: red; */
+
+    > div:first-of-type {
+      display: flex;
+      align-items: center;
+    }
+    > div:first-of-type > button {
+      width: 2rem;
+      height: 2rem;
+      margin-right: 0.5rem;
+      border-radius: 50%;
+      background-color: var(--primary);
+    }
+    .user-profile {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+  }
+  @media screen and (max-width: 650px) {
+    > div:first-of-type > button {
+      margin-right:1rem;
+    }
   }
 `;
 
 const Tabs = styled.div`
   display: flex;
   gap: 1rem;
+  @media screen and (max-width: 850px) {
+    gap: 0.5rem;
+  }
+  @media screen and (max-width: 650px) {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 0.5rem;
+  }
 `;
 
 const Tab = styled.button`
@@ -80,6 +114,9 @@ const Tab = styled.button`
     background: var(--primary);
     color: var(--text-button);
   }
+  @media screen and (max-width: 850px) {
+    padding: 0.25rem 0.5rem;
+  }
 `;
 
 const Hr = styled.hr`
@@ -92,12 +129,17 @@ const Content = styled.div`
   flex-grow: 1;
   padding-block: 2rem;
 `;
+
 const IconDIV = styled.div`
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
+  @media screen and (max-width: 850px) {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
 `;
 
 const Bell = styled.button`
@@ -108,6 +150,10 @@ const Bell = styled.button`
   font-size: 1rem;
   cursor: pointer;
   position: relative;
+  @media screen and (max-width: 850px) {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
 `;
 
 export const Dashboard = () => {
@@ -130,7 +176,6 @@ export const Dashboard = () => {
   const navigate = useNavigate();
   const user = useSelector((store) => store.authReducer.loggedInUser);
   const userAvatarIndex = user.avatarNum - 1;
-  // console.log(userAvatarIndex);
 
   const users = useSelector((store) => store.usersReducer.users);
   if (users.length === 0) {
@@ -159,13 +204,11 @@ export const Dashboard = () => {
   }
 
   const toggleNotifications = () => {
-    console.log("Toggle Notifications Clicked");
     setNotif(!noti);
   };
 
   return (
     <DashboardContainer>
-      {/* <ContainerLarge> */}
       <TopBar>
         <div>
           <button>
@@ -231,7 +274,7 @@ export const Dashboard = () => {
             </Tab>
           </Tabs>
         </div>
-        <div class="user-profile">
+        <div className="user-profile">
           <IconDIV className="user-icons">
             <img
               src={avatars[userAvatarIndex]}
@@ -264,7 +307,6 @@ export const Dashboard = () => {
         {noti && <Notifications />}
       </Content>
       <AllPageFooter></AllPageFooter>
-      {/* </ContainerLarge> */}
     </DashboardContainer>
   );
 };

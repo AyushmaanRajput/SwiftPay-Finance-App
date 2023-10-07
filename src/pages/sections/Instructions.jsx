@@ -100,4 +100,19 @@ const INSTRUCTIONS = styled.section`
     font-size: var(--paragraph-small);
     color: var(--text-paragraph);
   }
+
+  @media screen and (max-width: 650px) {
+    padding-block: 3rem;
+    div.instructions-details {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      gap: 2rem;
+      justify-content: space-between;
+    }
+    div.instructions-details > img {
+      width: 75%;
+      object-fit: cover;
+    }
+  }
 `;

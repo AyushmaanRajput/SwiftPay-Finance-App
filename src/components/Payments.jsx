@@ -277,7 +277,7 @@ export const Payments = () => {
                           <img src={el.logo} />
                           <div>
                             <h6>Expires On : {el.subscription_end_date}</h6>
-                            <ButtonOutline>Recharge Now</ButtonOutline>
+                            <ButtonOutline>Recharge</ButtonOutline>
                           </div>
                         </div>
                       );
@@ -322,6 +322,27 @@ const PAYMENTS = styled.main`
     border-bottom: none;
     opacity: 0.5;
   }
+  @media screen and (max-width: 1050px) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    grid-template-areas:
+      "payment-tabs payment-tabs payment-tabs  payment-tabs"
+      "detailscards detailscards detailscards detailscards"
+      "hr hr hr hr"
+      "remainders remainderes  transaction-summary transaction-summary"
+      "articles articles articles articles";
+  }
+  @media screen and (max-width: 650px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    grid-template-areas:
+      "payment-tabs payment-tabs"
+      "detailscards detailscards"
+      "hr hr"
+      " transaction-summary transaction-summary"
+      "remainders remainderes "
+      "articles articles";
+  }
 `;
 
 const PAYMENTTABS = styled.div`
@@ -343,6 +364,19 @@ const PAYMENTTABS = styled.div`
       color: var(--text-heading);
       background: var(--primary-light);
     }
+  }
+  @media screen and (max-width: 860px) {
+    grid-area: payment-tabs;
+  display: grid;
+  grid-template-columns:1fr 1fr;
+  gap: 1rem;
+  .payment-tabs {
+    padding: 0.75rem 1.25rem;
+    cursor: pointer;
+    span {
+      margin-left: 0.5rem;
+    }
+  }
   }
 `;
 
@@ -395,6 +429,15 @@ const DETAILSCARDS = styled.div`
   .card-content p span {
     color: var(--primary-light);
   }
+  @media screen and (max-width: 860px) {
+    .card-heading > *:first-child {
+    font-size: 1rem;
+    margin-right: 0.5rem;
+    border: 3px solid var(--primary);
+    padding: 0.75rem;
+    border-top-color: transparent;
+  }
+  }
 `;
 
 const TRANSACTIONSSUMMARY = styled.div`
@@ -446,7 +489,7 @@ const REMAINDERS = styled.div`
   .remainder-card {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
     gap: 0.5rem;
     margin-bottom: 0.5rem;
     img {
@@ -464,6 +507,33 @@ const REMAINDERS = styled.div`
         font-weight: 300;
         letter-spacing: 1px;
       }
+    }
+  }
+  @media screen and (max-width: 1050px) {
+    width: 100%;
+    grid-column: span 2;
+    .remainders-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .remainder-card {
+      justify-content: flex-start;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+      img {
+        width: 2rem;
+        height: 2rem;
+      }
+      > div {
+        padding-left: 1rem;
+      }
+    }
+  }
+  @media screen and (max-width: 860px) {
+    .remainders-container {
+      grid-template-columns: 1fr;
+      gap: 1rem;
     }
   }
 `;

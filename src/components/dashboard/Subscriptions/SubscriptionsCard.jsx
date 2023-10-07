@@ -101,6 +101,9 @@ const CARDDIV = styled.div`
   .recommendedSubscriptions-card-buttons-div > button {
     margin-bottom: 5px;
   }
+  @media screen and (max-width:650px){
+    width:200px;
+  }
 `;
 
 const cardVariants = {
